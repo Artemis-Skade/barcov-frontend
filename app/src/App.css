@@ -1,3 +1,7 @@
+.App {
+  overflow: hidden;
+}
+
 .Header {
   background-color: #fff;
   height: 80px;
