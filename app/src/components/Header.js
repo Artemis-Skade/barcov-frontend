@@ -6,7 +6,7 @@ import '../App.css';
 function Header () {
     return(
         <div className="Header">
-            <img src={logo} className="Logo" alt="logo" />
+            <a href="/"><img src={logo} className="Logo" alt="logo" /></a>
         </div>
     );
 }
