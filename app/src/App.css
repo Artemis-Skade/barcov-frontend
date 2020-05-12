@@ -1,38 +1,110 @@
-.App {
+.Header {
+  background-color: #fff;
+  height: 80px;
+  box-shadow: 0 0px 20px 0px #00000029;
+}
+
+.Logo {
+  height: 50px;
+  margin: 20px;
+}
+
+.EntryForm {
+  padding: 20px;
+  padding-top: 10px;
+}
+
+.EntryForm h2{
+  font-weight: 300;
+  font-size: 20px;
+  margin-bottom: 0px;
+}
+
+.EntryForm h1{
+  font-size: 25px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.EntryField {
+  width: 100%;
+  height: 20px;
+  margin-bottom: 70px;
+}
+
+.EntryField p {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.EntryField input {
+  background-color: #eee;
+  border: none;
+  border-bottom: 1px solid orange;
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  height: 25px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.InlineField1 {
+  width: 30% !important;
+  float: left;
+  margin-top: -18px;
+}
+
+.InlineField2 {
+  width: 65% !important;
+  float: left;
+  margin-left: 5%;
+  margin-top: -18px;
+}
+
+.EntrySubmit {
+  width: 100%;
+  background-color: orange;
+  margin-top: 180px;
+  height: 70px;
   text-align: center;
+  border-radius: 5px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.EntrySubmit input {
   color: white;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0px 20px 0px #00000029;
 }
 
-.App-link {
-  color: #61dafb;
+.LoginPrompt {
+  width: 100%;
+  height: 50px;
+  padding-left: 5%;
+  margin-top: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.LoginPrompt p {
+  float: left;
+  margin-top: 14px;
+  font-size: 18px;
+}
+
+.LoginBtn {
+  background-color: orange;
+  width: 150px;
+  height: 35px;
+  color: white;
+  text-decoration: none;
+  font-style: normal;
+  float: right;
+  margin-right: 10%;
+  border-radius: 5px;
+  text-align: center;
+  padding-top: 14px;
+  font-weight: 600;
 }
