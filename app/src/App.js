@@ -21,7 +21,7 @@ function getStoreName(store_id) {
     body: JSON.stringify({
         id: store_id
     })
-  }).then(response => response.json())
+  }).then(response => {alert(response); return response.json();})
   .then(response => {
     window.Vars.setStorename(response.name);
   }).catch(err => {
