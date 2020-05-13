@@ -12,21 +12,20 @@ let screen, setScreen;
 let storename, setStorename;
 
 function getStoreName(store_id) {
+  console.log("Store ID: " + store_id);
+
   fetch('http://18.195.117.32:5000/store', {
     method: 'POST',
     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+      "Content-Type": "text/plain"
     },
     body: JSON.stringify({
         id: store_id
     })
-  }).then(response => {alert(response); return response.json();})
-  .then(response => {
-    window.Vars.setStorename(response.name);
-  }).catch(err => {
-    window.Vars.setStorename("Error while getting store name");
-  });
+  }).then(res => res.json()).then(res => {
+    console.log(res);
+    window.Vars.setStorename(res["name"]);
+  }).catch(err => {console.log(err)});
 }
 
 function Screen() {
@@ -44,7 +43,7 @@ function App() {
 
   React.useEffect(() => {
     let store_id = window.location.pathname.slice(1);
-    alert("Store: " + store_id);
+    getStoreName(store_id); // Fetch store name from server
 
     window.Vars = {
       store_id: store_id,
@@ -53,8 +52,6 @@ function App() {
       storename: storename,
       setStorename: setStorename,
     }
-
-    getStoreName(); // Fetch store name from server
   }, []);
 
   return (

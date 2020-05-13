@@ -23,7 +23,7 @@ function EntryField (props){
 }
 
 function handleEntrySubmit() {
-    alert("Submitted Entry: " + JSON.stringify({
+    console.log("Submitted Entry: " + JSON.stringify({
         fname: formData.fname,
         lname: formData.lname,
         phone: formData.phone,
@@ -35,8 +35,7 @@ function handleEntrySubmit() {
     fetch('http://18.195.117.32:5000/enter', {
         method: 'POST',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            "Content-Type": "text/plain"
         },
         body: JSON.stringify({
             fname: formData.fname,
@@ -59,7 +58,6 @@ function handleFieldChange(name, event) {
     if (event.target.value == "") {
         event.target.placeholder = "Darf nicht leer sein!";
         event.target.style.backgroundColor = "red";
-        event.target.style.color = "white";
     }
 }
 
@@ -77,7 +75,7 @@ function EntryForm (props) {
         <div className="EntryForm">
             <h2>Registriere dich bei</h2>
             <h1>{props.storename}</h1>
-            <form onSubmit={handleEntrySubmit}>
+            <form>
                 <EntryField name="fname" displayname="Vorname"/>
                 <EntryField name="lname" displayname="Nachname"/>
                 <EntryField name="phone" displayname="Telefonnummer"/>
@@ -85,7 +83,7 @@ function EntryForm (props) {
                 <EntryField type="inline1" name="zip" displayname="PLZ"/>
                 <EntryField type="inline2" name="town" displayname="Ort"/>
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='submit' value="Abschicken" onClick={() => window.Vars.setScreen("confirmation")}/>
+                    <input className="EntrySubmitBtn" type='button' value="Abschicken" onClick={() => {window.Vars.setScreen("confirmation"); handleEntrySubmit();}}/>
                 </div>
             </form>
         </div>
