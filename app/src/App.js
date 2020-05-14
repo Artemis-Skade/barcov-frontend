@@ -1,4 +1,6 @@
 import React from 'react';
+import { useCookies } from 'react-cookie';
+
 import './App.css';
 
 import Header from './components/Header.js';
@@ -40,6 +42,7 @@ function Screen() {
 function App() {
   [screen, setScreen] = React.useState("entry");
   [storename, setStorename] = React.useState("Loading...");
+  const [cookies, setCookie] = useCookies(['sessionKey']);
 
   React.useEffect(() => {
     let store_id = window.location.pathname.slice(1);
@@ -51,6 +54,8 @@ function App() {
       setScreen: setScreen,
       storename: storename,
       setStorename: setStorename,
+      cookies: cookies,
+      setCookie: setCookie,
     }
   }, []);
 

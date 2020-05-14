@@ -24,6 +24,7 @@ function EntryField (props){
 
 function handleEntrySubmit() {
     console.log("Submitted Entry: " + JSON.stringify({
+        storeid: window.Vars.store_id,
         fname: formData.fname,
         lname: formData.lname,
         phone: formData.phone,
@@ -38,6 +39,7 @@ function handleEntrySubmit() {
             "Content-Type": "text/plain"
         },
         body: JSON.stringify({
+            storeid: window.Vars.store_id,
             fname: formData.fname,
             lname: formData.lname,
             phone: formData.phone,
@@ -45,7 +47,9 @@ function handleEntrySubmit() {
             zip: formData.zip,
             town: formData.town
         })
-    });
+    }).then(res => res.json()).then(res => {
+        console.log(res);
+    }).catch(err => console.log(err));
 }
 
 function handleFieldChange(name, event) {

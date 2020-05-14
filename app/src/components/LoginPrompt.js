@@ -6,7 +6,7 @@ function LoginPrompt () {
     return(
         <div className="LoginPrompt">
             <p>Schon registriert?</p>
-            <a href="/"><div className="LoginBtn">Anmelden</div></a>
+            <a onClick={() => window.Vars.setScreen("login")}><div className="LoginBtn">Anmelden</div></a>
         </div>
     );
 }
