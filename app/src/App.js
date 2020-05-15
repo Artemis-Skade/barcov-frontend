@@ -32,7 +32,7 @@ function getStoreName(store_id) {
 
 function Screen() {
   if (screen === "confirmation") return (<ConfirmationScreen />);
-  if (screen === "confirmationwithregistration") return (<><ConfirmationScreen /><RegisterScreen /></>);
+  if (screen === "confirmationwithregistration") return (<><ConfirmationScreen/><RegisterScreen /></>);
   if (screen === "login") return (<LoginScreen />);
 
   // Fallback
