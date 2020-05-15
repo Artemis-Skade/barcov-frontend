@@ -12,7 +12,7 @@ function handleFieldChange(name, event) {
     setRegisterData(newRegisterData);
 }
 
-function handleRegisterSubmit() {
+function handleRegisterSubmit(formData) {
     // Handle wrong inputs
     if (registerData.password1 !== registerData.password2) {
         alert("Passwörter stimmen nicht überein!");
@@ -30,23 +30,31 @@ function handleRegisterSubmit() {
 
     console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
 
+    let data = {
+        email: registerData.email,
+        pw_hash: myHash,
+    };
+
+    Object.assign(data, formData);
+    console.log(data);
+
     fetch('http://18.195.117.32:5000/register', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
         },
-        body: JSON.stringify({
-            email: registerData.email,
-            pw_hash: myHash,
-        })
+        body: JSON.stringify(data)
     }).then(res => res.json()).then(res => {
         console.log(res);
         // Read in session key
         window.Vars.setCookie("sessionKey", res["session_key"])
     }).catch(err => console.log(err));
+
+    // Login for session key
+    
 }
 
-function RegisterScreen () {
+function RegisterScreen (props) {
     [registerData, setRegisterData] = React.useState({
         email: "",
         password1: "",
@@ -84,7 +92,7 @@ function RegisterScreen () {
                 </div>
 
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='button' value="Registrieren" onClick={() => {handleRegisterSubmit();}}/>
+                    <input className="EntrySubmitBtn" type='button' value="Registrieren" onClick={() => {handleRegisterSubmit(props.formData);}}/>
                 </div>
             </form>
         </div>

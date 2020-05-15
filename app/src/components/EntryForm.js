@@ -22,8 +22,8 @@ function EntryField (props){
     );
 }
 
-function handleEntrySubmit() {
-    console.log("Submitted Entry: " + JSON.stringify({
+function handleEntrySubmit(setFormData_) {
+    let entry = {
         storeid: window.Vars.store_id,
         fname: formData.fname,
         lname: formData.lname,
@@ -31,22 +31,17 @@ function handleEntrySubmit() {
         street: formData.street,
         zip: formData.zip,
         town: formData.town
-    }));
+    }
+    console.log("Submitted Entry: " + JSON.stringify(entry));
+
+    setFormData_(entry);
 
     fetch('http://18.195.117.32:5000/enter', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
         },
-        body: JSON.stringify({
-            storeid: window.Vars.store_id,
-            fname: formData.fname,
-            lname: formData.lname,
-            phone: formData.phone,
-            street: formData.street,
-            zip: formData.zip,
-            town: formData.town
-        })
+        body: JSON.stringify(entry)
     }).then(res => res.json()).then(res => {
         console.log(res);
     }).catch(err => console.log(err));
@@ -87,7 +82,7 @@ function EntryForm (props) {
                 <EntryField type="inline1" name="zip" displayname="PLZ"/>
                 <EntryField type="inline2" name="town" displayname="Ort"/>
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='button' value="Abschicken" onClick={() => {window.Vars.setScreen("confirmation"); handleEntrySubmit();}}/>
+                    <input className="EntrySubmitBtn" type='button' value="Abschicken" onClick={() => {window.Vars.setScreen("confirmationwithregistration"); handleEntrySubmit(props.setFormData);}}/>
                 </div>
             </form>
         </div>

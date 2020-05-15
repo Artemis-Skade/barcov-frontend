@@ -1,17 +1,10 @@
 import React from 'react';
 import sound from "../assets/sounds/ton.wav";
 
-import RegisterScreen from '../components/RegisterScreen.js';
-
 import '../App.css';
 import '../Success.css';
 
-function ConfirmationScreen (props) {
-
-    let regScreenContent = <RegisterScreen />;
-    if (props.isLoggedIn) {
-        regScreenContent = "";
-    }
+function ConfirmationScreen () {
 
     return(
         <div className="EntryForm">
@@ -25,8 +18,6 @@ function ConfirmationScreen (props) {
                 </div>
             </div>
             <h1 style={{textAlign: "center"}}>Vielen Dank! Du wurdest erfolgreich eingetragen!</h1>
-
-            {regScreenContent}
         </div>
     );
 }

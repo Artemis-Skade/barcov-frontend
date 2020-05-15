@@ -12,6 +12,7 @@ import RegisterScreen from './components/RegisterScreen.js';
 
 let screen, setScreen;
 let storename, setStorename;
+let formData, setFormData;
 
 function getStoreName(store_id) {
   console.log("Store ID: " + store_id);
@@ -32,16 +33,18 @@ function getStoreName(store_id) {
 
 function Screen() {
   if (screen === "confirmation") return (<ConfirmationScreen />);
-  if (screen === "confirmationwithregistration") return (<><ConfirmationScreen/><RegisterScreen /></>);
+  console.log("Form: " + formData);
+  if (screen === "confirmationwithregistration") return (<><ConfirmationScreen/><RegisterScreen formData={formData}/></>);
   if (screen === "login") return (<LoginScreen />);
 
   // Fallback
-  return (<><LoginPrompt /><EntryForm storename={storename}/></>);
+  return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
 }
 
 function App() {
   [screen, setScreen] = React.useState("entry");
   [storename, setStorename] = React.useState("Loading...");
+  [formData, setFormData] = React.useState("None");
   const [cookies, setCookie] = useCookies(['sessionKey']);
 
   React.useEffect(() => {
