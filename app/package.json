@@ -14,7 +14,8 @@
     "universal-cookie": "^4.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
+    "prestart": "rm ./node_modules/webpack-dev-server/ssl/server.pem && cp -f /etc/letsencrypt/live/barcov.id/fullchain.pem ./node_modules/webpack-dev-server/ssl",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
