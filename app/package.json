@@ -10,7 +10,8 @@
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "sjcl": "^1.0.8"
+    "sjcl": "^1.0.8",
+    "universal-cookie": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

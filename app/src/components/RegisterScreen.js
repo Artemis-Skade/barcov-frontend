@@ -1,5 +1,6 @@
 import React from 'react';
-import sjcl from 'sjcl'
+import sjcl from 'sjcl';
+import Cookies from 'universal-cookie';
 
 import '../App.css';
 
@@ -13,6 +14,7 @@ function handleFieldChange(name, event) {
 }
 
 function handleRegisterSubmit(formData) {
+    const cookies = new Cookies();
     // Handle wrong inputs
     if (registerData.password1 !== registerData.password2) {
         alert("Passwörter stimmen nicht überein!");
@@ -45,13 +47,38 @@ function handleRegisterSubmit(formData) {
         },
         body: JSON.stringify(data)
     }).then(res => res.json()).then(res => {
+        console.log("Registered:");
         console.log(res);
-        // Read in session key
-        window.Vars.setCookie("sessionKey", res["session_key"])
-    }).catch(err => console.log(err));
 
-    // Login for session key
-    
+        // Check if registration was successful
+        if (res["success"]) {
+            // Login for session key
+            fetch('http://18.195.117.32:5000/login', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: JSON.stringify({
+                    email: registerData.email,
+                    pw_hash: myHash,
+                })
+            }).then(res => res.json()).then(res => {
+                console.log("LogIn:");
+                console.log(res);
+                if (res["auth"]) {
+                    // Read in session key
+                    cookies.set('sessionKey', res["session_key"]);
+                    console.log("Login successful!");
+                    window.Vars.setScreen("registrationsuccess");
+                } else {
+                    console.log("Login denied!");
+                }
+            }).catch(err => console.log(err));
+        } else {
+            alert(res["message"]);
+        }
+        
+    }).catch(err => console.log(err));
 }
 
 function RegisterScreen (props) {

@@ -1,4 +1,6 @@
 import React from 'react';
+import sjcl from 'sjcl';
+import Cookies from 'universal-cookie';
 
 import '../App.css';
 
@@ -12,21 +14,38 @@ function handleFieldChange(name, event) {
 }
 
 function handleLoginSubmit() {
+    const cookies = new Cookies();
     console.log("Submitted Login");
+
+    // Generate hash
+    const myBitArray = sjcl.hash.sha256.hash(loginData.password + ":" + loginData.email);
+    const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
+
+    let data = {
+        storeid: window.Vars.store_id,
+        email: loginData.email,
+        pw_hash: myHash,
+    };
+
+    console.log(data);
 
     fetch('http://18.195.117.32:5000/login', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
         },
-        body: JSON.stringify({
-            email: loginData.email,
-            pw_hash: loginData.password,
-        })
+        body: JSON.stringify(data)
     }).then(res => res.json()).then(res => {
         console.log(res);
-        // Read in session key
-        window.Vars.setCookie("sessionKey", res["session_key"])
+
+        if (res["auth"]) {
+            // Read in session key
+            cookies.set('sessionKey', res["session_key"]);
+            window.Vars.setScreen("confirmation");
+        } else {
+            alert("Falsche E-Mail oder Passwort!");
+        }
+        
     }).catch(err => console.log(err));
 }
 
@@ -59,7 +78,7 @@ function LoginScreen () {
                 </div>
 
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='button' value="Anmelden" onClick={() => {window.Vars.setScreen("confirmation"); handleLoginSubmit();}}/>
+                    <input className="EntrySubmitBtn" type='button' value="Anmelden" onClick={() => {handleLoginSubmit();}}/>
                 </div>
             </form>
         </div>

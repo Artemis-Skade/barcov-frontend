@@ -32,7 +32,15 @@ function handleEntrySubmit(setFormData_) {
         zip: formData.zip,
         town: formData.town
     }
-    console.log("Submitted Entry: " + JSON.stringify(entry));
+    console.log("Submitting Entry: " + JSON.stringify(entry));
+
+    // Check if all fields are filled out
+    for (let key of Object.keys(entry)) {
+        if (entry.key === "") {
+            alert("Es müssen alle Felder ausgefüllt sein!");
+            return;
+        }
+    }
 
     setFormData_(entry);
 
@@ -54,7 +62,7 @@ function handleFieldChange(name, event) {
     setFormData(newFormData)
 
     // Check if field is empty
-    if (event.target.value == "") {
+    if (event.target.value === "") {
         event.target.placeholder = "Darf nicht leer sein!";
         event.target.style.backgroundColor = "red";
     }
