@@ -3,6 +3,7 @@ const http = require("http");
 const https = require("https");
 const express = require("express");
 const path = require("path");
+//const unless = require("express-unless");
 
 const app = express();
 
@@ -17,8 +18,21 @@ const creds = {
 	ca: ca
 }
 
+var unless = function(path, middleware) {
+    return function(req, res, next) {
+        req.originalpath = "/";
+        return middleware(req, res, next);
+    };
+};
+
 var htmlPath = path.join(__dirname, 'build');
 app.use(express.static(htmlPath));
+app.get('/*', function(req, res) {
+	fs.readFile(__dirname + '/build/index.html', 'utf8', (err, text) => {
+        	res.send(text);
+	});
+});
+
 
 // Starting both http and https server
 const httpServer = http.createServer(app);
