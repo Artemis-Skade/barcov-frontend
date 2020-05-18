@@ -40,7 +40,7 @@ function handleRegisterSubmit(formData) {
     Object.assign(data, formData);
     console.log(data);
 
-    fetch('http://18.195.117.32:5000/register', {
+    fetch('https://barcov.id:5000/register', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -53,7 +53,7 @@ function handleRegisterSubmit(formData) {
         // Check if registration was successful
         if (res["success"]) {
             // Login for session key
-            fetch('http://18.195.117.32:5000/login', {
+            fetch('https://barcov.id:5000/login', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "text/plain"
@@ -117,6 +117,8 @@ function RegisterScreen (props) {
                         onChange={e => handleFieldChange("password2", e)}
                     />
                 </div>
+
+                <p className="ErrorMsg"></p>
 
                 <div className="EntrySubmit">
                     <input className="EntrySubmitBtn" type='button' value="Registrieren" onClick={() => {handleRegisterSubmit(props.formData);}}/>

@@ -3,6 +3,7 @@ import React from 'react';
 import '../App.css';
 
 let formData, setFormData;
+let errormsg, setErrormsg;
 
 function EntryField (props){
     let className = "EntryField";
@@ -36,15 +37,18 @@ function handleEntrySubmit(setFormData_) {
 
     // Check if all fields are filled out
     for (let key of Object.keys(entry)) {
-        if (entry.key === "") {
-            alert("Es müssen alle Felder ausgefüllt sein!");
+        if (entry[key] === "") {
+            setErrormsg("Es müssen alle Felder ausgefüllt sein!");
+            // Color all empty fields
+
             return;
         }
     }
 
     setFormData_(entry);
+    window.Vars.setScreen("confirmationwithregistration");
 
-    fetch('http://18.195.117.32:5000/enter', {
+    fetch('https://barcov.id:5000/enter', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -62,10 +66,14 @@ function handleFieldChange(name, event) {
     setFormData(newFormData)
 
     // Check if field is empty
+    /*
     if (event.target.value === "") {
         event.target.placeholder = "Darf nicht leer sein!";
-        event.target.style.backgroundColor = "red";
-    }
+        event.target.style.backgroundColor = "#b31313";
+    } else {
+        event.target.placeholder = "";
+        event.target.style.backgroundColor = "#eee";
+    }*/
 }
 
 function EntryForm (props) {
@@ -77,6 +85,7 @@ function EntryForm (props) {
         zip: "",
         town: "",
     });
+    [errormsg, setErrormsg] = React.useState("");
 
     return(
         <div className="EntryForm">
@@ -89,8 +98,9 @@ function EntryForm (props) {
                 <EntryField name="street" displayname="Straße und Hausnr."/>
                 <EntryField type="inline1" name="zip" displayname="PLZ"/>
                 <EntryField type="inline2" name="town" displayname="Ort"/>
+                <p className="Errormsg">{errormsg}</p>
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='button' value="Abschicken" onClick={() => {window.Vars.setScreen("confirmationwithregistration"); handleEntrySubmit(props.setFormData);}}/>
+                    <input className="EntrySubmitBtn" type='button' value="Abschicken" onClick={() => {handleEntrySubmit(props.setFormData);}}/>
                 </div>
             </form>
         </div>

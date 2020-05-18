@@ -10,15 +10,17 @@ import LoginPrompt from './components/LoginPrompt.js';
 import ConfirmationScreen from './components/ConfirmationScreen.js';
 import LoginScreen from './components/LoginScreen.js';
 import RegisterScreen from './components/RegisterScreen.js';
+import EMailConfirmation from './components/EMailConfirmation';
 
 let screen, setScreen;
 let storename, setStorename;
 let formData, setFormData;
+let store_id, confirmation_id;
 
 function getStoreName(store_id) {
   console.log("Store ID: " + store_id);
 
-  fetch('http://18.195.117.32:5000/store', {
+  fetch('https://barcov.id:5000/store', {
     method: 'POST',
     headers: {
       "Content-Type": "text/plain"
@@ -38,6 +40,7 @@ function Screen() {
   if (screen === "confirmationwithregistration") return (<><ConfirmationScreen type="entry"/><RegisterScreen formData={formData}/></>);
   if (screen === "registrationsuccess") return (<ConfirmationScreen type="register"/>);
   if (screen === "login") return (<LoginScreen />);
+  if (screen === "emailconfirmation") return (<EMailConfirmation id={confirmation_id}/>);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
@@ -51,7 +54,7 @@ function checkIfLoggedIn(session_key) {
 
   console.log(data);
 
-  fetch('http://18.195.117.32:5000/checklogin', {
+  fetch('https://barcov.id:5000/checklogin', {
       method: 'POST',
       headers: {
           "Content-Type": "text/plain"
@@ -82,9 +85,7 @@ function App() {
   const cookies = new Cookies();
 
   React.useEffect(() => {
-    let store_id = window.location.pathname.slice(1);
-    getStoreName(store_id); // Fetch store name from server
-
+    // Setup global vars
     window.Vars = {
       store_id: store_id,
       screen: screen,
@@ -95,11 +96,23 @@ function App() {
       setSessionKey: setSessionKey,
     }
 
-    // load in cookie if present
-    setSessionKey(cookies.get('sessionKey'));
+    let pathname = window.location.pathname.slice(1);
 
-    // Check if still logged in
-    checkIfLoggedIn(cookies.get('sessionKey'));
+    if (pathname.slice(0, 12) === "confirmation") {
+      setScreen("emailconfirmation");
+      confirmation_id = pathname.slice(13);
+      console.log("Confirmation ID: " + confirmation_id);
+    } else {
+      let store_id = pathname.slice(1);
+      window.Vars.store_id = store_id;
+      getStoreName(store_id); // Fetch store name from server
+
+        // load in cookie if present
+      setSessionKey(cookies.get('sessionKey'));
+
+      // Check if still logged in
+      checkIfLoggedIn(cookies.get('sessionKey'));
+    }
   }, []);
 
   return (

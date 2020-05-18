@@ -83,10 +83,17 @@
   margin-top: -18px;
 }
 
+.Errormsg {
+  color: red;
+  margin: 0 auto;
+  margin-top: 170px;
+  text-align: center;
+}
+
 .EntrySubmit {
   width: 100%;
   background-color: orange;
-  margin-top: 180px;
+  margin-top: 30px;
   height: 70px;
   text-align: center;
   border-radius: 5px;
@@ -139,4 +146,13 @@
   background-color: orange;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.EMailConfirmation {
+  width: 100%;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
 }

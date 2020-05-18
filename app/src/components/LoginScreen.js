@@ -29,7 +29,7 @@ function handleLoginSubmit() {
 
     console.log(data);
 
-    fetch('http://18.195.117.32:5000/login', {
+    fetch('https://barcov.id:5000/login', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
