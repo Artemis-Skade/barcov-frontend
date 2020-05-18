@@ -103,7 +103,7 @@ function App() {
       confirmation_id = pathname.slice(13);
       console.log("Confirmation ID: " + confirmation_id);
     } else {
-      let store_id = pathname.slice(1);
+      let store_id = pathname;
       window.Vars.store_id = store_id;
       getStoreName(store_id); // Fetch store name from server
 
