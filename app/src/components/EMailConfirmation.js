@@ -42,7 +42,6 @@ function sendConfirmation(id) {
                     // Read in session key
                     cookies.set('sessionKey', res["session_key"]);
                     console.log("Login successful!");
-                    window.Vars.setScreen("entry");
                 } else {
                     console.log("Login denied!");
                 }
