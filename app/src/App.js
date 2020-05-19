@@ -10,6 +10,7 @@ import LoginPrompt from './components/LoginPrompt.js';
 import ConfirmationScreen from './components/ConfirmationScreen.js';
 import LoginScreen from './components/LoginScreen.js';
 import RegisterScreen from './components/RegisterScreen.js';
+import CompanyRegisterScreen from './components/CompanyRegisterScreen.js';
 import EMailConfirmation from './components/EMailConfirmation';
 
 let screen, setScreen;
@@ -41,6 +42,8 @@ function Screen() {
   if (screen === "registrationsuccess") return (<ConfirmationScreen type="register"/>);
   if (screen === "login") return (<LoginScreen />);
   if (screen === "emailconfirmation") return (<EMailConfirmation id={confirmation_id}/>);
+  if (screen === "companyregistration") return (<CompanyRegisterScreen />);
+  if (screen === "registrationcompanysuccess") return (<ConfirmationScreen type="companyregister"/>);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
@@ -73,7 +76,6 @@ function checkIfLoggedIn(session_key) {
         console.log(res["message"]);
         window.Vars.setScreen("entry");
       }
-      window.Vars.setCookie("sessionKey", res["session_key"]);
   }).catch(err => console.log(err));
 }
 
@@ -102,12 +104,15 @@ function App() {
       setScreen("emailconfirmation");
       confirmation_id = pathname.slice(13);
       console.log("Confirmation ID: " + confirmation_id);
+    } else if (pathname.slice(0, 7) === "company") {
+      setScreen("companyregistration");
+      console.log("Company Registration");
     } else {
       let store_id = pathname;
       window.Vars.store_id = store_id;
       getStoreName(store_id); // Fetch store name from server
 
-        // load in cookie if present
+      // load in cookie if present
       setSessionKey(cookies.get('sessionKey'));
 
       // Check if still logged in

@@ -1,0 +1,23 @@
+.ErrorMsg {
+    margin: 0 auto;
+    margin-top: 180px;
+    color: red;
+    text-align: center;
+    font-weight: 600;
+}
+
+.EntrySubmitBtnCompany {
+    background-color: #1976d2 !important;
+}
+
+.EntryField input {
+    border-bottom: 1px solid #90caf9 !important;
+}
+
+.ErrorMsgOffset {
+    margin-top: 170px !important;
+}
+
+.ErrorMsg{
+    margin-top: 85px;
+}

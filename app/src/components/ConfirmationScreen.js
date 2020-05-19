@@ -11,6 +11,8 @@ function ConfirmationScreen (props) {
         message = <>Vielen Dank! Du wurdest erfolgreich bei <strong style={{color: "#07256b"}}>{window.Vars.storename}</strong> eingetragen!</>;
     } else if (props.type === "register") {
         message = "Du wurdest erfolgreich registriert! Verifiziere dein BarCov-Konto mit der Aktivierungsmail, die wir dir zugeschickt haben.";
+    } else if (props.type === "companyregister") {
+        message = "Das Unternehmen wurde erfolgreich registriert.";
     }
 
     return(
