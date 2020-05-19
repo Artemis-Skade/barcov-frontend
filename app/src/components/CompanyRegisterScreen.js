@@ -38,6 +38,7 @@ function handleRegisterSubmit(formData) {
         plz: registerData.zip,
         ort: registerData.town,
         strasse: registerData.street,
+        state: "RLP",
         vorname: registerData.fname,
         nachname: registerData.lname,
         telefon: registerData.mobile,
@@ -129,6 +130,7 @@ function Page1() {
         <form>
             <EntryField name="cname" displayname="Name des Unternehens"/>
             <EntryField name="street" displayname="Straße und Hausnr."/>
+            <EntryField name="state" displayname="Bundesland"/>
             <EntryField type="inline1" name="zip" displayname="PLZ"/>
             <EntryField type="inline2" name="town" displayname="Ort"/>
 
