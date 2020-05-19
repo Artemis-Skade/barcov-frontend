@@ -1,5 +1,5 @@
 import React from 'react';
-import sound from "../assets/sounds/ton.wav";
+import sound from "../assets/sounds/ding.mp3";
 
 import '../App.css';
 import '../Success.css';

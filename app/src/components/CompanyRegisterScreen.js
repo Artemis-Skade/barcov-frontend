@@ -33,6 +33,15 @@ function handleRegisterSubmit(formData) {
 
     console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
 
+    // Read out company ID if present
+    let pathname = window.location.pathname;
+    let company_id = "None";
+
+    if (pathname.length > 12) {
+        company_id = pathname.slice(9, 17); 
+        console.log("" + company_id);
+    }
+
     let data = {
         name: registerData.cname,
         plz: registerData.zip,
@@ -44,6 +53,7 @@ function handleRegisterSubmit(formData) {
         telefon: registerData.mobile,
         mail: registerData.email,
         passwort: myHash,
+        id: company_id,
     };
 
     Object.assign(data, formData);
@@ -128,7 +138,7 @@ function Page1() {
         <>
         <h2>Schritt 1: Unternehmensdaten</h2>
         <form>
-            <EntryField name="cname" displayname="Name des Unternehens"/>
+            <EntryField name="cname" displayname="Name des Unternehmens"/>
             <EntryField name="street" displayname="Straße und Hausnr."/>
             <EntryField name="state" displayname="Bundesland"/>
             <EntryField type="inline1" name="zip" displayname="PLZ"/>

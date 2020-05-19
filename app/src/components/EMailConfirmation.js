@@ -1,5 +1,5 @@
 import React from 'react';
-import sound from "../assets/sounds/ton.wav";
+import sound from "../assets/sounds/ding.mp3";
 import Cookies from 'universal-cookie';
 
 import '../App.css';
