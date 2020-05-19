@@ -1,9 +1,12 @@
 import React from 'react';
 import sound from "../assets/sounds/ton.wav";
+import Cookies from 'universal-cookie';
 
 import '../App.css';
 
 function sendConfirmation(id) {
+    const cookies = new Cookies();
+
     console.log("Sending ID: " + id);
     fetch('https://barcov.id:5000/confirmation', {
         method: 'POST',
@@ -15,6 +18,36 @@ function sendConfirmation(id) {
         })
     }).then(res => res.json()).then(res => {
         console.log(res);
+
+        if (res["success"]) {
+            console.log("User confirmed! Logging in..");
+
+            let recEmail = res["email"];
+            let recHash = res["pw_hash"];
+
+            // Login for session key
+            fetch('https://barcov.id:5000/login', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: JSON.stringify({
+                    email: recEmail,
+                    pw_hash: recHash,
+                })
+            }).then(res => res.json()).then(res => {
+                console.log("LogIn:");
+                console.log(res);
+                if (res["auth"]) {
+                    // Read in session key
+                    cookies.set('sessionKey', res["session_key"]);
+                    console.log("Login successful!");
+                    window.Vars.setScreen("entry");
+                } else {
+                    console.log("Login denied!");
+                }
+            }).catch(err => console.log(err));
+        }
     }).catch(err => {console.log(err)});
 }
 

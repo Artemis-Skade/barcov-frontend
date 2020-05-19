@@ -52,28 +52,7 @@ function handleRegisterSubmit(formData) {
 
         // Check if registration was successful
         if (res["success"]) {
-            // Login for session key
-            fetch('https://barcov.id:5000/login', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "text/plain"
-                },
-                body: JSON.stringify({
-                    email: registerData.email,
-                    pw_hash: myHash,
-                })
-            }).then(res => res.json()).then(res => {
-                console.log("LogIn:");
-                console.log(res);
-                if (res["auth"]) {
-                    // Read in session key
-                    cookies.set('sessionKey', res["session_key"]);
-                    console.log("Login successful!");
-                    window.Vars.setScreen("registrationsuccess");
-                } else {
-                    console.log("Login denied!");
-                }
-            }).catch(err => console.log(err));
+            window.Vars.setScreen("registrationsuccess");
         } else {
             alert(res["message"]);
         }
