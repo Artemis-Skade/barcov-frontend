@@ -12,7 +12,8 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "sjcl": "^1.0.8",
-    "universal-cookie": "^4.0.3"
+    "universal-cookie": "^4.0.3",
+    "vhost": "^3.0.2"
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",

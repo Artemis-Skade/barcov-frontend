@@ -18,15 +18,15 @@ const creds = {
 	ca: ca
 }
 
-var unless = function(path, middleware) {
-    return function(req, res, next) {
-        req.originalpath = "/";
-        return middleware(req, res, next);
-    };
-};
-
 var htmlPath = path.join(__dirname, 'build');
 app.use(express.static(htmlPath));
+
+app.get('/infofile', function(req, res) {
+	var data = fs.readFileSync(__dirname + '/build-homepage/infofile.pdf');
+	res.contentType("application/pdf");
+	res.send(data);
+});
+
 app.get('/*', function(req, res) {
 	fs.readFile(__dirname + '/build/index.html', 'utf8', (err, text) => {
         	res.send(text);
