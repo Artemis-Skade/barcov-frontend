@@ -129,7 +129,7 @@ function App() {
     <div className="App">
       <Header />
       <Screen />
-      <Footer />
+      <Footer isLoggedIn={sessionKey !== undefined && sessionKey.length > 30}/>
     </div>
   );
 }

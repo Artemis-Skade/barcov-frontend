@@ -30,7 +30,7 @@ function handleRegisterSubmit(formData) {
     const myBitArray = sjcl.hash.sha256.hash(registerData.password1 + ":" + registerData.email);
     const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
 
-    console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
+    //console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
 
     let data = {
         email: registerData.email,
@@ -38,7 +38,7 @@ function handleRegisterSubmit(formData) {
     };
 
     Object.assign(data, formData);
-    console.log(data);
+    //console.log(data);
 
     fetch('https://barcov.id:5000/register', {
         method: 'POST',

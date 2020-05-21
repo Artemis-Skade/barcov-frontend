@@ -33,7 +33,8 @@ function handleEntrySubmit(setFormData_) {
         zip: formData.zip,
         town: formData.town
     }
-    console.log("Submitting Entry: " + JSON.stringify(entry));
+    //console.log("Submitting Entry: " + JSON.stringify(entry));
+    console.log("Submitting Entry...");
 
     // Check if all fields are filled out
     for (let key of Object.keys(entry)) {

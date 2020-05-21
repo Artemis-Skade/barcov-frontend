@@ -31,7 +31,7 @@ function handleRegisterSubmit(formData) {
     const myBitArray = sjcl.hash.sha256.hash(registerData.password1 + ":" + registerData.email);
     const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
 
-    console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
+    //console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
 
     // Read out company ID if present
     let pathname = window.location.pathname;
@@ -44,19 +44,19 @@ function handleRegisterSubmit(formData) {
 
     let data = {
         name: registerData.cname,
-        plz: registerData.zip,
-        ort: registerData.town,
-        strasse: registerData.street,
+        zip: registerData.zip,
+        town: registerData.town,
+        street: registerData.street,
         state: "RLP",
-        vorname: registerData.fname,
-        nachname: registerData.lname,
-        telefon: registerData.mobile,
-        mail: registerData.email,
+        fname: registerData.fname,
+        lname: registerData.lname,
+        mobile: registerData.mobile,
+        email: registerData.email,
         passwort: myHash,
         id: company_id,
     };
 
-    Object.assign(data, formData);
+    //Object.assign(data, formData);
     console.log(data);
 
     fetch('https://barcov.id:5000/company_register', {

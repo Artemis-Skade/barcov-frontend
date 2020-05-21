@@ -10,11 +10,11 @@ function logout() {
     window.Vars.setScreen("entry");
 }
 
-function Footer () {
+function Footer (props) {
     return(
         <div className="Footer">
             <a>© BarCovid</a>
-            <a href="" onClick={logout}>Ausloggen</a>
+            {props.isLoggedIn && <a href="" onClick={logout}>Ausloggen</a>}
             <a href="/impressum">Impressum</a>
         </div>
     );

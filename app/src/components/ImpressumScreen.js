@@ -13,7 +13,7 @@ function ImpressumScreen () {
 
             <h2>Kontakt:</h2>
 
-            <p>Telefon: <strong>0174 3977138</strong> E-Mail: <strong>barcovsupport@gmail.com</strong> </p>
+            <p>Telefon: <strong>0174 3977138</strong> E-Mail: <strong>support@barcov.id</strong> </p>
 
             <h2>Haftungsausschluss (Disclaimer)</h2>
 
