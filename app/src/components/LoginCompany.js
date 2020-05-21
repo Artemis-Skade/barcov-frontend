@@ -17,17 +17,21 @@ function handleLoginSubmit() {
     const cookies = new Cookies();
     console.log("Submitted Login");
 
+    // TAKE OUT
+    window.Vars.setScreen("datascreen");
+    return;
+    // TAKE OUT
+
     // Generate hash
     const myBitArray = sjcl.hash.sha256.hash(loginData.password + ":" + loginData.email);
     const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
 
     let data = {
-        storeid: window.Vars.store_id,
         email: loginData.email,
         pw_hash: myHash,
     };
 
-    fetch('https://barcov.id:5000/login', {
+    fetch('https://barcov.id:5000/logincompany', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -38,8 +42,8 @@ function handleLoginSubmit() {
 
         if (res["auth"]) {
             // Read in session key
-            cookies.set('sessionKey', res["session_key"]);
-            window.Vars.setScreen("confirmation");
+            cookies.set('sessionKeyCompany', res["session_key"]);
+            window.Vars.setScreen("datascreen");
         } else {
             alert("Falsche E-Mail oder Passwort!");
         }
@@ -47,7 +51,7 @@ function handleLoginSubmit() {
     }).catch(err => console.log(err));
 }
 
-function LoginScreen () {
+function LoginCompany () {
     [loginData, setLoginData] = React.useState({
         email: undefined,
         password: undefined,
@@ -55,7 +59,7 @@ function LoginScreen () {
 
     return(
         <div className="EntryForm">
-            <h1>Anmelden</h1>
+            <h1>Unternehmensanmeldung</h1>
 
             <form>
                 <div className="EntryField">
@@ -83,4 +87,4 @@ function LoginScreen () {
     );
 }
 
-export default LoginScreen;
+export default LoginCompany;

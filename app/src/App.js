@@ -13,6 +13,8 @@ import RegisterScreen from './components/RegisterScreen.js';
 import CompanyRegisterScreen from './components/CompanyRegisterScreen.js';
 import EMailConfirmation from './components/EMailConfirmation';
 import ImpressumScreen from './components/ImpressumScreen';
+import DataScreen from './components/DataScreen';
+import LoginCompany from './components/LoginCompany';
 
 let screen, setScreen;
 let storename, setStorename;
@@ -46,6 +48,8 @@ function Screen() {
   if (screen === "companyregistration") return (<CompanyRegisterScreen />);
   if (screen === "registrationcompanysuccess") return (<ConfirmationScreen type="companyregister"/>);
   if (screen === "impressumscreen") return (<ImpressumScreen />);
+  if (screen === "datascreen") return (<DataScreen />);
+  if (screen === "logincompany") return (<LoginCompany />);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
@@ -112,6 +116,9 @@ function App() {
     } else if (pathname.slice(0, 9) === "impressum") {
       setScreen("impressumscreen");
       console.log("Impressum");
+    } else if (pathname.slice(0, 4) === "data") {
+      setScreen("logincompany");
+      console.log("Data Screen Login");
     } else {
       let store_id = pathname;
       window.Vars.store_id = store_id;
