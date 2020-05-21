@@ -12,6 +12,7 @@ import LoginScreen from './components/LoginScreen.js';
 import RegisterScreen from './components/RegisterScreen.js';
 import CompanyRegisterScreen from './components/CompanyRegisterScreen.js';
 import EMailConfirmation from './components/EMailConfirmation';
+import ImpressumScreen from './components/ImpressumScreen';
 
 let screen, setScreen;
 let storename, setStorename;
@@ -44,6 +45,7 @@ function Screen() {
   if (screen === "emailconfirmation") return (<EMailConfirmation id={confirmation_id}/>);
   if (screen === "companyregistration") return (<CompanyRegisterScreen />);
   if (screen === "registrationcompanysuccess") return (<ConfirmationScreen type="companyregister"/>);
+  if (screen === "impressumscreen") return (<ImpressumScreen />);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
@@ -107,6 +109,9 @@ function App() {
     } else if (pathname.slice(0, 7) === "company") {
       setScreen("companyregistration");
       console.log("Company Registration");
+    } else if (pathname.slice(0, 9) === "impressum") {
+      setScreen("impressumscreen");
+      console.log("Impressum");
     } else {
       let store_id = pathname;
       window.Vars.store_id = store_id;
