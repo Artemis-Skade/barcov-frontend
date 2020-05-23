@@ -18,8 +18,8 @@ function handleLoginSubmit() {
     console.log("Submitted Login");
 
     // TAKE OUT
-    window.Vars.setScreen("datascreen");
-    return;
+    //window.Vars.setScreen("datascreen");
+    //return;
     // TAKE OUT
 
     // Generate hash
@@ -30,6 +30,8 @@ function handleLoginSubmit() {
         email: loginData.email,
         pw_hash: myHash,
     };
+
+    console.log(data);
 
     fetch('https://barcov.id:5000/logincompany', {
         method: 'POST',
@@ -44,6 +46,8 @@ function handleLoginSubmit() {
             // Read in session key
             cookies.set('sessionKeyCompany', res["session_key"]);
             window.Vars.setScreen("datascreen");
+            console.log(res["companies"])
+            window.Vars.companies = res["companies"];
         } else {
             alert("Falsche E-Mail oder Passwort!");
         }

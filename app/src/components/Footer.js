@@ -16,6 +16,7 @@ function Footer (props) {
             <a>© BarCovid</a>
             {props.isLoggedIn && <a href="" onClick={logout}>Ausloggen</a>}
             <a href="/impressum">Impressum</a>
+            <a href="/privacypolicy">Datenschutzerklärung</a>
         </div>
     );
 }

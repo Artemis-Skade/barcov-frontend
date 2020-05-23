@@ -15,6 +15,7 @@ import EMailConfirmation from './components/EMailConfirmation';
 import ImpressumScreen from './components/ImpressumScreen';
 import DataScreen from './components/DataScreen';
 import LoginCompany from './components/LoginCompany';
+import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 
 let screen, setScreen;
 let storename, setStorename;
@@ -50,6 +51,7 @@ function Screen() {
   if (screen === "impressumscreen") return (<ImpressumScreen />);
   if (screen === "datascreen") return (<DataScreen />);
   if (screen === "logincompany") return (<LoginCompany />);
+  if (screen === "privacypolicyscreen") return (<PrivacyPolicyScreen />);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
@@ -116,6 +118,9 @@ function App() {
     } else if (pathname.slice(0, 9) === "impressum") {
       setScreen("impressumscreen");
       console.log("Impressum");
+    } else if (pathname.slice(0, 13) === "privacypolicy") {
+      setScreen("privacypolicyscreen");
+      console.log("Privacy Policy");
     } else if (pathname.slice(0, 4) === "data") {
       setScreen("logincompany");
       console.log("Data Screen Login");

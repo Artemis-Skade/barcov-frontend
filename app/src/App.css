@@ -86,7 +86,7 @@
 .Errormsg {
   color: red;
   margin: 0 auto;
-  margin-top: 170px;
+  margin-top: 50px;
   text-align: center;
 }
 
@@ -97,6 +97,10 @@
   height: 70px;
   text-align: center;
   border-radius: 5px;
+}
+
+.EntrySubmitDisabled {
+  opacity: 50%;
 }
 
 .EntrySubmit input {
@@ -155,4 +159,24 @@
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
   opacity: 1; /* Firefox */
+}
+
+.CheckboxWrapper {
+  width: 100%;
+  height: 50px;
+  margin-top: 170px;
+  margin-left: 10px;
+}
+
+.Checkbox {
+  width: 40px;
+  height: 40px;
+  margin-top: 14px;
+  float: left;
+}
+
+.CheckboxText {
+  float: left;
+  margin-left: 20px;
+  width: 80%;
 }

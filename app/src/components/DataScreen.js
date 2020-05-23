@@ -9,8 +9,41 @@ let date, setDate;
 let companies, setCompanies;
 let activeCompany, setActiveCompany;
 
-function fetchData() {
+function fetchData(callback) {
+    const cookies = new Cookies();
+    let cid = 0;
 
+    for (let i = 0; i < Object.keys(window.Vars.companies).length; i++) {
+        if (i === activeCompany) {
+            cid = i;
+        }
+    }
+
+    let data = {
+        id: Object.keys(window.Vars.companies)[cid],
+        date: Math.floor(Date.now() / 1000),
+        session_key: cookies.get('sessionKeyCompany'),
+    };
+
+    console.log(data);
+
+    fetch('https://barcov.id:5000/company_data', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).then(res => {
+        console.log(res);
+
+        if (res["success"]) {
+            // Read in session key
+           setTableData(res["summary"]);
+        } else {
+            alert("Error!");
+        }
+        
+    }).catch(err => console.log(err));
 }
 
 function SelectHeader() {
@@ -50,6 +83,7 @@ function Table() {
         <div className={classNames} key={i}>
             <div className="Column">{row["fname"]}</div>
             <div className="Column">{row["lname"]}</div>
+            <div className="Column">{row["phone"]}</div>
             <div className="Column">{row["street"]}</div>
             <div className="Column">{row["zip"]}</div>
             <div className="Column">{row["town"]}</div>
@@ -72,6 +106,9 @@ function DataScreen () {
     React.useEffect(() => {
         setCompanies(["Company 1", "Company 2 lololol"]);
 
+        fetchData();
+
+        /*
         setTableData(
             [
                 {
@@ -115,7 +152,8 @@ function DataScreen () {
                     time: new Date(),
                 }
             ]
-        )
+        )*/
+
     }, []);
 
     return (

@@ -4,6 +4,7 @@ import '../App.css';
 
 let formData, setFormData;
 let errormsg, setErrormsg;
+let acceptedPrivacyPolicy, setAcceptedPrivacyPolicy;
 
 function EntryField (props){
     let className = "EntryField";
@@ -24,6 +25,10 @@ function EntryField (props){
 }
 
 function handleEntrySubmit(setFormData_) {
+    if (!acceptedPrivacyPolicy) {
+        alert("Bestätige zuerst die Datenschutzerklärung!");
+    }
+
     let entry = {
         storeid: window.Vars.store_id,
         fname: formData.fname,
@@ -77,6 +82,10 @@ function handleFieldChange(name, event) {
     }*/
 }
 
+function handleCheckClick(event) {
+    setAcceptedPrivacyPolicy(!acceptedPrivacyPolicy);
+}
+
 function EntryForm (props) {
     [formData, setFormData] = React.useState({
         fname: "",
@@ -87,6 +96,15 @@ function EntryForm (props) {
         town: "",
     });
     [errormsg, setErrormsg] = React.useState("");
+    [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = React.useState(false);
+
+    let submitClassNames = "EntrySubmit";
+    let disabledStr = "";
+
+    if (!acceptedPrivacyPolicy) {
+        submitClassNames += " EntrySubmitDisabled";
+        disabledStr = "disabled";
+    }
 
     return(
         <div className="EntryForm">
@@ -99,8 +117,13 @@ function EntryForm (props) {
                 <EntryField name="street" displayname="Straße und Hausnr."/>
                 <EntryField type="inline1" name="zip" displayname="PLZ"/>
                 <EntryField type="inline2" name="town" displayname="Ort"/>
+
+                <div className="CheckboxWrapper">
+                    <input type="checkbox" id="acceptprivacypolicy" name="vehicle1" className="Checkbox" value={acceptedPrivacyPolicy} checked={acceptedPrivacyPolicy} onClick={handleCheckClick}/> <p className="CheckboxText">Ich habe die <a href="/privacypolicy">Datenschutzerklärung</a> gelesen und bin einverstanden.</p>
+                </div>
+
                 <p className="Errormsg">{errormsg}</p>
-                <div className="EntrySubmit">
+                <div className={submitClassNames}>
                     <input className="EntrySubmitBtn" type='button' value="Abschicken" onClick={() => {handleEntrySubmit(props.setFormData);}}/>
                 </div>
             </form>
