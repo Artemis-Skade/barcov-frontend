@@ -8,19 +8,13 @@ let tableData, setTableData;
 let date, setDate;
 let companies, setCompanies;
 let activeCompany, setActiveCompany;
+let activeCompanyID = "not-generated";
 
 function fetchData(callback) {
     const cookies = new Cookies();
-    let cid = 0;
-
-    for (let i = 0; i < Object.keys(window.Vars.companies).length; i++) {
-        if (i === activeCompany) {
-            cid = i;
-        }
-    }
 
     let data = {
-        id: Object.keys(window.Vars.companies)[cid],
+        id: activeCompanyID,
         date: Math.floor(Date.now() / 1000),
         session_key: cookies.get('sessionKeyCompany'),
     };
@@ -46,28 +40,72 @@ function fetchData(callback) {
     }).catch(err => console.log(err));
 }
 
+function updateCompanyID() {
+    let cid = 0;
+
+    for (let i = 0; i < Object.keys(window.Vars.companies).length; i++) {
+        if (i === activeCompany) {
+            cid = i;
+        }
+    }
+    console.log("Updated company ID: " + Object.keys(window.Vars.companies)[cid]);
+    activeCompanyID = Object.keys(window.Vars.companies)[cid];
+    console.log("Updated company ID: " + activeCompanyID);
+}
+
 function SelectHeader() {
     let companyBtns = [];
 
     for (let i = 0; i < companies.length; i++) {
         if (i === activeCompany) {
-            companyBtns.push(<div className="CompanyBtn CompanyBtnSel" onClick={() => setActiveCompany(i)}>{companies[i]}</div>);
+            companyBtns.push(<div className="CompanyBtn CompanyBtnSel" onClick={() => {setActiveCompany(i); updateCompanyID(i);}}>{companies[i]}</div>);
         } else {
-            companyBtns.push(<div className="CompanyBtn" onClick={() => setActiveCompany(i)}>{companies[i]}</div>);
+            companyBtns.push(<div className="CompanyBtn" onClick={() => {setActiveCompany(i); updateCompanyID(i);}}>{companies[i]}</div>);
         }
     }
+
+    // <a href="https://file-examples.com/wp-content/uploads/2017/02/file_example_XLS_1000.xls" download={"auswertung" + dateToString(date) + ".xlsx"}><div className="DownloadBtn">Herunterladen</div></a>
 
     return (
         <div className="SelectHeader">
             <p className="DataTitle">Auswertung vom {"21.06.2021"}</p>
-            <a href="https://file-examples.com/wp-content/uploads/2017/02/file_example_XLS_1000.xls" download={"auswertung" + dateToString(date) + ".xlsx"}><div className="DownloadBtn">Herunterladen</div></a>
+            <a onClick={downloadFile}><div className="DownloadBtn">Herunterladen</div></a>
             <div className="CompanyBtns">{companyBtns}</div>
         </div>
     );
 }
 
 function dateToString(date) {
-    return "21.06.2019 17:23";
+    return date.toISOString().split('T')[0];
+}
+
+function dateToDetailedString(date) {
+    return ('00'+date.getHours()).slice(-2) + ":" + ('00'+date.getMinutes()).slice(-2) + " Uhr";
+}
+
+function downloadFile() {
+    const cookies = new Cookies();
+
+    let data = {
+        id: activeCompanyID,
+        date: Math.floor(Date.now() / 1000),
+        session_key: cookies.get('sessionKeyCompany'),
+    };
+
+    fetch('https://barcov.id:5000/company_excel', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).then(res => {
+        console.log(res);
+        //window.location.href = 'data:application/octet-stream;base64,' + res["file"];
+        var a = document.createElement("a"); //Create <a>
+        a.href = "data:image/png;base64," + res["file"]; //Image Base64 Goes here
+        a.download = "barcovdaten" + dateToString(new Date()) + ".xlsx"; //File name Here
+        a.click(); //Downloaded file
+    }).catch(err => console.log(err));
 }
 
 function Table() {
@@ -87,7 +125,7 @@ function Table() {
             <div className="Column">{row["street"]}</div>
             <div className="Column">{row["zip"]}</div>
             <div className="Column">{row["town"]}</div>
-            <div className="Column">{dateToString(row["time"])}</div>
+            <div className="Column">{dateToDetailedString(new Date(row["timestamp"] * 1000 - 7200))}</div>
         </div>);
 
         i++;
@@ -105,6 +143,8 @@ function DataScreen () {
 
     React.useEffect(() => {
         setCompanies(["Company 1", "Company 2 lololol"]);
+
+        updateCompanyID();
 
         fetchData();
 

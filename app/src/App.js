@@ -121,9 +121,12 @@ function App() {
     } else if (pathname.slice(0, 13) === "privacypolicy") {
       setScreen("privacypolicyscreen");
       console.log("Privacy Policy");
-    } else if (pathname.slice(0, 4) === "data") {
+    } else if (pathname.slice(0, 4) === "data" && !(cookies.get('sessionKeyCompany').length > 32)) {
       setScreen("logincompany");
       console.log("Data Screen Login");
+    } else if (pathname.slice(0, 4) === "data" && (cookies.get('sessionKeyCompany').length > 32)) {
+      setScreen("datascreen");
+      console.log("Data Screen");
     } else {
       let store_id = pathname;
       window.Vars.store_id = store_id;

@@ -62,7 +62,10 @@ function handleEntrySubmit(setFormData_) {
         body: JSON.stringify(entry)
     }).then(res => res.json()).then(res => {
         console.log(res);
-    }).catch(err => console.log(err));
+    }).catch(err => {
+        console.log(err)
+        setErrormsg("Fehler beim Eintragen. Bitte überprüfe deine Internetverbindung oder versuche es später noch einmal.");
+    });
 }
 
 function handleFieldChange(name, event) {
@@ -99,11 +102,9 @@ function EntryForm (props) {
     [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = React.useState(false);
 
     let submitClassNames = "EntrySubmit";
-    let disabledStr = "";
 
     if (!acceptedPrivacyPolicy) {
         submitClassNames += " EntrySubmitDisabled";
-        disabledStr = "disabled";
     }
 
     return(

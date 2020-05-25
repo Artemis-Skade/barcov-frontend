@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import '../App.css';
 
 let loginData, setLoginData;
+let errMsg, setErrMsg;
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
@@ -41,7 +42,8 @@ function handleLoginSubmit() {
             cookies.set('sessionKey', res["session_key"]);
             window.Vars.setScreen("confirmation");
         } else {
-            alert("Falsche E-Mail oder Passwort!");
+            //alert("Falsche E-Mail oder Passwort!");
+            setErrMsg(res["message"]);
         }
         
     }).catch(err => console.log(err));
@@ -52,6 +54,8 @@ function LoginScreen () {
         email: undefined,
         password: undefined,
     });
+
+    [errMsg, setErrMsg] = React.useState("");
 
     return(
         <div className="EntryForm">
@@ -74,6 +78,8 @@ function LoginScreen () {
                         onChange={e => handleFieldChange("password", e)}
                     />
                 </div>
+
+                <p className="Errormsg">{errMsg}</p>
 
                 <div className="EntrySubmit">
                     <input className="EntrySubmitBtn" type='button' value="Anmelden" onClick={() => {handleLoginSubmit();}}/>

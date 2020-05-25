@@ -18,8 +18,22 @@ const creds = {
 	ca: ca
 }
 
+var router = express.Router();
+app.use("/", router);
+
+var htmlPathHomepage = path.join(__dirname, '../homepage/build');
+app.use(express.static(htmlPathHomepage));
+
 var htmlPath = path.join(__dirname, 'build');
 app.use(express.static(htmlPath));
+
+
+router.get('/', function(req, res) {
+	console.log("Send homepage");
+	fs.readFile(__dirname + '/../homepage/build/index.html', 'utf8', (err, text) => {
+		res.send(text);
+	});
+});
 
 app.get('/infofile', function(req, res) {
 	var data = fs.readFileSync(__dirname + '/build-homepage/infofile.pdf');
@@ -28,9 +42,14 @@ app.get('/infofile', function(req, res) {
 });
 
 app.get('/*', function(req, res) {
-	fs.readFile(__dirname + '/build/index.html', 'utf8', (err, text) => {
+	console.log(req.originalUrl);
+	if (req.originalUrl === "/") {
+		res.send("Test");
+	} else {
+		fs.readFile(__dirname + '/build/index.html', 'utf8', (err, text) => {
         	res.send(text);
-	});
+		});
+	}
 });
 
 
