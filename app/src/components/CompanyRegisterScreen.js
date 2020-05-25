@@ -31,7 +31,7 @@ function handleRegisterSubmit(formData) {
     const myBitArray = sjcl.hash.sha256.hash(registerData.password1 + ":" + registerData.email);
     const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
 
-    //console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
+    console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
 
     // Read out company ID if present
     let pathname = window.location.pathname;

@@ -43,24 +43,24 @@ function fetchData(callback) {
 function updateCompanyID() {
     let cid = 0;
 
-    for (let i = 0; i < Object.keys(window.Vars.companies).length; i++) {
+    for (let i = 0; i < Object.keys(companies).length; i++) {
         if (i === activeCompany) {
             cid = i;
         }
     }
-    console.log("Updated company ID: " + Object.keys(window.Vars.companies)[cid]);
-    activeCompanyID = Object.keys(window.Vars.companies)[cid];
+    console.log("Updated company ID: " + Object.keys(companies)[cid]);
+    activeCompanyID = Object.keys(companies)[cid];
     console.log("Updated company ID: " + activeCompanyID);
 }
 
 function SelectHeader() {
     let companyBtns = [];
 
-    for (let i = 0; i < companies.length; i++) {
+    for (let i = 0; i < Object.keys(companies).length; i++) {
         if (i === activeCompany) {
-            companyBtns.push(<div className="CompanyBtn CompanyBtnSel" onClick={() => {setActiveCompany(i); updateCompanyID(i);}}>{companies[i]}</div>);
+            companyBtns.push(<div key={i} className="CompanyBtn CompanyBtnSel" onClick={() => {setActiveCompany(i); updateCompanyID(i);}}>{companies[Object.keys(companies)[i]]}</div>);
         } else {
-            companyBtns.push(<div className="CompanyBtn" onClick={() => {setActiveCompany(i); updateCompanyID(i);}}>{companies[i]}</div>);
+            companyBtns.push(<div key={i} className="CompanyBtn" onClick={() => {setActiveCompany(i); updateCompanyID(i);}}>{companies[Object.keys(companies)[i]]}</div>);
         }
     }
 
@@ -134,66 +134,52 @@ function Table() {
     return res;
 }
 
+function checkLogin(callback) {
+    let cookies = new Cookies();
+    console.log("Checking session key...");
+
+    let data = {
+        session_key: cookies.get("sessionKeyCompany"),
+    }
+
+    fetch('https://barcov.id:5000/company_checklogin', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).then(res => {
+        console.log(res);
+        callback(res);
+    }).catch(err => console.log(err));
+}
+
 function DataScreen () {
     const cookies = new Cookies();
     [tableData, setTableData] = React.useState([]);
-    [companies, setCompanies] = React.useState([]);
+    [companies, setCompanies] = React.useState({});
     [date, setDate] = React.useState(new Date());
     [activeCompany, setActiveCompany] = React.useState(0);
 
     React.useEffect(() => {
-        setCompanies(["Company 1", "Company 2 lololol"]);
-
-        updateCompanyID();
-
-        fetchData();
-
-        /*
-        setTableData(
-            [
-                {
-                    fname: "Max",
-                    lname: "von Wolff",
-                    street: "sknoiso dcd 16a",
-                    zip: "56727",
-                    town: "Mayen",
-                    time: new Date(),
-                },
-                {
-                    fname: "Max",
-                    lname: "von Wolff",
-                    street: "sknoiso dcd 16a",
-                    zip: "56727",
-                    town: "Mayen",
-                    time: new Date(),
-                },
-                {
-                    fname: "Max",
-                    lname: "von Wolff",
-                    street: "sknoiso dcd 16a",
-                    zip: "56727",
-                    town: "Mayen",
-                    time: new Date(),
-                },
-                {
-                    fname: "Max",
-                    lname: "von Wolff",
-                    street: "sknoiso dcd 16a",
-                    zip: "56727",
-                    town: "Mayen",
-                    time: new Date(),
-                },
-                {
-                    fname: "Max",
-                    lname: "von Wolff",
-                    street: "sknoiso dcd 16a",
-                    zip: "56727",
-                    town: "Mayen",
-                    time: new Date(),
+        // Check if session key exists / is valid
+        if (cookies.get("sessionKeyCompany") != undefined && cookies.get("sessionKeyCompany").length > 32) {
+            // Check login
+            checkLogin((data) => {
+                if (data["auth"]) {
+                    //setCompanies(["Company 1", "Company 2 lololol"]);
+                    setCompanies(data.companies);
+                    updateCompanyID();
+                    fetchData();
+                } else {
+                    // Go to login screen
+                    window.Vars.setScreen("logincompany");
                 }
-            ]
-        )*/
-
+            });
+        } else {
+            // Go to login screen
+            window.Vars.setScreen("logincompany");
+        }
     }, []);
 
     return (

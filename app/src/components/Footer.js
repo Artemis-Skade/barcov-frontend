@@ -7,6 +7,7 @@ import '../App.css';
 function logout() {
     const cookies = new Cookies();
     cookies.remove("sessionKey");
+    cookies.remove("sessionKeyCompany");
     window.Vars.setScreen("entry");
 }
 

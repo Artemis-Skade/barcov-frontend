@@ -121,10 +121,7 @@ function App() {
     } else if (pathname.slice(0, 13) === "privacypolicy") {
       setScreen("privacypolicyscreen");
       console.log("Privacy Policy");
-    } else if (pathname.slice(0, 4) === "data" && !(cookies.get('sessionKeyCompany').length > 32)) {
-      setScreen("logincompany");
-      console.log("Data Screen Login");
-    } else if (pathname.slice(0, 4) === "data" && (cookies.get('sessionKeyCompany').length > 32)) {
+    } else if (pathname.slice(0, 4) === "data") {
       setScreen("datascreen");
       console.log("Data Screen");
     } else {
@@ -140,11 +137,13 @@ function App() {
     }
   }, []);
 
+  let sessionKeyCompany = cookies.get("sessionKeyCompany");
+
   return (
     <div className="App">
       <Header />
       <Screen />
-      <Footer isLoggedIn={sessionKey !== undefined && sessionKey.length > 30}/>
+      <Footer isLoggedIn={(sessionKey !== undefined && sessionKey.length > 30) || (sessionKeyCompany !== undefined && sessionKeyCompany.length > 30)}/>
     </div>
   );
 }
