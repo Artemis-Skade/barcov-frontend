@@ -8,7 +8,7 @@ function ForCompanyScreen () {
     return(
         <div className="Wrapper">
             <h1 className="companyH1">Einrichtung für Ihren Betrieb – ganz einfach:</h1>
-            <video className="Tutorialvideo" id="samp" width="640" height="480" autoPlay>
+            <video className="Tutorialvideo" id="samp" width="640" height="480" controls autoPlay>
                 <source src={tutorial} type="video/mp4">
                 </source>
             </video>

@@ -236,4 +236,22 @@
   h1 {
     text-align: center;
   }
+
+  /* Company page */
+  .companyRegisterBtn {
+    width: calc(100% - 40px);
+    font-size: 25px;
+    padding-top: 26px;
+  }
+  .companyH2 {
+    font-size: 18px;
+  }
+  .Tutorialvideo {
+    width: calc(100% + 84px);
+    margin-left: -42px;
+    border-radius: 0px;
+  }
+  .Footer a {
+    margin-left: 14px;
+  }
 }

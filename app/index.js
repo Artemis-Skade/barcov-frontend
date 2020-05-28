@@ -45,6 +45,11 @@ app.get('/*', function(req, res) {
 	console.log(req.originalUrl);
 	if (req.originalUrl === "/") {
 		res.send("Test");
+	} else if (["/unternehmen", "/gaeste", "/team"].includes(req.originalUrl)) {
+		console.log("Send homepage");
+		fs.readFile(__dirname + '/../homepage/build/index.html', 'utf8', (err, text) => {
+			res.send(text);
+		});
 	} else {
 		fs.readFile(__dirname + '/build/index.html', 'utf8', (err, text) => {
         	res.send(text);
