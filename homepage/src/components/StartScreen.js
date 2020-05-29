@@ -16,7 +16,7 @@ function StartScreen () {
 
                     <a href="unternehmen">
                         <div className="mainBtn">
-                            <img src={playbtn} className="PlayBtn" alt="playbtn" /> <p>Einführung für Ihre Firma</p>
+                            <img src={playbtn} className="PlayBtn" alt="playbtn" /> <p>Einrichtung für Ihre Firma</p>
                         </div>
                     </a>
                 </div>

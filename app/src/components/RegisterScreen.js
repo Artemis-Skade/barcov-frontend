@@ -27,6 +27,9 @@ function handleRegisterSubmit(formData) {
     console.log("Submitted Register");
     window.Vars.setScreen("enter");
 
+    // Handle E-mail in lowercase
+    registerData.email = registerData.email.toLowerCase();
+
     const myBitArray = sjcl.hash.sha256.hash(registerData.password1 + ":" + registerData.email);
     const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
 

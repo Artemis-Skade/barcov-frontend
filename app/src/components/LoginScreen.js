@@ -14,39 +14,65 @@ function handleFieldChange(name, event) {
     setLoginData(newLoginData);
 }
 
+function login(email, password) {
+    return new Promise((resolve, reject) => {
+        // Generate hash
+        const myBitArray = sjcl.hash.sha256.hash(password + ":" + email);
+        const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
+
+        let data = {
+            storeid: window.Vars.store_id,
+            email: loginData.email,
+            pw_hash: myHash,
+        };
+
+        fetch('https://barcov.id:5000/login', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "text/plain"
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(res => {
+            console.log(res);
+
+            if (res["auth"]) {
+                // Read in session key
+                //cookies.set('sessionKey', res["session_key"]);
+                //window.Vars.setScreen("confirmation");
+                resolve([true, res["session_key"]]);
+            } else {
+                //alert("Falsche E-Mail oder Passwort!");
+                //setErrMsg(res["message"]);
+                resolve([false, res["message"]]);
+            }
+            
+        }).catch(err => console.log(err));
+    })
+}
+
 function handleLoginSubmit() {
     const cookies = new Cookies();
     console.log("Submitted Login");
 
-    // Generate hash
-    const myBitArray = sjcl.hash.sha256.hash(loginData.password + ":" + loginData.email);
-    const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
-
-    let data = {
-        storeid: window.Vars.store_id,
-        email: loginData.email,
-        pw_hash: myHash,
-    };
-
-    fetch('https://barcov.id:5000/login', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "text/plain"
-        },
-        body: JSON.stringify(data)
-    }).then(res => res.json()).then(res => {
-        console.log(res);
-
-        if (res["auth"]) {
-            // Read in session key
-            cookies.set('sessionKey', res["session_key"]);
-            window.Vars.setScreen("confirmation");
+    login(loginData.email.toLowerCase(), loginData.password).then((ret) => {
+        if (!ret[0]) {
+            // Try again with upper case EMail as hash
+            login(loginData.email.charAt(0).toUpperCase() + loginData.email.slice(1), loginData.password).then((ret_) => {
+                if (!ret_[0]) {
+                    // Wrong login!
+                    setErrMsg(ret_[1]);
+                } else {
+                    // Successful
+                    cookies.set('sessionKey', ret_[1]);
+                    window.Vars.setScreen("confirmation");
+                }
+            });
         } else {
-            //alert("Falsche E-Mail oder Passwort!");
-            setErrMsg(res["message"]);
+            // Successful
+            cookies.set('sessionKey', ret[1]);
+            window.Vars.setScreen("confirmation");
         }
-        
-    }).catch(err => console.log(err));
+    })
 }
 
 function LoginScreen () {
