@@ -62,7 +62,7 @@ function handleLoginSubmit() {
                 // Try again with upper case EMail as hash
                 login(loginData.email.charAt(0).toUpperCase() + loginData.email.slice(1), loginData.password).then((ret_) => {
                     if (!ret_[0]) {
-                        // Wrong login!
+                        // Wrong login!!
                         setErrMsg(ret_[1]);
                     } else {
                         // Successful
