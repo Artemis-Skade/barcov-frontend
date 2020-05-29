@@ -56,17 +56,21 @@ function handleLoginSubmit() {
 
     login(loginData.email.toLowerCase(), loginData.password).then((ret) => {
         if (!ret[0]) {
-            // Try again with upper case EMail as hash
-            login(loginData.email.charAt(0).toUpperCase() + loginData.email.slice(1), loginData.password).then((ret_) => {
-                if (!ret_[0]) {
-                    // Wrong login!
-                    setErrMsg(ret_[1]);
-                } else {
-                    // Successful
-                    cookies.set('sessionKey', ret_[1]);
-                    window.Vars.setScreen("confirmation");
-                }
-            });
+            if (ret[1].charAt(0) === "B") {
+                setErrMsg(ret[1]);
+            } else {
+                // Try again with upper case EMail as hash
+                login(loginData.email.charAt(0).toUpperCase() + loginData.email.slice(1), loginData.password).then((ret_) => {
+                    if (!ret_[0]) {
+                        // Wrong login!
+                        setErrMsg(ret_[1]);
+                    } else {
+                        // Successful
+                        cookies.set('sessionKey', ret_[1]);
+                        window.Vars.setScreen("confirmation");
+                    }
+                });
+            }
         } else {
             // Successful
             cookies.set('sessionKey', ret[1]);
