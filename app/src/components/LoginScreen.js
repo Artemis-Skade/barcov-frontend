@@ -66,14 +66,14 @@ function handleLoginSubmit() {
                         setErrMsg(ret_[1]);
                     } else {
                         // Successful
-                        cookies.set('sessionKey', ret_[1]);
+                        cookies.set('sessionKey', ret_[1], {path: "/"});
                         window.Vars.setScreen("confirmation");
                     }
                 });
             }
         } else {
             // Successful
-            cookies.set('sessionKey', ret[1]);
+            cookies.set('sessionKey', ret[1], {path: "/"});
             window.Vars.setScreen("confirmation");
         }
     })

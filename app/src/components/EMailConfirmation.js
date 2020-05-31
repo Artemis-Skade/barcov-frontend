@@ -40,7 +40,7 @@ function sendConfirmation(id) {
                 console.log(res);
                 if (res["auth"]) {
                     // Read in session key
-                    cookies.set('sessionKey', res["session_key"]);
+                    cookies.set('sessionKey', res["session_key"], {path: "/"});
                     console.log("Login successful!");
                 } else {
                     console.log("Login denied!");
