@@ -28,10 +28,10 @@ function handleRegisterSubmit(formData) {
     console.log("Submitted Company Register");
     window.Vars.setScreen("registrationcompanysuccess");
 
-    const myBitArray = sjcl.hash.sha256.hash(registerData.password1 + ":" + registerData.email);
+    const myBitArray = sjcl.hash.sha256.hash(registerData.password1 + ":" + registerData.email.toLowerCase());
     const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
 
-    console.log("PW with salt: " + registerData.password1 + ":" + registerData.email +  " Hash: " + myHash);
+    console.log("PW with salt: " + registerData.password1 + ":" + registerData.email.toLowerCase() +  " Hash: " + myHash);
 
     // Read out company ID if present
     let pathname = window.location.pathname;

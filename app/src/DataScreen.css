@@ -46,16 +46,17 @@
     line-height: 0px;
 }
 
-.Column:last-child {
+.Column:nth-child(4) {
     flex: 2 !important;
 }
 
-.Column:nth-child(4) {
+.Column:nth-child(6) {
     flex: 2 !important;
 }
 
 .DataTitle {
     float: left;
+    margin-top: 15px;
 }
 
 .DownloadBtn {
@@ -100,4 +101,35 @@
 .CompanyBtn:hover {
     background-color: white;
     color: black;
+}
+
+.CalendarImg {
+    width: 22px;
+    margin-top: -3px;
+    /* padding-top: 10px; */
+    float: left;
+}
+
+.DataTitle p {
+    float: left;
+    margin-top: 0px;
+    margin-right: 10px;
+}
+
+.DatePicker {
+    float: left;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.react-datepicker__input-container input {
+    border: none;
+    color: white;
+    background: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.react-datepicker__input-container input:hover {
+    text-decoration: underline;
 }

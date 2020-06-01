@@ -1,5 +1,11 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
+import Calendarimg from '../assets/img/calendar.png';
+import Pencilimg from '../assets/img/pencil.png';
+
+import DatePicker from "react-datepicker";
+ 
+import "react-datepicker/dist/react-datepicker.css";
 
 import '../App.css';
 import '../DataScreen.css';
@@ -10,12 +16,12 @@ let companies, setCompanies;
 let activeCompany, setActiveCompany;
 let activeCompanyID = "not-generated";
 
-function fetchData(callback) {
+function fetchData(fetchDate) {
     const cookies = new Cookies();
 
     let data = {
         id: activeCompanyID,
-        date: Math.floor(Date.now() / 1000),
+        date: parseInt(fetchDate.getTime() / 1000), //Math.floor(Date.now() / 1000 + 7200),
         session_key: cookies.get('sessionKeyCompany'),
     };
 
@@ -53,6 +59,13 @@ function updateCompanyID() {
     console.log("Updated company ID: " + activeCompanyID);
 }
 
+function handleDateChange(newDate) {
+    newDate = new Date(newDate.getTime() + 7200 * 1000);
+    setDate(newDate);
+    fetchData(newDate);
+    console.log("Set to Date: " + newDate);
+}
+
 function SelectHeader() {
     let companyBtns = [];
 
@@ -68,7 +81,14 @@ function SelectHeader() {
 
     return (
         <div className="SelectHeader">
-            <p className="DataTitle">Auswertung vom {"21.06.2021"}</p>
+            <div className="DataTitle"><p>Auswertung vom &nbsp;</p>
+                <DatePicker
+                    className="DatePicker"
+                    selected={date}
+                    onChange={handleDateChange}
+                />
+                <img className="CalendarImg" src={Pencilimg} alt="Calendar" />
+            </div>
             <a onClick={downloadFile}><div className="DownloadBtn">Herunterladen</div></a>
             <div className="CompanyBtns">{companyBtns}</div>
         </div>
@@ -88,9 +108,11 @@ function downloadFile() {
 
     let data = {
         id: activeCompanyID,
-        date: Math.floor(Date.now() / 1000),
+        date: parseInt(date.getTime() / 1000),
         session_key: cookies.get('sessionKeyCompany'),
     };
+
+    console.log(data);
 
     fetch('https://barcov.id:5000/company_excel', {
         method: 'POST',
@@ -125,7 +147,7 @@ function Table() {
             <div className="Column">{row["street"]}</div>
             <div className="Column">{row["zip"]}</div>
             <div className="Column">{row["town"]}</div>
-            <div className="Column">{dateToDetailedString(new Date(row["timestamp"] * 1000 - 7200))}</div>
+            <div className="Column">{dateToDetailedString(new Date(row["timestamp"] * 1000 - 7200000))}</div>
         </div>);
 
         i++;
@@ -170,7 +192,7 @@ function DataScreen () {
                     //setCompanies(["Company 1", "Company 2 lololol"]);
                     setCompanies(data.companies);
                     updateCompanyID();
-                    fetchData();
+                    fetchData(new Date(Date.now() + 7200 * 1000));
                 } else {
                     // Go to login screen
                     window.Vars.setScreen("logincompany");
