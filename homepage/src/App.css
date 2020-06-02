@@ -112,7 +112,7 @@
 .companyRegisterBtn {
   width: 50%;
   height: 40px;
-  background-color: #0c86dc;
+  background-color: #1f5db9;
   border-radius: 10px;
   padding: 20px;
   margin: 0 auto;
@@ -173,6 +173,173 @@
   height: 40px;
   margin: 6px;
   margin-right: 70px;
+}
+
+.companyFAQ {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.companyFAQ p {
+  font-size: 18px;
+  margin-bottom: 70px;
+}
+
+.companyTeaser {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.companyTeaser p {
+  font-size: 18px;
+  margin-bottom: 70px;
+}
+
+.EntryForm {
+  padding: 20px;
+  padding-top: 10px;
+}
+
+.EntryForm h2{
+  font-size: 22px;
+  margin-bottom: 0px;
+  font-size: 22px;
+  margin-bottom: 0px;
+}
+
+.EntryForm h1{
+  font-size: 25px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.EntryField {
+  width: 100%;
+  height: 20px;
+  margin-bottom: 70px;
+}
+
+.EntryField p {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.EntryField input {
+  background-color: #eee;
+  border: none;
+  border-bottom: 1px solid orange;
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  height: 25px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.InlineField1 {
+  width: 30% !important;
+  float: left;
+  margin-top: -18px;
+}
+
+.InlineField2 {
+  width: 65% !important;
+  float: left;
+  margin-left: 5%;
+  margin-top: -18px;
+}
+
+.Errormsg {
+  color: red;
+  margin: 0 auto;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.EntrySubmit {
+  width: 100%;
+  background-color: orange;
+  margin-top: 30px;
+  height: 70px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.EntrySubmitDisabled {
+  opacity: 50%;
+}
+
+.EntrySubmit input {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0px 20px 0px #00000029;
+}
+
+.EntrySubmitBtn {
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  border:none;
+  outline: inherit;
+  background-color: orange;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.CheckboxWrapper {
+  width: 100%;
+  height: 50px;
+  margin-top: 120px;
+  margin-left: 10px;
+}
+
+.Checkbox {
+  width: 40px;
+  height: 40px;
+  margin-top: 14px;
+  float: left;
+}
+
+.CheckboxText {
+  float: left;
+  margin-left: 20px;
+  width: 80%;
+}
+
+.RegisterWrapper {
+  width: 60%;
+  margin: 0 auto;
+  border-radius: 15px;
+  /* color: black; */
+  padding: 20px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3)
+}
+
+.tryBtn {
+  width: 210px;
+  height: 40px;
+  margin: 0 auto;
+  background-color: orange;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2784313725490196);
+  /* background-color: white; */
+  margin-top: 30px;
+}
+
+.tryBtn p {
+  float: left;
+  font-size: 25px;
+  color: white;
+  margin-left: 10px;
+  margin-top: 6px;
+  font-weight: 500;
 }
 
 @media (max-width: 800px) {
@@ -253,5 +420,25 @@
   }
   .Footer a {
     margin-left: 14px;
+  }
+
+  .RegisterWrapper {
+    margin-left: -40px;
+    border-radius: 0px;
+    width: calc(100% + 40px);
+  }
+  .CheckboxText {
+    width: 70%;
+    margin-top: 7px;
+  }
+  .companyTeaser {
+    width: 100%;
+  }
+  .companyFAQ {
+    width: 100%;
+  }
+
+  .companyH1 {
+    font-size: 28px;
   }
 }
