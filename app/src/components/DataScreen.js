@@ -248,7 +248,7 @@ function DataScreen () {
     [date, setDate] = React.useState(new Date());
     [activeCompany, setActiveCompany] = React.useState(0);
     [showSettings, setShowSettings] = React.useState(false);
-    [sendMails, setSendMails] = React.useState(false);
+    [sendMails, setSendMails] = React.useState(true);
 
     React.useEffect(() => {
         // Check if session key exists / is valid
