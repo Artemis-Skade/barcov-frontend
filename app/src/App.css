@@ -102,7 +102,11 @@
 
 .EntrySubmitDisabled {
   /*opacity: 50%;*/
-  background-color: #dedede;;
+  background-color: #dedede !important;
+}
+
+.EntrySubmitDisabled EntrySubmitBtn {
+  background-color: #dedede !important;
 }
 
 .EntrySubmit input {
