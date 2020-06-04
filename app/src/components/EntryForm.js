@@ -123,7 +123,7 @@ function EntryForm (props) {
                 <EntryField type="inline2" name="town" displayname="Ort"/>
 
                 <div className="CheckboxWrapper">
-                    <input type="checkbox" id="acceptprivacypolicy" name="vehicle1" className="Checkbox" value={acceptedPrivacyPolicy} checked={acceptedPrivacyPolicy} onClick={handleCheckClick}/> <p className="CheckboxText">Ich habe die <a href="/privacypolicy">Datenschutzerklärung</a> gelesen und bin einverstanden.</p>
+                    <input type="checkbox" id="acceptprivacypolicy" name="vehicle1" className="Checkbox_" value={acceptedPrivacyPolicy} checked={acceptedPrivacyPolicy} onClick={handleCheckClick}/> <p className="CheckboxText_">Ich habe die <a href="/privacypolicy">Datenschutzerklärung</a> gelesen und bin einverstanden.</p>
                 </div>
 
                 <p className="Errormsg">{errormsg}</p>
