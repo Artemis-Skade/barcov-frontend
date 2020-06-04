@@ -190,7 +190,7 @@ function downloadFile() {
         //window.location.href = 'data:application/octet-stream;base64,' + res["file"];
         var a = document.createElement("a"); //Create <a>
         a.href = "data:image/png;base64," + res["file"]; //Image Base64 Goes here
-        a.download = "barcovdaten" + dateToString(new Date()) + ".xlsx"; //File name Here
+        a.download = "barcovdaten" + dateToString(date) + ".xlsx"; //File name Here
         a.click(); //Downloaded file
     }).catch(err => console.log(err));
 }
