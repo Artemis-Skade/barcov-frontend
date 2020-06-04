@@ -1,6 +1,6 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import Calendarimg from '../assets/img/calendar.png';
+import settingsIcon from '../assets/img/settings.png';
 import Pencilimg from '../assets/img/pencil.png';
 
 import DatePicker from "react-datepicker";
@@ -13,8 +13,15 @@ import '../DataScreen.css';
 let tableData, setTableData;
 let date, setDate;
 let companies, setCompanies;
+let showSettings, setShowSettings;
 let activeCompany, setActiveCompany;
+let sendMails, setSendMails;
 let activeCompanyID = "not-generated";
+
+function logout() {
+    const cookies = new Cookies();
+    cookies.remove("sessionKeyCompany");
+}
 
 function fetchData(fetchDate) {
     const cookies = new Cookies();
@@ -66,6 +73,62 @@ function handleDateChange(newDate) {
     console.log("Set to Date: " + newDate);
 }
 
+function handleCheckClick() {
+    const cookies = new Cookies();
+
+    setSendMails(!sendMails);
+    console.log("Submitting mail preferences...");
+
+    let data = {
+        session_key: cookies.get('sessionKeyCompany'),
+        sendMails: !sendMails
+    };
+
+    console.log(data);
+
+    fetch('https://barcov.id:5000/set_mail_settings', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).then(res => {
+    }).catch(err => console.log(err));
+}
+
+function updateMailPreferences() {
+    const cookies = new Cookies();
+
+    console.log("Getting mail preferences...");
+
+    let data = {
+        session_key: cookies.get('sessionKeyCompany'),
+    };
+
+    console.log(data);
+
+    fetch('https://barcov.id:5000/get_mail_settings', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).then(res => {
+        setSendMails(res["value"] === "true");
+    }).catch(err => console.log(err));
+}
+
+function Settings() {
+    let style = () => {if (showSettings)  {return {display: "block"}} else { return {display: "block", marginTop: -300} }};
+    // <a href="/">Passwort ändern</a>
+
+    return (
+    <div className="SettingsMenu" style={style()}>
+        <div className="CheckBoxWrapper"><input type="checkbox" id="sendmails" className="Checkbox" value={sendMails} checked={sendMails} onClick={handleCheckClick}/> <p className="CheckboxText">Mails erhalten</p></div>
+        <a href="/" onClick={logout}>Ausloggen</a>
+    </div>);
+}
+
 function SelectHeader() {
     let companyBtns = [];
 
@@ -90,6 +153,8 @@ function SelectHeader() {
                 <img className="CalendarImg" src={Pencilimg} alt="Calendar" />
             </div>
             <a onClick={downloadFile}><div className="DownloadBtn">Herunterladen</div></a>
+            <a onClick={() => setShowSettings(!showSettings)}><img className="settingsBtn" src={settingsIcon} /></a>
+            <Settings />
             <div className="CompanyBtns">{companyBtns}</div>
         </div>
     );
@@ -182,6 +247,8 @@ function DataScreen () {
     [companies, setCompanies] = React.useState({});
     [date, setDate] = React.useState(new Date());
     [activeCompany, setActiveCompany] = React.useState(0);
+    [showSettings, setShowSettings] = React.useState(false);
+    [sendMails, setSendMails] = React.useState(false);
 
     React.useEffect(() => {
         // Check if session key exists / is valid
@@ -193,6 +260,9 @@ function DataScreen () {
                     setCompanies(data.companies);
                     updateCompanyID();
                     fetchData(new Date(Date.now() + 7200 * 1000));
+
+                    // Set initial sendMails state
+                    updateMailPreferences();
                 } else {
                     // Go to login screen
                     window.Vars.setScreen("logincompany");

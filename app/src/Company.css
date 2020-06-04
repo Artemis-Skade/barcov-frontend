@@ -21,3 +21,101 @@
 .ErrorMsg{
     margin-top: 85px;
 }
+
+.FileUpload {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 200px;
+    /*box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);*/
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.UploadBtn {
+    width: 200px;
+    float: left;
+    height: 38px;
+    text-align: center;
+    background-color: #1976d2 !important;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    vertical-align: middle;
+    padding-top: 15px;
+    /*margin-top: 40%;*/
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    /*margin-left: 12%;*/
+    cursor: pointer;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
+
+.FileUpload p {
+    position: absolute;
+    font-size: 18px;
+    color: white;
+    margin-left: 32px;
+    margin-top: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+.UploadPreview {
+    width: 50%;
+    /* float: right; */
+    height: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 0px 0px 20px #0000002b;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 160px;
+}
+
+.UploadPreview img {
+    width: 100%;
+}
+
+.Logoimgcenter {
+    max-width: 32% !important;
+    margin: 0 auto;
+    width: auto !important;
+    position: absolute;
+    max-height: 10%;
+    top: 43.5%;
+    transform: translate(50%, -50%);
+    right: 50%;
+}
+
+.Logoimgcorner {
+    max-width: 32% !important;
+    margin: 0 auto;
+    width: auto !important;
+    position: absolute;
+    max-height: 10%;
+    top: 2.5%;
+    right: 3.9%;
+    float: left;
+}
+
+.previewText {
+    margin: auto !important;
+    position: relative !important;
+    color: black !important;
+    font-size: 20px !important;
+    width: fit-content !important;
+    margin-top: 20px !important;
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .UploadPreview {
+        width: 100%;
+    }
+}

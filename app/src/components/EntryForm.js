@@ -26,7 +26,8 @@ function EntryField (props){
 
 function handleEntrySubmit(setFormData_) {
     if (!acceptedPrivacyPolicy) {
-        alert("Bestätige zuerst die Datenschutzerklärung!");
+        setErrormsg("Bestätige zuerst die Datenschutzerklärung!");
+        return;
     }
 
     let entry = {
@@ -52,7 +53,6 @@ function handleEntrySubmit(setFormData_) {
     }
 
     setFormData_(entry);
-    window.Vars.setScreen("confirmationwithregistration");
 
     fetch('https://barcov.id:5000/enter', {
         method: 'POST',
@@ -62,6 +62,7 @@ function handleEntrySubmit(setFormData_) {
         body: JSON.stringify(entry)
     }).then(res => res.json()).then(res => {
         console.log(res);
+        window.Vars.setScreen("confirmationwithregistration");
     }).catch(err => {
         console.log(err)
         setErrormsg("Fehler beim Eintragen. Bitte überprüfe deine Internetverbindung oder versuche es später noch einmal.");

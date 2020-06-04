@@ -97,6 +97,7 @@
   height: 70px;
   text-align: center;
   border-radius: 5px;
+  will-change: opacity;
 }
 
 .EntrySubmitDisabled {
@@ -150,6 +151,10 @@
   background-color: orange;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.EntrySubmitBtnCompany {
+  background-color: #1d6daa;
 }
 
 .EMailConfirmation {

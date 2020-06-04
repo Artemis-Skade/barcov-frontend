@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import '../App.css';
 
 let registerData, setRegisterData;
+let errorMsg, setErrorMsg;
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
@@ -17,15 +18,14 @@ function handleRegisterSubmit(formData) {
     const cookies = new Cookies();
     // Handle wrong inputs
     if (registerData.password1 !== registerData.password2) {
-        alert("Passwörter stimmen nicht überein!");
+        setErrorMsg("Passwörter stimmen nicht überein!");
         return;
     } else if (registerData.password1 === "" || registerData.password2 === "" || registerData.email === "") {
-        alert("Es sind nicht alle Felder ausgefüllt!");
+        setErrorMsg("Es sind nicht alle Felder ausgefüllt!");
         return;
     }
 
     console.log("Submitted Register");
-    window.Vars.setScreen("enter");
 
     // Handle E-mail in lowercase
     registerData.email = registerData.email.toLowerCase();
@@ -55,12 +55,16 @@ function handleRegisterSubmit(formData) {
 
         // Check if registration was successful
         if (res["success"]) {
+            window.Vars.registerMsg = res["message"];
             window.Vars.setScreen("registrationsuccess");
         } else {
-            alert(res["message"]);
+            setErrorMsg(res["message"]);
         }
         
-    }).catch(err => console.log(err));
+    }).catch(err => {
+        console.log(err);
+        setErrorMsg("Fehler beim Eintragen. Bitte überprüfe deine Internetverbindung oder versuche es später noch einmal.");
+    });
 }
 
 function RegisterScreen (props) {
@@ -69,6 +73,8 @@ function RegisterScreen (props) {
         password1: "",
         password2: "",
     });
+
+    [errorMsg, setErrorMsg] = React.useState("");
 
     return(
         <div className="EntryForm">
@@ -100,7 +106,7 @@ function RegisterScreen (props) {
                     />
                 </div>
 
-                <p className="ErrorMsg"></p>
+                <p className="ErrorMsg">{errorMsg}</p>
 
                 <div className="EntrySubmit">
                     <input className="EntrySubmitBtn" type='button' value="Registrieren" onClick={() => {handleRegisterSubmit(props.formData);}}/>

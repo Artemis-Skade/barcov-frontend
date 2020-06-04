@@ -84,7 +84,7 @@ function LoginCompany () {
                 </div>
 
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='button' value="Anmelden" onClick={() => {handleLoginSubmit();}}/>
+                    <input className="EntrySubmitBtn EntrySubmitBtnCompany" type='button' value="Anmelden" onClick={() => {handleLoginSubmit();}}/>
                 </div>
             </form>
         </div>

@@ -16,6 +16,7 @@ import ImpressumScreen from './components/ImpressumScreen';
 import DataScreen from './components/DataScreen';
 import LoginCompany from './components/LoginCompany';
 import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
+import LoadingScreen from './components/LoadingScreen';
 
 let screen, setScreen;
 let storename, setStorename;
@@ -52,6 +53,7 @@ function Screen() {
   if (screen === "datascreen") return (<DataScreen />);
   if (screen === "logincompany") return (<LoginCompany />);
   if (screen === "privacypolicyscreen") return (<PrivacyPolicyScreen />);
+  if (screen === "loading") return (<LoadingScreen />);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);

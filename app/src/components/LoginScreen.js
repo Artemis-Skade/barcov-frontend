@@ -54,6 +54,11 @@ function handleLoginSubmit() {
     const cookies = new Cookies();
     console.log("Submitted Login");
 
+    if (loginData.email === "" || loginData.password === "") {
+        setErrMsg("Es müssen alle Felder ausgefüllt sein!");
+        return;
+    }
+
     login(loginData.email.toLowerCase(), loginData.password).then((ret) => {
         if (!ret[0]) {
             if (ret[1].charAt(0) === "B") {
@@ -81,8 +86,8 @@ function handleLoginSubmit() {
 
 function LoginScreen () {
     [loginData, setLoginData] = React.useState({
-        email: undefined,
-        password: undefined,
+        email: "",
+        password: "",
     });
 
     [errMsg, setErrMsg] = React.useState("");
