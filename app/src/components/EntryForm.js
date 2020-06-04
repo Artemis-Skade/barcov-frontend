@@ -103,9 +103,11 @@ function EntryForm (props) {
     [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = React.useState(false);
 
     let submitClassNames = "EntrySubmit";
+    let submitBtnClassNames = "EntrySubmitBtn";
 
     if (!acceptedPrivacyPolicy) {
         submitClassNames += " EntrySubmitDisabled";
+        submitBtnClassNames += " EntrySubmitBtnDisabled";
     }
 
     return(
@@ -126,7 +128,7 @@ function EntryForm (props) {
 
                 <p className="Errormsg">{errormsg}</p>
                 <div className={submitClassNames}>
-                    <input className="EntrySubmitBtn" type='button' value="Abschicken" onClick={() => {handleEntrySubmit(props.setFormData);}}/>
+                    <input className={submitBtnClassNames} type='button' value="Abschicken" onClick={() => {handleEntrySubmit(props.setFormData);}}/>
                 </div>
             </form>
         </div>
