@@ -26,7 +26,7 @@ let store_id, confirmation_id;
 function getStoreName(store_id) {
   console.log("Store ID: " + store_id);
 
-  fetch('https://localhost:5000/store', {
+  fetch('https://' + window.Vars.domain + ':5000/store', {
     method: 'POST',
     headers: {
       "Content-Type": "text/plain"
@@ -67,7 +67,7 @@ function checkIfLoggedIn(session_key) {
 
   console.log(data);
 
-  fetch('https://localhost:5000/checklogin', {
+  fetch('https://' + window.Vars.domain + ':5000/checklogin', {
       method: 'POST',
       headers: {
           "Content-Type": "text/plain"
@@ -98,7 +98,13 @@ function App() {
 
   React.useEffect(() => {
     // Setup global vars
+    let domain = window.location.hostname;
+
+    if (domain === "localhost") {
+      domain = "barcov.id";
+    }
     window.Vars = {
+      domain: domain,
       store_id: store_id,
       screen: screen,
       setScreen: setScreen,

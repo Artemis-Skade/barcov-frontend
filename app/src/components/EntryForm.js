@@ -54,7 +54,7 @@ function handleEntrySubmit(setFormData_) {
 
     setFormData_(entry);
 
-    fetch('https://localhost:5000/enter', {
+    fetch('https://' + window.Vars.domain + ':5000/enter', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"

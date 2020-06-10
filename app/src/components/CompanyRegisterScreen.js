@@ -72,7 +72,7 @@ function handleRegisterSubmit(formData) {
         //Object.assign(data, formData);
         console.log(data);
     
-        fetch('https://localhost:5000/company_register', {
+        fetch('https://' + window.Vars.domain + ':5000/company_register', {
             method: 'POST',
             headers: {
                 "Content-Type": "text/plain"

@@ -41,7 +41,7 @@ function register() {
     Object.assign(data, formData);
     //console.log(data);
 
-    fetch('https://barcov.id:5000/register', {
+    fetch('https://' + window.Vars.domain + ':5000/register', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -117,7 +117,7 @@ function handleSubmit () {
         return;
     }
 
-    fetch('https://barcov.id:5000/enter', {
+    fetch('https://' + window.Vars.domain + ':5000/enter', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"

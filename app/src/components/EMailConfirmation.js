@@ -8,7 +8,7 @@ function sendConfirmation(id) {
     const cookies = new Cookies();
 
     console.log("Sending ID: " + id);
-    fetch('https://localhost:5000/confirmation', {
+    fetch('https://' + window.Vars.domain + ':5000/confirmation', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -26,7 +26,7 @@ function sendConfirmation(id) {
             let recHash = res["pw_hash"];
 
             // Login for session key
-            fetch('https://localhost:5000/login', {
+            fetch('https://' + window.Vars.domain + ':5000/login', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "text/plain"
