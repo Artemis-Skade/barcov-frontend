@@ -34,7 +34,7 @@ function fetchData(fetchDate) {
 
     console.log(data);
 
-    fetch('https://barcov.id:5000/company_data', {
+    fetch('https://localhost:5000/company_data', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -86,7 +86,7 @@ function handleCheckClick() {
 
     console.log(data);
 
-    fetch('https://barcov.id:5000/set_mail_settings', {
+    fetch('https://localhost:5000/set_mail_settings', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -107,7 +107,7 @@ function updateMailPreferences() {
 
     console.log(data);
 
-    fetch('https://barcov.id:5000/get_mail_settings', {
+    fetch('https://localhost:5000/get_mail_settings', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -179,7 +179,7 @@ function downloadFile() {
 
     console.log(data);
 
-    fetch('https://barcov.id:5000/company_excel', {
+    fetch('https://localhost:5000/company_excel', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -229,7 +229,7 @@ function checkLogin(callback) {
         session_key: cookies.get("sessionKeyCompany"),
     }
 
-    fetch('https://barcov.id:5000/company_checklogin', {
+    fetch('https://localhost:5000/company_checklogin', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"

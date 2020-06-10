@@ -33,7 +33,7 @@ function handleLoginSubmit() {
 
     console.log(data);
 
-    fetch('https://barcov.id:5000/logincompany', {
+    fetch('https://localhost:5000/logincompany', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"

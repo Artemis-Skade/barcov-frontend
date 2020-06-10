@@ -26,7 +26,7 @@ function login(email, password) {
             pw_hash: myHash,
         };
 
-        fetch('https://barcov.id:5000/login', {
+        fetch('https://localhost:5000/login', {
             method: 'POST',
             headers: {
                 "Content-Type": "text/plain"

@@ -43,7 +43,7 @@ function handleRegisterSubmit(formData) {
     Object.assign(data, formData);
     //console.log(data);
 
-    fetch('https://barcov.id:5000/register', {
+    fetch('https://localhost:5000/register', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
