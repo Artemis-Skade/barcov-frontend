@@ -122,7 +122,7 @@ function ConfirmationScreen (props) {
             <h1 style={{textAlign: "center"}}>{message}</h1>
 
             <div className="groupList">
-                <h2>Ist noch jemand mit dir da?</h2>
+                {(persons.length > 0) && <h2>Ist noch jemand mit dir da?</h2>}
                 <GroupList/>
             </div>
         </div>
