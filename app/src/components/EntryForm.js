@@ -141,6 +141,7 @@ function handleEntrySubmit(setFormData_) {
         zip: formData.zip,
         town: formData.town
     }
+
     //console.log("Submitting Entry: " + JSON.stringify(entry));
     console.log("Submitting Entry...");
 
@@ -149,7 +150,6 @@ function handleEntrySubmit(setFormData_) {
         if (entry[key] === "") {
             setErrormsg("Es müssen alle Felder ausgefüllt sein!");
             // Color all empty fields
-
             return;
         }
     }
