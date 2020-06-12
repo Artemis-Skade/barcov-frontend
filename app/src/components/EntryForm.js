@@ -81,7 +81,7 @@ function enterAdditionalPersons(mainEntry, id) {
     let promises = [];
 
     for (let person of addPersons) {
-        let entry = mainEntry;
+        let entry = JSON.parse(JSON.stringify(mainEntry));
         entry.fname = person[0];
         entry.lname = person[1];
 
