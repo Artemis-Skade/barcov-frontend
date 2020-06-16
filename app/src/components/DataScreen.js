@@ -134,7 +134,7 @@ function Settings() {
 
     return (
     <div className="SettingsMenu" style={style()}>
-        <div className="CheckBoxWrapper"><input type="checkbox" id="sendmails" className="Checkbox" value={sendMails} checked={sendMails} onClick={handleCheckClick}/> <p className="CheckboxText">Mails erhalten</p></div>
+        {false && <div className="CheckBoxWrapper"><input type="checkbox" id="sendmails" className="Checkbox" value={sendMails} checked={sendMails} onClick={handleCheckClick}/> <p className="CheckboxText">Mails erhalten</p></div>}
         <a href="/" onClick={logout}>Ausloggen</a>
     </div>);
 }
