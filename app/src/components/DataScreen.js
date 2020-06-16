@@ -68,7 +68,7 @@ function updateCompanyID() {
 
 function handleDateChange(newDate) {
     newDate = new Date(newDate.getTime() + 7200 * 1000);
-    let startDate = new Date(2020, 5, 10);
+    let startDate = new Date(2020, 5, 10, 10, 0, 0,  0);
 
     console.log(newDate);
     console.log(startDate);
