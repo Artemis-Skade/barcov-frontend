@@ -83,6 +83,7 @@ function checkIfLoggedIn(session_key) {
         console.log("Session key valid. Automatically entering store.");
 
         setScanid(res["id"]);
+        console.log("test");
 
         // Display confirmation
         window.Vars.setScreen("confirmation");

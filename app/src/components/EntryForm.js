@@ -246,7 +246,7 @@ function EntryForm (props) {
 
                 <AdditionalPersons persons={addPersons}/>
 
-                <div className="AddPersonBtn">
+                <div className="AddPersonBtn2">
                     <input className={submitBtnClassNames} type='button' value="Weitere Person hinzufügen" onClick={() => {setAddPersons(addPersons.concat([["", ""]]))}}/>
                 </div>
 

@@ -199,6 +199,27 @@ function addPerson(person) {
     setPerson(["", ""]);
 }
 
+function AddPersonWrapper(props) {
+    let submitBtnClassNames = "AddPersonBtn";
+
+    return (
+        <>
+        <div className="groupList">
+            <h2>Ist noch jemand mit dir da?</h2>
+            <GroupList/>
+        </div>
+
+        <div className="AdditionalPerson">
+            <AddPerson vorname={person[0]} nachname={person[1]}/>
+        </div>
+
+        <div className={submitBtnClassNames}>
+            <input className="EntrySubmitBtn" type='button' value="Weitere Person hinzufügen" onClick={() => {addPerson(person)}}/>
+        </div>
+    </>
+    );
+}
+
 function ConfirmationScreen (props) {
     let message = "";
     [persons, setPersons] = React.useState([]);
@@ -221,8 +242,6 @@ function ConfirmationScreen (props) {
         message = "Das Unternehmen wurde erfolgreich registriert.";
     }
 
-    let submitBtnClassNames = "EntrySubmitBtn";
-
     return(
         <div className="EntryForm">
             <audio autoPlay src={sound} type="audio/wav"/>
@@ -236,18 +255,7 @@ function ConfirmationScreen (props) {
             </div>
             <h1 style={{textAlign: "center"}}>{message}</h1>
 
-            <div className="groupList">
-                <h2>Ist noch jemand mit dir da?</h2>
-                <GroupList/>
-            </div>
-
-            <div className="AdditionalPerson">
-                <AddPerson vorname={person[0]} nachname={person[1]}/>
-            </div>
-
-            <div className="AddPersonBtn">
-                <input className={submitBtnClassNames} type='button' value="Weitere Person hinzufügen" onClick={() => {addPerson(person)}}/>
-            </div>
+            { (props.scanid !== undefined) && <AddPersonWrapper /> }
         </div>
     );
 }

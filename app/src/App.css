@@ -198,11 +198,19 @@
 }
 
 .AddPersonBtn input {
-  color: #00599c;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  background-color: #1a6ba7;
+}
+
+.AddPersonBtn2 input {
+  color: #00599c !important;
   font-size: 17px;
   font-weight: 600;
   text-decoration: underline;
-  background-color: white !important;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0) !important;
 }
 
 .AdditionalPersons {
