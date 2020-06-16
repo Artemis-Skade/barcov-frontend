@@ -185,6 +185,7 @@ function FileUpload() {
             <input
                 type="file"
                 className="UploadBtn"
+                accept="image/x-png,image/jpeg,image/jpg"
                 onChange={handleChange}
                 style={btnStyle()}
                 for="files"
@@ -207,7 +208,6 @@ function Page1() {
         <form>
             <EntryField name="cname" displayname="Name des Unternehmens"/>
             <EntryField name="street" displayname="Straße und Hausnr."/>
-            <EntryField name="state" displayname="Bundesland"/>
             <EntryField type="inline1" name="zip" displayname="PLZ"/>
             <EntryField type="inline2" name="town" displayname="Ort"/>
 

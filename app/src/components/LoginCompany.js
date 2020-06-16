@@ -24,7 +24,7 @@ function handleLoginSubmit() {
 
     // Generate hash
     const myBitArray = sjcl.hash.sha256.hash(loginData.password + ":" + loginData.email);
-    const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
+    let myHash = String(sjcl.codec.hex.fromBits(myBitArray));
 
     let data = {
         email: loginData.email,

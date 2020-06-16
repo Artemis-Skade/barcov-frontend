@@ -17,11 +17,13 @@ import DataScreen from './components/DataScreen';
 import LoginCompany from './components/LoginCompany';
 import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 import LoadingScreen from './components/LoadingScreen';
+import DiningcardScreen from './components/DiningcardScreen';
 
 let screen, setScreen;
 let storename, setStorename;
 let formData, setFormData;
 let store_id, confirmation_id;
+let scanid, setScanid;
 
 function getStoreName(store_id) {
   console.log("Store ID: " + store_id);
@@ -42,7 +44,7 @@ function getStoreName(store_id) {
 }
 
 function Screen() {
-  if (screen === "confirmation") return (<ConfirmationScreen type="entry"/>);
+  if (screen === "confirmation") return (<ConfirmationScreen type="entry" scanid={scanid}/>);
   if (screen === "confirmationwithregistration") return (<><ConfirmationScreen type="entry"/><RegisterScreen formData={formData}/></>);
   if (screen === "registrationsuccess") return (<ConfirmationScreen type="register"/>);
   if (screen === "login") return (<LoginScreen />);
@@ -54,6 +56,7 @@ function Screen() {
   if (screen === "logincompany") return (<LoginCompany />);
   if (screen === "privacypolicyscreen") return (<PrivacyPolicyScreen />);
   if (screen === "loading") return (<LoadingScreen />);
+  if (screen === "speisekarte") return (<DiningcardScreen />);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
@@ -79,6 +82,8 @@ function checkIfLoggedIn(session_key) {
         // Session Key is valid
         console.log("Session key valid. Automatically entering store.");
 
+        setScanid(res["id"]);
+
         // Display confirmation
         window.Vars.setScreen("confirmation");
       } else {
@@ -93,6 +98,7 @@ function App() {
   [screen, setScreen] = React.useState("entry");
   [storename, setStorename] = React.useState("Loading...");
   [formData, setFormData] = React.useState("None");
+  [scanid, setScanid] = React.useState();
   const [sessionKey, setSessionKey] = React.useState("not-fetched");
   const cookies = new Cookies();
 
@@ -103,6 +109,7 @@ function App() {
     if (domain === "localhost") {
       domain = "barcov.id";
     }
+    
     window.Vars = {
       domain: domain,
       store_id: store_id,

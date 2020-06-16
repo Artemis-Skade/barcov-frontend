@@ -216,6 +216,14 @@
   transition-duration: 0.2s;
 }
 
+.AdditionalPerson {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin-top: 50px;
+  transition-duration: 0.2s;
+}
+
 .AddPerson {
   padding: 20px;
   padding-top: 5px;

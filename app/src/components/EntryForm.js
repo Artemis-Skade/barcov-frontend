@@ -77,10 +77,10 @@ function AdditionalPersons (props) {
         </div>);
 } 
 
-function enterAdditionalPersons(mainEntry, id) {
+function enterAdditionalPersons(finalAddPersons, mainEntry, id) {
     let promises = [];
 
-    for (let person of addPersons) {
+    for (let person of finalAddPersons) {
         let entry = JSON.parse(JSON.stringify(mainEntry));
         entry.fname = person[0];
         entry.lname = person[1];
@@ -149,7 +149,22 @@ function handleEntrySubmit(setFormData_) {
     for (let key of Object.keys(entry)) {
         if (entry[key] === "") {
             setErrormsg("Es müssen alle Felder ausgefüllt sein!");
-            // Color all empty fields
+            return;
+        }
+    }
+
+    // Check if additional person fields are completed
+    let finalAddPersons = addPersons.slice();
+
+    for (let person of addPersons) {
+        if (person[0] !== "" && person[1] !== "") {
+            // add person to be processed bc both fields are filled out
+            finalAddPersons.push(person);
+        } else if (person[0] === "" && person[1] === "") {
+            // Neglect this person as there was no field filled out
+        } else {
+            // Only one field was filles out. show error msg
+            setErrormsg("Es müssen alle Felder für die weiteren Personen ausgefüllt sein!");
             return;
         }
     }
@@ -165,12 +180,12 @@ function handleEntrySubmit(setFormData_) {
     }).then(res => res.json()).then(res => {
         // Send other persons if applicable
         if (addPersons.length > 0) {
-            enterAdditionalPersons(entry, res["id"]);
+            enterAdditionalPersons(finalAddPersons, entry, res["id"]);
         }
         console.log(res);
         window.Vars.setScreen("confirmationwithregistration");
     }).catch(err => {
-        console.log(err)
+        console.log(err);
         setErrormsg("Fehler beim Eintragen. Bitte überprüfe deine Internetverbindung oder versuche es später noch einmal.");
     });
 }
@@ -232,7 +247,7 @@ function EntryForm (props) {
                 <AdditionalPersons persons={addPersons}/>
 
                 <div className="AddPersonBtn">
-                    <input className={submitBtnClassNames} type='button' value="Person hinzufügen" onClick={() => {setAddPersons(addPersons.concat([["", ""]]))}}/>
+                    <input className={submitBtnClassNames} type='button' value="Weitere Person hinzufügen" onClick={() => {setAddPersons(addPersons.concat([["", ""]]))}}/>
                 </div>
 
                 <div className="CheckboxWrapper">
