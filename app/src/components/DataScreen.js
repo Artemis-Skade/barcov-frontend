@@ -68,12 +68,14 @@ function updateCompanyID() {
 
 function handleDateChange(newDate) {
     newDate = new Date(newDate.getTime() + 7200 * 1000);
-    let startDate = Date.parse(new Date(2020, 6, 10));
+    let startDate = new Date(2020, 5, 10);
+
+    console.log(newDate);
+    console.log(startDate);
 
     if (startDate > newDate) {
         console.log("Date too long away. Setting new date to 06/10/2020");
         newDate = startDate;
-        return;
     }
 
     setDate(newDate);

@@ -237,7 +237,7 @@ function ConfirmationScreen (props) {
             <h1 style={{textAlign: "center"}}>{message}</h1>
 
             <div className="groupList">
-                {(persons.length > 0) && <h2>Ist noch jemand mit dir da?</h2>}
+                <h2>Ist noch jemand mit dir da?</h2>
                 <GroupList/>
             </div>
 
@@ -246,7 +246,7 @@ function ConfirmationScreen (props) {
             </div>
 
             <div className="AddPersonBtn">
-                <input className={submitBtnClassNames} type='button' value="Neue Person hinzufügen" onClick={() => {addPerson(person)}}/>
+                <input className={submitBtnClassNames} type='button' value="Weitere Person hinzufügen" onClick={() => {addPerson(person)}}/>
             </div>
         </div>
     );
