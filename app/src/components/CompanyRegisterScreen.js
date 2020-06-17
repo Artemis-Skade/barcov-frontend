@@ -15,12 +15,26 @@ let otherAddress, setOtherAddress;
 let setPrivacyConfirmed, privacyConfirmed;
 let setAgbConfirmed, agbConfirmed;
 let submitted, setSubmitted;
+let prices, setPrices;
+let count, setCount;
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
     let newRegisterData = registerData;
     newRegisterData[name] = event.target.value;
     setRegisterData(newRegisterData);
+
+    if (name === "count") {
+        // Update price
+        console.log("Updated price");
+        let tmp = prices;
+        let count_ = parseInt(event.target.value);
+        setCount(count_);
+        if (count_ > 5) {
+            tmp[0] = 19.9 + count_ * 1.5;
+        }
+        setPrices(tmp);
+    }
 }
 
 function handleRegisterSubmit(formData) {
@@ -83,6 +97,9 @@ function handleRegisterSubmit(formData) {
         // Make base64 string conform
         base64data = base64data.split(',')[1];
 
+        let A4_count = count;
+        let A5_count = 0;
+
         let data = {
             name: registerData.cname,
             zip: registerData.zip,
@@ -99,7 +116,12 @@ function handleRegisterSubmit(formData) {
             image_type: typeName,
             discount: discount_code,
             trial: test_code,
-            count: registerData.count,
+            rname: registerData.rcname,
+            rzip: registerData.rzip,
+            rtown: registerData.rtown,
+            rstreet: registerData.rstreet,
+            A4_count: A4_count,
+            A5_count: A5_count,
         };
     
         //Object.assign(data, formData);
@@ -306,7 +328,7 @@ function Page2() {
     );
 }
 
-function Page3(disabled) {
+function Page3(disabled, prices) {
     console.log("Reloading page");
 
     let style = "EntrySubmitBtn EntrySubmitBtnCompany";
@@ -349,7 +371,7 @@ function Page3(disabled) {
                     <input
                         type="number"
                         name="count"
-                        value="5"
+                        value={count}
                         onChange={e => handleFieldChange("count", e)}
                     />
                 </div>
@@ -363,9 +385,11 @@ function Page3(disabled) {
                 </div>
 
                 <div className="price">
-                    <h3>Preise exkl. MwSt.:</h3>
-                    <p>Einrichtungsgebühr: <strong>19,99 €</strong></p>
-                    <p>Monatliche Kosten: <strong>9,99 €</strong></p>
+                    <h3>Entstehende Kosten:</h3>
+                    <p>Einrichtungsgebühr: <strong>{prices[0].toFixed(2).replace(".", ",")} €</strong></p>
+                    <p>Monatliche Kosten: <strong>9,90 €</strong></p>
+                    <br />
+                    <p>Erster Rechnungsbetrag: <strong>{(prices[0] * 1.19).toFixed(2)} € (inkl. MwSt)</strong></p>
                 </div>
 
                 <p className="ErrorMsg">{errmsg}</p>
@@ -394,7 +418,6 @@ function CompanyRegisterScreen (props) {
         email: "",
         password1: "",
         password2: "",
-        count: "",
     });
 
     [pagenr, setPagenr] = React.useState(0);
@@ -404,13 +427,15 @@ function CompanyRegisterScreen (props) {
     [submitted, setSubmitted] = React.useState(false);
     [agbConfirmed, setAgbConfirmed] = React.useState(false);
     [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
+    [prices, setPrices] = React.useState([19.9, 9.9]);
+    [count, setCount] = React.useState(5);
 
     return(
         <div className="EntryForm">
             <h1>Unternehmensregistrierung</h1>
             {pagenr === 0 && Page1()}
             {pagenr === 1 && Page2()}
-            {pagenr === 2 && Page3(submitted)}
+            {pagenr === 2 && Page3(submitted, prices)}
         </div>
     );
 }
