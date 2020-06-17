@@ -140,7 +140,10 @@ function App() {
     } else if (pathname.slice(0, 4) === "data") {
       setScreen("datascreen");
       console.log("Data Screen");
-    } else {
+    } else if (pathname.slice(0, 4) === "menu") {
+      setScreen("speisekarte");
+      console.log("Speisekarte");
+    }else {
       let store_id = pathname;
       window.Vars.store_id = store_id;
       getStoreName(store_id); // Fetch store name from server

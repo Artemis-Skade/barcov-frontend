@@ -305,3 +305,14 @@
 .GroupPersonActivated {
   background-color: #43a047;
 }
+
+.CheckboxWrapper2 {
+  margin-top: 170px;
+}
+
+.rechnungsAdresse {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  height: 120px;
+}

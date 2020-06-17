@@ -154,7 +154,7 @@ function handleEntrySubmit(setFormData_) {
     }
 
     // Check if additional person fields are completed
-    let finalAddPersons = addPersons.slice();
+    let finalAddPersons = [];
 
     for (let person of addPersons) {
         if (person[0] !== "" && person[1] !== "") {

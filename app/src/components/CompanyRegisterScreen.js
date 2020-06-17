@@ -11,6 +11,10 @@ let registerData, setRegisterData;
 let pagenr, setPagenr;
 let errmsg, setErrmsg;
 let image, setImage;
+let otherAddress, setOtherAddress;
+let setPrivacyConfirmed, privacyConfirmed;
+let setAgbConfirmed, agbConfirmed;
+let submitted, setSubmitted;
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
@@ -27,7 +31,19 @@ function handleRegisterSubmit(formData) {
         return;
     }
 
+    if (!privacyConfirmed || !agbConfirmed) {
+        alert("Bestätigen Sie zuerst die AGBs und Datenschutzerklärung");
+        return;
+    }
+
+    if (submitted) {
+        // Already submitted
+        console.log("Already submitted");
+        return;
+    }
+
     console.log("Submitted Company Register");
+    setSubmitted(true);
 
     const myBitArray = sjcl.hash.sha256.hash(registerData.password1 + ":" + registerData.email.toLowerCase());
     const myHash = String(sjcl.codec.hex.fromBits(myBitArray));
@@ -36,12 +52,26 @@ function handleRegisterSubmit(formData) {
 
     // Read out company ID if present
     let pathname = window.location.pathname;
+    console.log("pathname: " + pathname);
     let company_id = "None";
+    let discount_code = "None";
+    let test_code = "None";
 
-    if (pathname.length > 12) {
-        company_id = pathname.slice(9, 17); 
-        console.log("" + company_id);
+    let codes = pathname.split("/");
+
+    for (let code of codes) {
+        if (code.length === 8) {
+            company_id = code;
+        } else if (code.length === 10) {
+            discount_code = code;
+        } else if (code.length === 12) {
+            test_code = code;
+        }
     }
+
+    console.log("Company ID: " + company_id);
+    console.log("Discount Code: " + discount_code);
+    console.log("Test Code: " + test_code);
 
     getBase64(image.raw, (base64data) => {
         let typeName = "png";
@@ -67,6 +97,9 @@ function handleRegisterSubmit(formData) {
             id: company_id,
             logo: base64data,
             image_type: typeName,
+            discount: discount_code,
+            trial: test_code,
+            count: registerData.count,
         };
     
         //Object.assign(data, formData);
@@ -81,7 +114,8 @@ function handleRegisterSubmit(formData) {
         }).then(res => res.json()).then(res => {
             console.log("Registering company:");
             console.log(res);
-    
+            setSubmitted(false);
+            
             // Check if registration was successful
             if (res["success"]) {
                 window.Vars.setScreen("registrationcompanysuccess");
@@ -115,7 +149,7 @@ function handlePageSubmit() {
 
     // Check if all fields are filled out
     if (pagenr === 0) {
-        if (registerData.cname === "" || registerData.zip === "" || registerData.town === "" || registerData.street === "") {
+        if ((registerData.cname === "" || registerData.rcname === "" || registerData.zip === "" || registerData.town === "" || registerData.street === "") || (otherAddress && (registerData.rzip === "" || registerData.rtown === "" || registerData.rstreet === ""))) {
             // Not completed
             setErrmsg("Es müssen alle Felder ausgefüllt sein!");
             return;
@@ -201,15 +235,45 @@ function FileUpload() {
     );
 }
 
+function toggleCheckbox(name) {
+
+    if (name === "raddress") {
+        setOtherAddress(!otherAddress);
+
+        if (otherAddress) {
+            // Clear data
+            let tmp = registerData;
+            tmp.rzip = "";
+            tmp.rtown = "";
+            tmp.rstreet = "";
+        }
+    } else if (name === "agb") {
+        setAgbConfirmed(!agbConfirmed);
+    } else {
+        setPrivacyConfirmed(!privacyConfirmed);
+    }
+}
+
 function Page1() {
     return (
         <>
         <h2>Schritt 1: Unternehmensdaten</h2>
         <form>
-            <EntryField name="cname" displayname="Name des Unternehmens"/>
+            <EntryField name="cname" displayname="Kurzname des Betriebs"/>
+            <EntryField name="rcname" displayname="Rechtlicher Name des Betriebs"/>
             <EntryField name="street" displayname="Straße und Hausnr."/>
             <EntryField type="inline1" name="zip" displayname="PLZ"/>
             <EntryField type="inline2" name="town" displayname="Ort"/>
+
+            <div className="CheckboxWrapper CheckboxWrapper2">
+                <input type="checkbox" id="otheraddress" className="Checkbox_" value={otherAddress} checked={otherAddress} onClick={() => toggleCheckbox("raddress")}/> <p className="CheckboxText_">Abweichende Rechnungsadresse</p>
+            </div>
+
+            {otherAddress && <div className="rechnungsAdresse">
+                <EntryField name="rstreet" displayname="Straße und Hausnr."/>
+                <EntryField type="inline1" name="rzip" displayname="PLZ"/>
+                <EntryField type="inline2" name="rtown" displayname="Ort"/>
+            </div>}
 
             <FileUpload />
 
@@ -242,7 +306,15 @@ function Page2() {
     );
 }
 
-function Page3() {
+function Page3(disabled) {
+    console.log("Reloading page");
+
+    let style = "EntrySubmitBtn EntrySubmitBtnCompany";
+
+    if (disabled) {
+        style += " EntrySubmitBtnDeactivated";
+    }
+
     return (
         <>
         <h2>Schritt 3: Benutzerkonto</h2>
@@ -272,10 +344,34 @@ function Page3() {
                     />
                 </div>
 
+                <div className="EntryField SmallField">
+                    <p>Wieviele Auslegeblätter sollen wir ihnen zuschicken? (5 inklusive)</p>
+                    <input
+                        type="number"
+                        name="count"
+                        value="5"
+                        onChange={e => handleFieldChange("count", e)}
+                    />
+                </div>
+
+                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
+                    <input type="checkbox" id="agb" className="Checkbox_" value={agbConfirmed} checked={agbConfirmed} onClick={() => toggleCheckbox("agb")}/> <p className="CheckboxText_">Ich habe die <a href="/agb"><strong>Allgemeinen Geschäftsbedingungen</strong></a> gelesen und stimme zu.</p>
+                </div>
+
+                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3 CheckboxWrapper4">
+                    <input type="checkbox" id="privacy" className="Checkbox_" value={privacyConfirmed} checked={privacyConfirmed} onClick={() => toggleCheckbox("privacy")}/> <p className="CheckboxText_">Ich habe die <a href="/privacy"><strong>Datenschutzerklärung</strong></a> gelesen und stimme zu.</p>
+                </div>
+
+                <div className="price">
+                    <h3>Preise exkl. MwSt.:</h3>
+                    <p>Einrichtungsgebühr: <strong>19,99 €</strong></p>
+                    <p>Monatliche Kosten: <strong>9,99 €</strong></p>
+                </div>
+
                 <p className="ErrorMsg">{errmsg}</p>
 
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn EntrySubmitBtnCompany" type='button' value="Unternehmen registrieren" onClick={handlePageSubmit}/>
+                    <input className={style} type='button' value="Kaufen" onClick={handlePageSubmit}/>
                 </div>
             </form>
         </>
@@ -285,27 +381,36 @@ function Page3() {
 function CompanyRegisterScreen (props) {
     [registerData, setRegisterData] = React.useState({
         cname: "",
+        rcname: "",
         zip: "",
         town: "",
         street: "",
+        rzip: "",
+        rtown: "",
+        rstreet: "",
         fname: "",
         lname: "",
         mobile: "",
         email: "",
         password1: "",
         password2: "",
+        count: "",
     });
 
     [pagenr, setPagenr] = React.useState(0);
     [errmsg, setErrmsg] = React.useState("");
     [image, setImage] = React.useState({ preview: "", raw: ""});
+    [otherAddress, setOtherAddress] = React.useState(false);
+    [submitted, setSubmitted] = React.useState(false);
+    [agbConfirmed, setAgbConfirmed] = React.useState(false);
+    [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
 
     return(
         <div className="EntryForm">
             <h1>Unternehmensregistrierung</h1>
             {pagenr === 0 && Page1()}
             {pagenr === 1 && Page2()}
-            {pagenr === 2 && Page3()}
+            {pagenr === 2 && Page3(submitted)}
         </div>
     );
 }
