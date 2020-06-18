@@ -30,8 +30,8 @@ function handleFieldChange(name, event) {
         let tmp = prices;
         let count_ = parseInt(event.target.value);
         setCount(count_);
-        if (count_ > 5) {
-            tmp[0] = 19.9 + count_ * 1.5;
+        if (count_ >= 5) {
+            tmp[0] = 19.9 + (count_ - 5) * 1.5;
         }
         setPrices(tmp);
     }
@@ -53,7 +53,7 @@ function handleRegisterSubmit(formData) {
     if (submitted) {
         // Already submitted
         console.log("Already submitted");
-        return;
+        //return;
     }
 
     console.log("Submitted Company Register");
@@ -367,7 +367,9 @@ function Page3(disabled, prices) {
                 </div>
 
                 <div className="EntryField SmallField">
-                    <p>Wieviele Auslegeblätter sollen wir ihnen zuschicken? (5 inklusive)</p>
+                    <br />
+                    <p>Wir schicken Ihnen laminierte Flyer mit QR-Code in höchster Qualität zu.</p>
+                    <p>Wie viele Flyer sollen wir ihnen zuschicken? (5 Stück sind im Paket inklusive dabei. Danach 1,50 € / Stück)</p>
                     <input
                         type="number"
                         name="count"
@@ -385,11 +387,12 @@ function Page3(disabled, prices) {
                 </div>
 
                 <div className="price">
-                    <h3>Entstehende Kosten:</h3>
-                    <p>Einrichtungsgebühr: <strong>{prices[0].toFixed(2).replace(".", ",")} €</strong></p>
+                    <h3>Entstehende Kosten (exkl. 19 % MwSt):</h3>
+                    <p>Einrichtungsgrundgebühr: <strong>19,90 €</strong></p>
+                    <p>Aufpreis für Ausdrucke: <strong>{(prices[0] - 19.9).toFixed(2).replace(".", ",")} €</strong></p>
                     <p>Monatliche Kosten: <strong>9,90 €</strong></p>
                     <br />
-                    <p>Erster Rechnungsbetrag: <strong>{(prices[0] * 1.19).toFixed(2)} € (inkl. MwSt)</strong></p>
+                    <p>Erster Rechnungsbetrag: <strong>{(prices[0] * 1.19).toFixed(2)} € (inkl. 19 % MwSt)</strong></p>
                 </div>
 
                 <p className="ErrorMsg">{errmsg}</p>

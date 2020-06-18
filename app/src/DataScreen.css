@@ -22,7 +22,6 @@
 .Row {
     background-color: #fff;
     width: 100%;
-    height: 40px;
     margin-bottom: 10px;
     color: #333;
     flex-wrap: wrap;
@@ -43,7 +42,6 @@
     margin: 1px;
     font-size: 15px;
     flex: 1 1;
-    line-height: 0px;
 }
 
 .Column:nth-child(4) {
