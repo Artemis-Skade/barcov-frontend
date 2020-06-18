@@ -53,7 +53,7 @@ function handleRegisterSubmit(formData) {
     if (submitted) {
         // Already submitted
         console.log("Already submitted");
-        //return;
+        return;
     }
 
     console.log("Submitted Company Register");
@@ -99,6 +99,12 @@ function handleRegisterSubmit(formData) {
 
         let A4_count = count;
         let A5_count = 0;
+
+        if (registerData.rzip === "" || registerData.rzip === "None") {
+            registerData.rzip = registerData.zip;
+            registerData.rtown = registerData.town;
+            registerData.rstreet = registerData.street;
+        }
 
         let data = {
             name: registerData.cname,
