@@ -247,7 +247,7 @@ function FileUpload() {
             <input
                 type="file"
                 className="UploadBtn"
-                accept="image/x-png,image/jpeg,image/jpg"
+                accept="image/x-png,image/png,image/jpeg,image/jpg"
                 onChange={handleChange}
                 style={btnStyle()}
                 for="files"

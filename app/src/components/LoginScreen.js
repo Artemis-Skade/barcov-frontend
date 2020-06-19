@@ -71,14 +71,14 @@ function handleLoginSubmit() {
                         setErrMsg(ret_[1]);
                     } else {
                         // Successful
-                        cookies.set('sessionKey', ret_[1], {path: "/"});
+                        cookies.set('sessionKey', ret_[1], {path: "/", secure: true});
                         window.Vars.setScreen("confirmation");
                     }
                 });
             }
         } else {
             // Successful
-            cookies.set('sessionKey', ret[1], {path: "/"});
+            cookies.set('sessionKey', ret[1], {path: "/", secure: true});
             window.Vars.setScreen("confirmation");
         }
     })
