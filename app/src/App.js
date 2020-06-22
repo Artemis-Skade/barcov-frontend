@@ -18,6 +18,7 @@ import LoginCompany from './components/LoginCompany';
 import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 import LoadingScreen from './components/LoadingScreen';
 import DiningcardScreen from './components/DiningcardScreen';
+import AGBScreen from './components/AGBScreen';
 
 let screen, setScreen;
 let storename, setStorename;
@@ -52,6 +53,7 @@ function Screen() {
   if (screen === "companyregistration") return (<CompanyRegisterScreen />);
   if (screen === "registrationcompanysuccess") return (<ConfirmationScreen type="companyregister"/>);
   if (screen === "impressumscreen") return (<ImpressumScreen />);
+  if (screen === "agbscreen") return (<AGBScreen />);
   if (screen === "datascreen") return (<DataScreen />);
   if (screen === "logincompany") return (<LoginCompany />);
   if (screen === "privacypolicyscreen") return (<PrivacyPolicyScreen />);
@@ -137,13 +139,16 @@ function App() {
     } else if (pathname.slice(0, 13) === "privacypolicy") {
       setScreen("privacypolicyscreen");
       console.log("Privacy Policy");
+    } else if (pathname.slice(0, 3) === "agb") {
+      setScreen("agbscreen");
+      console.log("AGB");
     } else if (pathname.slice(0, 4) === "data") {
       setScreen("datascreen");
       console.log("Data Screen");
     } else if (pathname.slice(0, 4) === "menu") {
       setScreen("speisekarte");
       console.log("Speisekarte");
-    }else {
+    } else {
       let store_id = pathname;
       window.Vars.store_id = store_id;
       getStoreName(store_id); // Fetch store name from server

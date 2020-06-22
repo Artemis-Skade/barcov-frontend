@@ -17,6 +17,7 @@ let setAgbConfirmed, agbConfirmed;
 let submitted, setSubmitted;
 let prices, setPrices;
 let count, setCount;
+let refPoint;
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
@@ -211,7 +212,6 @@ function handlePageSubmit() {
     } else {
         handleRegisterSubmit(registerData);
     }
-
 }
 
 function handleChange(e) {
@@ -222,6 +222,10 @@ function handleChange(e) {
           preview: URL.createObjectURL(e.target.files[0]),
           raw: e.target.files[0]
         });
+
+        // Scroll to picture
+        console.log(refPoint.current);
+        window.scrollTo(0, refPoint.current.offsetTop);
     }
 }
 
@@ -239,6 +243,8 @@ function getBase64(file, callback) {
 
 function FileUpload() {
     let style = () => {if (image.raw === "") { return {display: "none"} } else { return {display: "block"} }};
+    let stylePreview = () => {if (image.raw === "") { return {opacity: 0.2} } else { return {opacity: 1} }};
+
     let btnStyle = () => {if (image.raw === "") { return {margin: 0} } else { return {} }};
 
     return (
@@ -253,7 +259,7 @@ function FileUpload() {
                 for="files"
             />
             <p>Logo hochladen</p>
-            <div className="UploadPreview" style={style()}>
+            <div className="UploadPreview" ref={refPoint} style={stylePreview()}>
                 <img src={flyerpreview}/>
                 <img src={image.preview} className="Logoimgcenter"/>
                 <img src={image.preview} className="Logoimgcorner"/>
@@ -303,7 +309,7 @@ function Page1() {
                 <EntryField type="inline2" name="rtown" displayname="Ort"/>
             </div>}
 
-            <FileUpload />
+            <FileUpload/>
 
             <p className="ErrorMsgOffset ErrorMsg">{errmsg}</p>
 
@@ -438,6 +444,8 @@ function CompanyRegisterScreen (props) {
     [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
     [prices, setPrices] = React.useState([19.9, 9.9]);
     [count, setCount] = React.useState(5);
+
+    refPoint = React.useRef(null);
 
     return(
         <div className="EntryForm">

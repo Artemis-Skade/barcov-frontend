@@ -32,6 +32,10 @@
     overflow: hidden;
 }
 
+.SubmitCompany {
+    margin-top: -130px !important;
+}
+
 .UploadBtn {
     width: 200px;
     float: left;
@@ -134,8 +138,9 @@
 }
 
 .SmallField {
-    height: 100px;
-    margin-bottom: 110px;
+    height: fit-content;
+    overflow: hidden;
+    margin-bottom: 80px;
 }
 
 .SmallField p {

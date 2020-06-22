@@ -153,11 +153,19 @@ function handleEntrySubmit(setFormData_) {
         }
     }
 
+    // Remove trailing spaced from entry fields
+    for (let key of Object.keys(entry)) {
+        entry[key] = entry[key].trim();
+    }
+
     // Check if additional person fields are completed
     let finalAddPersons = [];
 
     for (let person of addPersons) {
         if (person[0] !== "" && person[1] !== "") {
+            person[0] = person[0].trim();
+            person[1] = person[1].trim();
+            
             // add person to be processed bc both fields are filled out
             finalAddPersons.push(person);
         } else if (person[0] === "" && person[1] === "") {
