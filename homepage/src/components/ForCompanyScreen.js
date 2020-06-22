@@ -1,6 +1,7 @@
 import React from 'react';
 import { Player } from 'video-react';
 import tutorial from "../assets/video/tutorial.mp4";
+import starterpaket from "../assets/img/starterpaket.png";
 
 import '../App.css';
 
@@ -13,20 +14,30 @@ function ForCompanyScreen () {
                 </source>
             </video>
             <h2 className="companyH2">Erklärvideo – Erstellt von <strong><a href="https://epic-film.de">e.pic. Film</a></strong></h2>
-            
-            <a href="/company" style={{textDecoration: "none"}}>
-                <div className="companyRegisterBtn">
-                    <p>Jetzt Betrieb einrichten</p>
+
+            <div className="Section">
+                <div className="SectionLeft">
+                    <h1>Checkin und -Out per Scan</h1>
+
+                    <p>BarCov erfasst durch das Scannen des QR-Codes beim Kommen und Gehen die Kontaktdaten Ihrer Kunden und übermittelt diese verschlüsselt an unseren Server. 
+                    Dabei kann sich der Kunde frei zwischen einer einmaligen Anmeldung oder einer Registrierung entscheiden. Wird ein Konto erstellt, ist der Benutzer auch beim Scannen eines Codes in anderen Betrieben, die unseren Service beanspruchen, ohne ein erneutes Eingeben der Daten sofort angemeldet. Die Daten Ihrer Kunden sind geschützt und können nicht von Dritten eingesehen werden oder verloren gehen. In Sekundenschnelle sind so die Coronaauflagen erfüllt, ganz ohne Stift und Papier. </p>
+
+                    <p>Nach Betriebsende wird dem Unternehmensleiter per E-Mail eine Exceltabelle geschickt. Diese umfasst einen Tagesplan, indem die Daten ihrer Gäste geordnet aufgelistet sind. </p>
                 </div>
-            </a>
 
-            <div className="companyTeaser">
-                <h1>Checkin und -Out per Scan</h1>
-
-                <p>BarCov erfasst durch das Scannen des QR-Codes beim Kommen und Gehen die Kontaktdaten Ihrer Kunden und übermittelt diese verschlüsselt an unseren Server. 
-                Dabei kann sich der Kunde frei zwischen einer einmaligen Anmeldung oder einer Registrierung entscheiden. Wird ein Konto erstellt, ist der Benutzer auch beim Scannen eines Codes in anderen Betrieben, die unseren Service beanspruchen, ohne ein erneutes Eingeben der Daten sofort angemeldet. Die Daten Ihrer Kunden sind geschützt und können nicht von Dritten eingesehen werden oder verloren gehen. In Sekundenschnelle sind so die Coronaauflagen erfüllt, ganz ohne Stift und Papier. </p>
-
-                <p>Nach Betriebsende wird dem Unternehmensleiter per E-Mail eine Exceltabelle geschickt. Diese umfasst einen Tagesplan, indem die Daten ihrer Gäste geordnet aufgelistet sind. </p>
+                
+                <div className="SectionRight">
+                    <img src={starterpaket}/>
+                    <h2>Preise (exkl. MwSt.):</h2>
+                    <p className="price">Einmalige Gebühr: 19,90 €</p>
+                    <p className="price">Monatliche Gebühr: 9,90 €</p>
+                    <p>Der Vertrag ist jederzeit fristlos kündbar.</p>
+                    <a href="/company" style={{textDecoration: "none"}}>
+                        <div className="companyRegisterBtn">
+                            <p>Jetzt Betrieb einrichten</p>
+                        </div>
+                    </a>
+                </div>
             </div>
 
             <div className="companyFAQ">

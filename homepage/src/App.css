@@ -110,7 +110,7 @@
 }
 
 .companyRegisterBtn {
-  width: 50%;
+  width: 100%;
   height: 40px;
   background-color: #1f5db9;
   border-radius: 10px;
@@ -366,6 +366,24 @@
   display: none;
 } 
 
+.Section {
+  width: 100%;
+}
+
+.SectionLeft {
+  float: left;
+  width: 50%;
+}
+
+.SectionRight {
+  float: left;
+  width: 50%;
+}
+
+.SectionRight img {
+  width: 100%;
+}
+
 @media (max-width: 800px) {
   .MenuBurger {
     display: block;
@@ -430,10 +448,11 @@
 
   /* Company page */
   .companyRegisterBtn {
-    width: calc(100% - 40px);
+    width: 100%;
     font-size: 25px;
     padding-top: 26px;
   }
+
   .companyH2 {
     font-size: 18px;
   }

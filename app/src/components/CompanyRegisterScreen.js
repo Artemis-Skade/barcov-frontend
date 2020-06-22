@@ -137,7 +137,7 @@ function handleRegisterSubmit(formData) {
         fetch('https://' + window.Vars.domain + ':5000/company_register', {
             method: 'POST',
             headers: {
-                "Content-Type": "text/plain"
+                "Content-Type": "text/plain; charset=utf-8"
             },
             body: JSON.stringify(data)
         }).then(res => res.json()).then(res => {
