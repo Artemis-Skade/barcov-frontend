@@ -86,8 +86,8 @@ function LoginCompany () {
                 <div className="EntrySubmit">
                     <input className="EntrySubmitBtn EntrySubmitBtnCompany" type='button' value="Anmelden" onClick={() => {handleLoginSubmit();}}/>
                 </div>
+                <p>Registrieren Sie ihren eigenen Betrieb <a href="/unternehmen">hier</a>!</p>
                 <br />
-                <p>Registrieren Sie ihren eigenen Betrieb <a href="/company">hier</a>!</p>
             </form>
         </div>
     );

@@ -1,4 +1,5 @@
 import React from 'react';
+import teampic from "../assets/img/team.jpg";
 
 import '../App.css';
 
@@ -7,13 +8,9 @@ function TeamScreen () {
         <div className="Wrapper">
             <h1>Team</h1>
             
-            <ul>
-                <li>Kimberly Hellen</li>
-                <li>Max Schild</li>
-                <li>Jonathan Fritz</li>
-                <li>Christopher Fritz</li>
-                <li>Max von Wolff</li>
-            </ul>
+            <img src={teampic} className="teampic"/>
+            
+            <h2 className="teamdesc">V.l.n.r.: Max Schild, Kimberly Hellen, Max von Wolff, Jonathan Fritz, Christopher Fritz</h2>
         </div>
     );
 }

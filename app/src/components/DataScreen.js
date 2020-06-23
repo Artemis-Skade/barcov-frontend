@@ -181,7 +181,7 @@ function dateToDetailedString(date) {
 function downloadFile() {
     const cookies = new Cookies();
 
-    if(!window.confirm("Ich stimme der Datenschutzerklärung zu und werde die Personendaten nach spätestens 4 Wochen vernichten.")) {
+    if(!window.confirm("Ich stimme der Datenschutzerklärung zu und werde die Personendaten nach spätestens einem Monat nach Erhebungszeitpunkt vernichten.")) {
         return;
     }
 

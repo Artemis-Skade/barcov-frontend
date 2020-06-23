@@ -2,6 +2,7 @@ import React from 'react';
 import { Player } from 'video-react';
 import tutorial from "../assets/video/tutorial.mp4";
 import starterpaket from "../assets/img/starterpaket.png";
+import checkmark from "../assets/img/checkmark.png";
 
 import '../App.css';
 
@@ -16,27 +17,43 @@ function ForCompanyScreen () {
             <h2 className="companyH2">Erklärvideo – Erstellt von <strong><a href="https://epic-film.de">e.pic. Film</a></strong></h2>
 
             <div className="Section">
-                <div className="SectionLeft">
-                    <h1>Checkin und -Out per Scan</h1>
-
-                    <p>BarCov erfasst durch das Scannen des QR-Codes beim Kommen und Gehen die Kontaktdaten Ihrer Kunden und übermittelt diese verschlüsselt an unseren Server. 
-                    Dabei kann sich der Kunde frei zwischen einer einmaligen Anmeldung oder einer Registrierung entscheiden. Wird ein Konto erstellt, ist der Benutzer auch beim Scannen eines Codes in anderen Betrieben, die unseren Service beanspruchen, ohne ein erneutes Eingeben der Daten sofort angemeldet. Die Daten Ihrer Kunden sind geschützt und können nicht von Dritten eingesehen werden oder verloren gehen. In Sekundenschnelle sind so die Coronaauflagen erfüllt, ganz ohne Stift und Papier. </p>
-
-                    <p>Nach Betriebsende wird dem Unternehmensleiter per E-Mail eine Exceltabelle geschickt. Diese umfasst einen Tagesplan, indem die Daten ihrer Gäste geordnet aufgelistet sind. </p>
-                </div>
-
-                
                 <div className="SectionRight">
                     <img src={starterpaket}/>
-                    <h2>Preise (exkl. MwSt.):</h2>
-                    <p className="price">Einmalige Gebühr: 19,90 €</p>
-                    <p className="price">Monatliche Gebühr: 9,90 €</p>
-                    <p>Der Vertrag ist jederzeit fristlos kündbar.</p>
+                    <h2>BarCov Starterpaket</h2>
+                    <p>Enthält:</p>
+                    <ul>
+                        <li>5 Auslegeflyer mit QR-Code mit inbegriffen</li>
+                        <li>Online-Zugriff auf Daten mit Download-Funktion</li>
+                        <li>Online-Speisekarte und Social Media</li>
+                        <li>24/7 Kundenservice</li>
+                    </ul>
+
+                    <br />
+
+                    <h2>Preise</h2>
+                    <p className="price">Einmalige Gebühr: <strong>19,90 €</strong> (zzgl. 19 % MwSt.)</p>
+                    <p className="price">Monatliche Gebühr: <strong>9,90 €</strong> (zzgl. 19 % MwSt.)</p>
+                    <br />
+                    <img src={checkmark} className="checkmark"/><p className="checkmark_p">Jederzeit fristlos kündbar</p><br />
+                    <img src={checkmark} className="checkmark"/><p className="checkmark_p">Zwei Wochen Geld-zurück-Garantie</p>
+                    
                     <a href="/company" style={{textDecoration: "none"}}>
                         <div className="companyRegisterBtn">
                             <p>Jetzt Betrieb einrichten</p>
                         </div>
                     </a>
+                </div>
+
+                <div className="SectionLeft">
+                    <h1>Das ist BarCov</h1>
+
+                    <p>BarCov erfasst durch das Scannen des QR-Codes beim Kommen und Gehen die Kontaktdaten Ihrer Kunden und übermittelt diese verschlüsselt an unseren Server. </p>
+
+                    <p>Dabei kann sich der Kunde frei zwischen einer einmaligen Anmeldung oder einer Registrierung entscheiden. Wird ein Konto erstellt, ist der Benutzer auch beim Scannen eines Codes in anderen Betrieben, die unseren Service beanspruchen, sofort angemeldet.</p>
+                    
+                    <p>Die Daten Ihrer Kunden sind geschützt und können nicht von Dritten eingesehen werden oder verloren gehen. In Sekundenschnelle sind so die Coronaauflagen erfüllt, ganz ohne Stift und Papier. </p>
+
+                    <p>Nach Betriebsende sind alle Gastdaten vom Unternehmensleiter online einsehbar. Auf Wunsch kann außerdem eine Zusammenfassung des Tages heruntergeladen werden.</p>
                 </div>
             </div>
 
@@ -48,15 +65,13 @@ function ForCompanyScreen () {
                     BarCov soll den Unternehmen den Umgang mit den Coronarichtlinien vereinfachen. Durch das Scannen des QR-Codes beim Kommen und Gehen werden die Kundendaten erfasst und gespeichert.Im Falle einer Infektion kann durch die Kundendaten, die in Tagesplänen geordnet sind, eine Rückverfolgung der Infektionskette leichter umgesetzt werden. Unsere Software hilft Ihnen, dies mit möglichst wenig Aufwand und möglichst hohem Datenschutz für Ihre Gäste umzusetzen. Dabei kann durch die schnelle und digitale Form der Datenerfassung auf Papier und Stift verzichtet werden. <br />
                     <br />
                     <strong>BarCov.id entlastet dabei auf mehreren Ebenen: </strong><br />
-
+                    <br />
                     Sie müssen keine Listen erstellen, ausdrucken und verwalten, welche von Gästen ausgefüllt werden müssten. Das spart Zeit.
 
                     Die Kontaktdaten Ihrer Kunden werden datenschutzkonform gespeichert und in Tagesplänen sortiert, die im Falle einer Infektion dem Gesundheitsamt helfen, die Infektionskette zu verfolgen. Anders als bei Papierlisten, bei denen auch Dritte Kontaktdaten einsehen können, befinden sich diese in verschlüsselter Form auf unserem Server und werden nur benutzt, wenn sie wirklich gebraucht werden. 
 
                     Unsere Lösung ist deutlich hygienischer, da weder Kuli noch Papier, sondern lediglich das Smartphone benutzt werden muss. Anders müssten alle Utensilien den Hygienevorschriften entsprechend nach jeder Benutzung desinfiziert werden. 
                 </p>
-
-
 
                 <h2>Wie kann ich mich als Unternehmer anmelden?</h2>
                 <p>
@@ -78,21 +93,11 @@ function ForCompanyScreen () {
                     Wir erheben Name, Telefonnummer und Anschrift, sowie Datum und Uhrzeit des Scans. 
                 </p>
 
-
-
-
                 <h2>Wie speichert Ihr die Daten und wie werden diese gesichert?</h2>
                 <p>
                     Die Daten werden datenschutzkonform auf einem Server in Frankfurt gespeichert und sind nicht für Dritte zugänglich. Zudem haben Ihre Daten eine Verfallsdauer von vier Wochen. 
                 </p>
 
-
-
-
-                <h2>Wie gebe ich die Daten im Kontaktfall von einem meiner Gäste weiter?</h2>
-                <p>
-                    noch auszufüllen 
-                </p>
 
                 <h2>Was tue ich, wenn ein Gast kein Handy dabei hat oder die App nicht benutzen möchte?</h2>
                 <p>In welchem Ausmaß unsere Software verwendet wird, können Sie als Besitzer selbst entscheiden. Wir sehen unser Programm als eine Empfehlung, falls jemand kein Handy dabei hat, kann immer noch auf Stift und Papier zurückgegriffen werden. Wichtig ist jedoch die verlässliche und verschlüsselte Sicherstellung der Kundendaten für vier Wochen. </p>

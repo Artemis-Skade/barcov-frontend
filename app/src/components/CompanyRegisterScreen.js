@@ -216,6 +216,10 @@ function handlePageSubmit() {
 
 function handleChange(e) {
     if (e.target.files.length) {
+        if(e.target.files[0].size > 5242880){
+            alert("Die Logo-Datei ist größer als 5 MB. Bitte lade eine kleinere Datei hoch.");
+            return;
+        }
         console.log("Uploaded image");
         console.log(e.target.files[0]);
         setImage({
@@ -332,7 +336,7 @@ function Page2() {
 
             <p className="ErrorMsg">{errmsg}</p>
 
-            <div className="EntrySubmit SubmitCompany">
+            <div className="EntrySubmit">
                 <input className="EntrySubmitBtn EntrySubmitBtnCompany" type='button' value="Weiter" onClick={handlePageSubmit}/>
             </div>
         </form>

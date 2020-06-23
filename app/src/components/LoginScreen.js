@@ -119,6 +119,9 @@ function LoginScreen () {
                 <div className="EntrySubmit">
                     <input className="EntrySubmitBtn" type='button' value="Anmelden" onClick={() => {handleLoginSubmit();}}/>
                 </div>
+
+                <p>Noch nicht registriert? Erstellen sie sich <a href="/gaeste">hier</a> ein Benutzerkonto!</p>
+                <br />
             </form>
         </div>
     );
