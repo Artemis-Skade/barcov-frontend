@@ -154,6 +154,7 @@ function SelectHeader() {
 
     return (
         <div className="SelectHeader">
+            <a className="backBtn" href="/dashboard">Zurück</a>
             <div className="DataTitle"><p>Auswertung vom &nbsp;</p>
                 <DatePicker
                     className="DatePicker"

@@ -23,16 +23,20 @@ function addMeal(mid) {
 }
 
 function Group(props) {
-    return (
-    <div className="Group" onClick={() => showMeals(props.name, props.index)}>
+    return (<div className="Group" onClick={() => showMeals(props.name, props.index)}>
         <p>{props.name}</p>
     </div>);
 }
 
 function Meal(props) {
+
+    let price = props.price.toFixed(2);
+    price = price.replace(".", ",");
+    price += " €";
+
     return (
     <div className="Meal" onClick={() => addMeal(props.number)}>
-        <h3><span className="mealNumber">{props.number}</span> <span className="mealName">{props.name}</span> <span className="mealPrice">{props.price} €</span></h3>
+        <h3><span className="mealNumber">{props.number}</span> <span className="mealName">{props.name}</span> <span className="mealPrice">{price}</span></h3>
         <img src={addIcon} />
         <p>{props.desc}</p>
     </div>);

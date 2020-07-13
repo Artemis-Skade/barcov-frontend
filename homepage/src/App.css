@@ -15,15 +15,30 @@
 }
 
 .Footer {
-  width: 100%;
-  height: 100px;
-  box-shadow: 0px black;
+  background-color: #fff;
+  height: 20px;
+  box-shadow: 0 0px 20px 0px #00000029;
+  bottom: 0;
+  padding: 8px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+  display: flex;
+  align-content: space-around;
+  justify-content: space-around;
+}
+
+.Footer a {
+  text-decoration: none;
+  color: darkgrey;
+  flex: 1 1;
+  padding: 5px;
+  text-align: center;
 }
 
 .Wrapper {
   width: 80%;
   margin: 0 auto;
-  min-height: 1000px;
 }
 
 .Textfield {
@@ -70,7 +85,7 @@
 .mainBtn {
   width: 100%;
   height: 40px;
-  background-color: #1f5db9;
+  background-color: #0672fe;
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0px 0px 20px #00000047;
@@ -160,7 +175,7 @@
 }
 
 .FirstSection {
-  height: fit-content;
+  min-height: 800px;
   width: 100%;
   overflow: hidden;
   margin-top: 50px;
@@ -345,7 +360,7 @@
 .companyLogin {
   width: 100px;
   float: right;
-  background-color: #215db9;
+  background-color: #0672fe;
   border-radius: 10px;
   padding: 2px;
   text-align: center;
@@ -416,6 +431,33 @@
   font-size: 18px;
 }
 
+.infoWrapper {
+  width: 100%;
+  height: auto;
+  margin-bottom: 70px;
+  font-size: 20px;
+}
+
+.ShortExplanation {
+  font-size: 20px;
+}
+
+.teampic {
+  width: calc(100% + 80px);
+  margin-left: -40px;
+}
+
+.Section2 {
+  background: rgb(9,113,254);
+  background: linear-gradient(270deg, #E65100 0%, #ff9800 97%);
+  padding: 100px;
+  color: white;
+}
+
+.Explanation {
+  width: 35%;
+}
+
 @media (max-width: 800px) {
   .MenuBurger {
     display: block;
@@ -456,7 +498,8 @@
     box-shadow: none;
   }
   .mainBtn p {
-    font-size: 23px;
+    font-size: 19px;
+    margin-top: 9px;
   }
   .PhonePreview {
     float: none;
@@ -491,9 +534,6 @@
     width: calc(100% + 84px);
     margin-left: -42px;
     border-radius: 0px;
-  }
-  .Footer a {
-    margin-left: 14px;
   }
 
   .RegisterWrapper {
@@ -542,10 +582,5 @@
     margin-left: -40px;
     border-radius: 0px;
     margin-top: 0px;
-  }
-
-  .teampic {
-    width: calc(100% + 80px);
-    margin-left: -40px;
   }
 }

@@ -10,11 +10,14 @@ function ForCompanyScreen () {
     return(
         <div className="Wrapper">
             <h1 className="companyH1">Einrichtung für Ihren Betrieb – ganz einfach:</h1>
+
+            <p className="ShortExplanation">Wie läuft der Registrierungsprozess für ein Unternehmen ab? Das wird im folgenden Werbespot kurz erklärt.</p>
+
             <video className="Tutorialvideo" id="samp" width="640" height="480" controls autoPlay>
                 <source src={tutorial} type="video/mp4">
                 </source>
             </video>
-            <h2 className="companyH2">Erklärvideo – Erstellt von <strong><a href="https://epic-film.de">e.pic. Film</a></strong></h2>
+            <h2 className="companyH2">Erklärvideo – Erstellt von <strong>e.pic. Film</strong></h2>
 
             <div className="Section">
                 <div className="SectionRight">
@@ -31,8 +34,8 @@ function ForCompanyScreen () {
                     <br />
 
                     <h2>Preise</h2>
-                    <p className="price">Einmalige Gebühr: <strong>19,90 €</strong> (zzgl. 19 % MwSt.)</p>
-                    <p className="price">Monatliche Gebühr: <strong>9,90 €</strong> (zzgl. 19 % MwSt.)</p>
+                    <p className="price">Einmalige Gebühr: <strong>14,90 €</strong> (zzgl. 16 % MwSt.)</p>
+                    <p className="price">Monatliche Gebühr: <strong>19,90 €</strong> (zzgl. 16 % MwSt.)</p>
                     <br />
                     <img src={checkmark} className="checkmark"/><p className="checkmark_p">Jederzeit fristlos kündbar</p><br />
                     <img src={checkmark} className="checkmark"/><p className="checkmark_p">Zwei Wochen Geld-zurück-Garantie</p>

@@ -2,22 +2,28 @@ import React from 'react';
 import sjcl from 'sjcl';
 import Cookies from 'universal-cookie';
 import flyerpreview from "../assets/img/flyertemplate.png";
+import option1 from '../assets/img/option1.png';
+import option2 from '../assets/img/option2.png';
+import option3 from '../assets/img/option3.png';
 
 import '../App.css';
 import '../Company.css';
-
 
 let registerData, setRegisterData;
 let pagenr, setPagenr;
 let errmsg, setErrmsg;
 let image, setImage;
 let otherAddress, setOtherAddress;
+let tableNumbers, setTableNumbers;
 let setPrivacyConfirmed, privacyConfirmed;
 let setAgbConfirmed, agbConfirmed;
+let selPackage, setSelPackage;
 let submitted, setSubmitted;
 let prices, setPrices;
 let count, setCount;
 let refPoint;
+let selAcquisition, setSelAcquisition;
+let useSEPA, setUseSEPA;
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
@@ -178,6 +184,14 @@ function handlePageSubmit() {
 
     // Check if all fields are filled out
     if (pagenr === 0) {
+        if (registerData.fname === "" || registerData.lname === "" || registerData.mobile === "") {
+            // Not completed
+            setErrmsg("Es müssen alle Felder ausgefüllt sein!");
+            return;
+        }
+    }
+
+    if (pagenr === 1) {
         if ((registerData.cname === "" || registerData.rcname === "" || registerData.zip === "" || registerData.town === "" || registerData.street === "") || (otherAddress && (registerData.rzip === "" || registerData.rtown === "" || registerData.rstreet === ""))) {
             // Not completed
             setErrmsg("Es müssen alle Felder ausgefüllt sein!");
@@ -186,14 +200,6 @@ function handlePageSubmit() {
         if (image.raw === ""){
             // No logo
             setErrmsg("Es wurde noch kein Logo hochgeladen!");
-            return;
-        }
-    }
-
-    if (pagenr === 1) {
-        if (registerData.fname === "" || registerData.lname === "" || registerData.mobile === "") {
-            // Not completed
-            setErrmsg("Es müssen alle Felder ausgefüllt sein!");
             return;
         }
     }
@@ -253,7 +259,7 @@ function FileUpload() {
 
     return (
         <div className="FileUpload">
-            <h1>Firmenlogo hochladen</h1>
+            <h2>Firmenlogo hochladen</h2>
             <input
                 type="file"
                 className="UploadBtn"
@@ -287,15 +293,17 @@ function toggleCheckbox(name) {
         }
     } else if (name === "agb") {
         setAgbConfirmed(!agbConfirmed);
+    } else if (name === "useSEPA") {
+        setUseSEPA(!useSEPA);
     } else {
         setPrivacyConfirmed(!privacyConfirmed);
     }
 }
 
-function Page1() {
+function Page2() {
     return (
         <>
-        <h2>Schritt 1: Unternehmensdaten</h2>
+        <h2>Schritt 2: Unternehmensdaten</h2>
         <form>
             <EntryField name="cname" displayname="Kurzname des Betriebs"/>
             <EntryField name="rcname" displayname="Rechtlicher Name des Betriebs"/>
@@ -313,7 +321,48 @@ function Page1() {
                 <EntryField type="inline2" name="rtown" displayname="Ort"/>
             </div>}
 
-            <FileUpload/>
+            <br />
+            <br />
+            <br />
+
+            <h2>Konfiguration</h2>
+
+            <div className="SelectionBoxes">
+                <div className={selPackage === 0 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(0)}>
+                    <h2>Variante 1</h2>
+                    <h1>5 Flyer (Starterpaket)</h1>
+                    <img src={option1} alt="selectionBox" />
+                </div>
+
+                <div className={selPackage === 1 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(1)}>
+                    <h2>Variante 2</h2>
+                    <h1>Gleiche Flyer für alleTische</h1>
+                    <img src={option2} alt="selectionBox" />
+                </div>
+
+                <div className={selPackage === 2 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(2)}>
+                    <h2>Variante 3</h2>
+                    <h1>Unterschiedliche Flyerfür alle Tische</h1>
+                    <img src={option3} alt="selectionBox" />
+                </div>
+            </div>
+
+            {selPackage !== 0 && 
+                <div className="tableCountField">
+                    <p>Anzahl der Tische</p>
+                    <input
+                        type="number"
+                        name="tableCount2"
+                        value="5"
+                        onChange={e => handleFieldChange("tableCount2", e)}
+                    />
+
+                    <span>5 Flyer sind kostenlos inklusive.</span>
+                </div>
+            } 
+
+
+            <FileUpload />
 
             <p className="ErrorMsgOffset ErrorMsg">{errmsg}</p>
 
@@ -325,10 +374,10 @@ function Page1() {
     );
 }
 
-function Page2() {
+function Page1() {
     return (
         <>
-        <h2>Schritt 2: Angaben zum Ansprechpartner</h2>
+        <h2>Schritt 1: Angaben zum Ansprechpartner</h2>
         <form>
             <EntryField name="fname" displayname="Vorname"/>
             <EntryField name="lname" displayname="Nachname"/>
@@ -382,33 +431,65 @@ function Page3(disabled, prices) {
                     />
                 </div>
 
-                <div className="EntryField SmallField">
-                    <br />
-                    <p>Wir schicken Ihnen laminierte Flyer mit QR-Code in höchster Qualität zu.</p>
-                    <p>Wie viele Flyer sollen wir ihnen zuschicken? (5 Stück sind im Paket inklusive dabei. Danach 1,50 € / Stück)</p>
-                    <input
-                        type="number"
-                        name="count"
-                        value={count}
-                        onChange={e => handleFieldChange("count", e)}
-                    />
-                </div>
-
-                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
-                    <input type="checkbox" id="agb" className="Checkbox_" value={agbConfirmed} checked={agbConfirmed} onClick={() => toggleCheckbox("agb")}/> <p className="CheckboxText_">Ich habe die <a href="/agb"><strong>Allgemeinen Geschäftsbedingungen</strong></a> gelesen und stimme zu.</p>
-                </div>
-
                 <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3 CheckboxWrapper4">
                     <input type="checkbox" id="privacy" className="Checkbox_" value={privacyConfirmed} checked={privacyConfirmed} onClick={() => toggleCheckbox("privacy")}/> <p className="CheckboxText_">Ich habe die <a href="/privacy"><strong>Datenschutzerklärung</strong></a> gelesen und stimme zu.</p>
                 </div>
 
+                <div className="acquisitionQuery">
+                    <h3>Wie sind Sie auf uns aufmerksam geworden?</h3> 
+
+                    <div className="dropdownList">
+                        <ul>
+                            <li className={selAcquisition === 0 ? "BoxSelected" : ""} onClick={() => setSelAcquisition(0)}>In einem Lokal gesehen</li>
+                            <li className={selAcquisition === 1 ? "BoxSelected" : ""} onClick={() => setSelAcquisition(1)}>Durch einen anderen Gastronom</li>
+                            <li className={selAcquisition === 2 ? "BoxSelected" : ""} onClick={() => setSelAcquisition(2)}>Durch einen Freund</li>
+                            <li className={selAcquisition === 3 ? "BoxSelected" : ""}  onClick={() => setSelAcquisition(3)}>Medienauftritt (Fernsehen, Radio oder Blog)</li>
+                            <li className={selAcquisition === 4 ? "BoxSelected" : ""} onClick={() => setSelAcquisition(4)}>Social Media (Instagram, Facebook)</li>
+                            <li className={selAcquisition === 5 ? "BoxSelected" : ""} onClick={() => setSelAcquisition(5)}>Suche bei Google</li>
+                            <li className={selAcquisition === 6 ? "BoxSelected" : ""} onClick={() => setSelAcquisition(6)}>Sonstiges</li>
+                        </ul>
+                    </div>
+
+                    {selAcquisition === 6 && 
+                        <div className="tableCountField">
+                        <p>Wie dann?</p>
+                        <input
+                            type="text"
+                            name="otherAcquisition"
+                            onChange={e => handleFieldChange("otherAcquisition", e)}
+                        />
+    
+                    </div>
+                    }
+                </div>
+
                 <div className="price">
-                    <h3>Entstehende Kosten (exkl. 19 % MwSt):</h3>
-                    <p>Einrichtungsgrundgebühr: <strong>19,90 €</strong></p>
-                    <p>Aufpreis für Ausdrucke: <strong>{(prices[0] - 19.9).toFixed(2).replace(".", ",")} €</strong></p>
-                    <p>Monatliche Kosten: <strong>9,90 €</strong></p>
+                    <h2>Kostenzusammenstellung</h2>
+                    <p>Einrichtungsgrundgebühr: <strong className="priceitem">14,90 €</strong><br />
+                    Aufpreis für Ausdrucke: <strong className="priceitem">{(prices[0] - 19.9).toFixed(2).replace(".", ",")} €</strong><br />
+                    Monatliche Kosten: <strong className="priceitem">19,90 €</strong></p>
+                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{(prices[0] * 1.19).toFixed(2)} € (inkl. 19 % MwSt)</strong></p>
                     <br />
-                    <p>Erster Rechnungsbetrag: <strong>{(prices[0] * 1.19).toFixed(2)} € (inkl. 19 % MwSt)</strong></p>
+                    <br />
+                    <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong>
+                    <br />
+                    <br />
+                </div>
+
+                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
+                    <input type="checkbox" id="useSEPA" className="Checkbox_" value={useSEPA} checked={useSEPA} onClick={() => toggleCheckbox("useSEPA")}/> <p className="CheckboxText_">SEPA-Lastschriftverfahren zum automatischen Einzug des Rechnungsbetrags verwenden.</p>
+                </div>
+
+                {useSEPA && <div className="SEPAfields">
+                    <EntryField name="sepa_iban" displayname="IBAN"/>
+                    <EntryField name="sepa_bic" displayname="BIC"/>
+                    <br />
+                </div>}
+
+                <br />
+
+                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
+                    <input type="checkbox" id="agb" className="Checkbox_" value={agbConfirmed} checked={agbConfirmed} onClick={() => toggleCheckbox("agb")}/> <p className="CheckboxText_">Ich habe die <a href="/agb"><strong>Allgemeinen Geschäftsbedingungen</strong></a> gelesen und stimme zu.</p>
                 </div>
 
                 <p className="ErrorMsg">{errmsg}</p>
@@ -448,11 +529,14 @@ function CompanyRegisterScreen (props) {
     [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
     [prices, setPrices] = React.useState([19.9, 9.9]);
     [count, setCount] = React.useState(5);
+    [selPackage, setSelPackage] = React.useState(0);
+    [selAcquisition, setSelAcquisition] = React.useState("not-selected");
+    [useSEPA, setUseSEPA] = React.useState(false);
 
     refPoint = React.useRef(null);
 
     return(
-        <div className="EntryForm">
+        <div className="CompanyWrapper">
             <h1>Unternehmensregistrierung</h1>
             {pagenr === 0 && Page1()}
             {pagenr === 1 && Page2()}

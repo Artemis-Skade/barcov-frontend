@@ -19,14 +19,16 @@ import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 import LoadingScreen from './components/LoadingScreen';
 import DiningcardScreen from './components/DiningcardScreen';
 import AGBScreen from './components/AGBScreen';
+import DashboardScreen from './components/DashboardScreen';
 
 let screen, setScreen;
 let storename, setStorename;
 let formData, setFormData;
 let store_id, confirmation_id;
 let scanid, setScanid;
+let tables, setTables;
 
-function getStoreName(store_id) {
+function getStore(store_id) {
   console.log("Store ID: " + store_id);
 
   fetch('https://' + window.Vars.domain + ':5000/store', {
@@ -35,12 +37,14 @@ function getStoreName(store_id) {
       "Content-Type": "text/plain"
     },
     body: JSON.stringify({
-        id: store_id
+        id: store_id,
     })
   }).then(res => res.json()).then(res => {
+    console.log("Res:");
     console.log(res);
     window.Vars.setStorename(res["name"]);
     window.Vars.storename = storename;
+    setTables(res['tables']);
   }).catch(err => {console.log(err)});
 }
 
@@ -59,9 +63,10 @@ function Screen() {
   if (screen === "privacypolicyscreen") return (<PrivacyPolicyScreen />);
   if (screen === "loading") return (<LoadingScreen />);
   if (screen === "speisekarte") return (<DiningcardScreen />);
+  if (screen === "dashboard") return (<DashboardScreen />);
 
   // Fallback
-  return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData}/></>);
+  return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData} tables={tables}/></>);
 }
 
 function checkIfLoggedIn(session_key) {
@@ -102,6 +107,7 @@ function App() {
   [storename, setStorename] = React.useState("Loading...");
   [formData, setFormData] = React.useState("None");
   [scanid, setScanid] = React.useState();
+  [tables, setTables] = React.useState([]);
   const [sessionKey, setSessionKey] = React.useState("not-fetched");
   const cookies = new Cookies();
 
@@ -110,7 +116,7 @@ function App() {
     let domain = window.location.hostname;
 
     if (domain === "localhost") {
-      domain = "barcov.id";
+      domain = "test.barcov.id";
     }
     
     window.Vars = {
@@ -148,10 +154,16 @@ function App() {
     } else if (pathname.slice(0, 4) === "menu") {
       setScreen("speisekarte");
       console.log("Speisekarte");
+    } else if (pathname.slice(0, 9) === "dashboard") {
+      setScreen("dashboard");
+      console.log("Dashboard");
     } else {
-      let store_id = pathname;
+      let pathparts = pathname.split("/");
+
+      let store_id = pathparts[0];
+
       window.Vars.store_id = store_id;
-      getStoreName(store_id); // Fetch store name from server
+      getStore(store_id); // Fetch store name and table names from server
 
       // load in cookie if present
       setSessionKey(cookies.get('sessionKey'));

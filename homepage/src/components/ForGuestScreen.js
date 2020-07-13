@@ -41,7 +41,7 @@ function register() {
     Object.assign(data, formData);
     //console.log(data);
 
-    fetch('https://' + window.Vars.domain + ':5000/register', {
+    fetch('https://barcov.id:5000/register', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -117,7 +117,7 @@ function handleSubmit () {
         return;
     }
 
-    fetch('https://' + window.Vars.domain + ':5000/enter', {
+    fetch('https://barcov.id:5000/enter', {
         method: 'POST',
         headers: {
             "Content-Type": "text/plain"
@@ -164,6 +164,20 @@ function ForGuestScreen (props) {
     return(
         <div className="Wrapper">
             <h1>Für Gäste</h1>
+
+            <div className="infoWrapper">
+                Sie sind in Ihrem Lieblingslokal und müssen sich wieder in die Corona-Listen eintragen? Das muss doch nicht sein.<br />
+                <br />
+                Bietet ein Lokal BarCov an, können Sie bequem über einen QR-Code einchecken. Dabei kann man zwischen einer einmaligen Nutzungund der Erstellung eines Accounts unterscheiden.  Wenn Sie bei uns registriert sind, werden Ihre Daten gespeichert und Sie können in jedem Partnerbetrieb automatisch einchecken, ohne die Daten nochmal eintippen zu müssen. So funktioniert’s: <br />
+                <br />
+                Sie halten die geöffnete Handykamera auf den QR-Code. Dann drücken Sie auf den Ihnen angezeigten Link, der Sie zu unserer Website befördert. Dort können Sie dann Ihre Kontaktdaten eingeben und haben die Möglichkeit, sich zu registrieren. <br />
+                <br />
+                Ihr Lieblingslokal nutzt noch Stift und Papier und sammelt täglich Papierstapel? Dann empfehlen Sie uns doch gerne weiter! <br />
+                <br />
+                Sekundenschnell, einfach und unkompliziert. <br />
+                <br /><br />
+                <strong>BarCov - Check in, get in</strong>
+            </div>
 
             <div className="RegisterWrapper" style={registeredStyle(true)}>
                 <h2 style={{textAlign: "center"}}>Registriere Dich schon einmal als Gast</h2>

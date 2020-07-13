@@ -6,6 +6,7 @@ let formData, setFormData;
 let addPersons, setAddPersons;
 let errormsg, setErrormsg;
 let acceptedPrivacyPolicy, setAcceptedPrivacyPolicy;
+let tableNum, setTableNum;
 
 function EntryField (props){
     let className = "EntryField";
@@ -84,6 +85,7 @@ function enterAdditionalPersons(finalAddPersons, mainEntry, id) {
         let entry = JSON.parse(JSON.stringify(mainEntry));
         entry.fname = person[0];
         entry.lname = person[1];
+        entry.table = tableNum;
 
         let promise = new Promise((resolve, reject) => {
             fetch('https://' + window.Vars.domain + ':5000/enter', {
@@ -139,7 +141,8 @@ function handleEntrySubmit(setFormData_) {
         phone: formData.phone,
         street: formData.street,
         zip: formData.zip,
-        town: formData.town
+        town: formData.town,
+        table: "None",
     }
 
     //console.log("Submitting Entry: " + JSON.stringify(entry));
@@ -152,6 +155,14 @@ function handleEntrySubmit(setFormData_) {
             return;
         }
     }
+
+    // Check if table num selected
+    if (tableNum === "not-defined") {
+        setErrormsg("Es muss eine Tischnummer ausgewählt werden!");
+        return;
+    }
+
+    entry.table = tableNum;
 
     // Remove trailing spaced from entry fields
     for (let key of Object.keys(entry)) {
@@ -203,20 +214,26 @@ function handleFieldChange(name, event) {
     let newFormData = formData;
     newFormData[name] = event.target.value;
     setFormData(newFormData);
-
-    // Check if field is empty
-    /*
-    if (event.target.value === "") {
-        event.target.placeholder = "Darf nicht leer sein!";
-        event.target.style.backgroundColor = "#b31313";
-    } else {
-        event.target.placeholder = "";
-        event.target.style.backgroundColor = "#eee";
-    }*/
 }
 
 function handleCheckClick(event) {
     setAcceptedPrivacyPolicy(!acceptedPrivacyPolicy);
+}
+
+function TableSelector(props) {
+    let tableNames = [];
+
+    for (let table of props.tables) {
+        tableNames.push(<li onClick={() => setTableNum(table.idtable)}>{table.name}</li>);
+    }
+
+    return (<div className="tableSelector">
+        <p>Wähle deinen Tisch aus:</p>
+
+        <ul>
+            {tableNames}
+        </ul>
+    </div>);
 }
 
 function EntryForm (props) {
@@ -231,6 +248,25 @@ function EntryForm (props) {
     [errormsg, setErrormsg] = React.useState("");
     [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = React.useState(false);
     [addPersons, setAddPersons] = React.useState([]);
+    [tableNum, setTableNum] = React.useState("not-defined");
+
+    React.useEffect(() => {
+        // Read table number
+        let pathname = window.location.pathname.slice(1);
+        let pathparts = pathname.split("/");
+
+        console.log(pathparts);
+        console.log(props.tables);
+        if (pathparts.length >= 2 && pathparts[1].length > 0) {
+            console.log("Set tableNum to: " + pathparts[1]);
+            setTableNum(pathparts[1]);
+        }
+
+        if (props.tables === null) {
+            setTableNum("None");
+            console.log("No table number needed");
+        }
+    }, [props.tables]);
 
     let submitClassNames = "EntrySubmit";
     let submitBtnClassNames = "EntrySubmitBtn";
@@ -245,6 +281,8 @@ function EntryForm (props) {
             <h2>Registriere dich bei</h2>
             <h1>{props.storename}</h1>
             <form>
+                {(props.tables && tableNum === "not-defined") && <TableSelector tables={props.tables}/>}
+
                 <EntryField name="fname" displayname="Vorname"/>
                 <EntryField name="lname" displayname="Nachname"/>
                 <EntryField name="phone" displayname="Telefonnummer"/>

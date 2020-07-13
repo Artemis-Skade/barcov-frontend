@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
+import CookieConsent from "react-cookie-consent";
+
 import './App.css';
 
 // Component imports
@@ -48,6 +50,20 @@ function App() {
 
   return (
     <div className="App">
+      <CookieConsent
+        location="bottom"
+        buttonText="Zustimmen"
+        cookieName="cookieconsent"
+        style={{background: "rgb(42, 42, 42)", boxShadow: "0px 0px 20px #00000030" }}
+        buttonStyle={{ background: "rgb(9, 113, 254)",
+          fontWeight: 600,
+          borderRadius: 5,
+          color: "white",
+         }}
+        expires={150}
+      >
+        Wir verwenden Cookies. Um Dir einen uneingeschränkten Service zu gewährleisten, stimme der Cookie-Nutzung zu.
+      </CookieConsent>
       <Header />
       <Screen />
       <Footer />
