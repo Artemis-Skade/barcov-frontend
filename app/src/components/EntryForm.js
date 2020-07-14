@@ -7,6 +7,7 @@ let addPersons, setAddPersons;
 let errormsg, setErrormsg;
 let acceptedPrivacyPolicy, setAcceptedPrivacyPolicy;
 let tableNum, setTableNum;
+let tableNumSelOpen, setTableNumSelOpen;
 
 function EntryField (props){
     let className = "EntryField";
@@ -223,16 +224,22 @@ function handleCheckClick(event) {
 function TableSelector(props) {
     let tableNames = [];
 
+    let i = 0;
     for (let table of props.tables) {
-        tableNames.push(<li onClick={() => setTableNum(table.idtable)}>{table.name}</li>);
+        tableNames.push(<li className={(i === props.tables.length - 1) ? "dropdownTableLastLi" : ""} onClick={() => setTableNum(table.idtable)}>{table.name}</li>);
+        i++;
     }
 
     return (<div className="tableSelector">
-        <p>Wähle deinen Tisch aus:</p>
+        <div className="tableBtn" onClick={() => setTableNumSelOpen(!tableNumSelOpen)}>
+            <p>Tischnummer auswählen</p>
+        </div>
 
-        <ul>
-            {tableNames}
-        </ul>
+        {tableNumSelOpen && <div className="tableDropdownList">
+            <ul>
+                {tableNames}
+            </ul>
+        </div>}
     </div>);
 }
 
@@ -249,6 +256,7 @@ function EntryForm (props) {
     [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = React.useState(false);
     [addPersons, setAddPersons] = React.useState([]);
     [tableNum, setTableNum] = React.useState("not-defined");
+    [tableNumSelOpen, setTableNumSelOpen] = React.useState(false);
 
     React.useEffect(() => {
         // Read table number

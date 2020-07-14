@@ -292,7 +292,7 @@ function DataScreen () {
     return (
         <>
         <SelectHeader />
-        <div className="Wrapper">
+        <div className="WrapperDatascreen">
             <Table />
         </div>
         </>
