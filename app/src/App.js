@@ -20,36 +20,38 @@ import LoadingScreen from './components/LoadingScreen';
 import DiningcardScreen from './components/DiningcardScreen';
 import AGBScreen from './components/AGBScreen';
 import DashboardScreen from './components/DashboardScreen';
+import TableSelectScreen from './components/TableSelectScreen';
 
 let screen, setScreen;
 let storename, setStorename;
 let formData, setFormData;
 let store_id, confirmation_id;
-let scanid, setScanid;
+let contactId, setContactId;
+let scanId, setScanId;
 let tables, setTables;
+let tableNum, setTableNum;
 
 function getStore(store_id) {
-  console.log("Store ID: " + store_id);
+  return new Promise((resolve, reject) => {
+    console.log("Store ID: " + store_id);
 
-  fetch('https://' + window.Vars.domain + ':5000/store', {
-    method: 'POST',
-    headers: {
-      "Content-Type": "text/plain"
-    },
-    body: JSON.stringify({
-        id: store_id,
-    })
-  }).then(res => res.json()).then(res => {
-    console.log("Res:");
-    console.log(res);
-    window.Vars.setStorename(res["name"]);
-    window.Vars.storename = storename;
-    setTables(res['tables']);
-  }).catch(err => {console.log(err)});
+    fetch('https://' + window.Vars.domain + ':5000/store', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+          id: store_id,
+      })
+    }).then(res => res.json()).then(res => {
+      console.log(res);
+      resolve({store: res["name"], tables: res["tables"]});
+    }).catch(err => {console.log(err)});
+  });
 }
 
 function Screen() {
-  if (screen === "confirmation") return (<ConfirmationScreen type="entry" scanid={scanid}/>);
+  if (screen === "confirmation") return (<ConfirmationScreen type="entry" scanId={scanId} tableNum={tableNum}/>);
   if (screen === "confirmationwithregistration") return (<><ConfirmationScreen type="entry"/><RegisterScreen formData={formData}/></>);
   if (screen === "registrationsuccess") return (<ConfirmationScreen type="register"/>);
   if (screen === "login") return (<LoginScreen tables={tables}/>);
@@ -64,9 +66,21 @@ function Screen() {
   if (screen === "loading") return (<LoadingScreen />);
   if (screen === "speisekarte") return (<DiningcardScreen />);
   if (screen === "dashboard") return (<DashboardScreen />);
+  if (screen === "tableselect") return (<TableSelectScreen tables={tables} contactid={contactId} setScanId={setScanId} tableNum={tableNum} setTableNum={setTableNum}/>);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData} tables={tables}/></>);
+}
+
+function getTableID() {
+  let pathname = window.location.pathname.slice(1);
+  let pathparts = pathname.split("/");
+
+  if (pathparts.length >= 2 && pathparts[1].length > 0) { // table ID exists in URL
+    return pathparts[1]; 
+  } else {
+    return "None";
+  }
 }
 
 function checkIfLoggedIn(session_key) {
@@ -85,15 +99,27 @@ function checkIfLoggedIn(session_key) {
       body: JSON.stringify(data)
   }).then(res => res.json()).then(res => {
       console.log(res);
-      if (res["valid"]) {
+      if (res["success"]) {
         // Session Key is valid
-        console.log("Session key valid. Automatically entering store.");
+        console.log("Session key valid. Asking for table id & Automatically entering store.");
 
-        setScanid(res["id"]);
-        console.log("test");
+        setContactId(res["id"]);
 
         // Display confirmation
-        window.Vars.setScreen("confirmation");
+        // Check if table id is used
+        let tableid = getTableID();
+        setTableNum(tableid);
+
+        console.log("TableID: " + tableid);
+        console.log("Tables: " + tables);
+
+        if (tables && tables.length > 0 && tableid === "None") {
+          console.log("Going to table select screen...");
+          window.Vars.setScreen("tableselect");
+        } else {
+          console.log("Table ID already set.");
+          window.Vars.setScreen("tableselect");
+        }
       } else {
         // Session Key is invalid
         console.log(res["message"]);
@@ -106,8 +132,10 @@ function App() {
   [screen, setScreen] = React.useState("entry");
   [storename, setStorename] = React.useState("Loading...");
   [formData, setFormData] = React.useState("None");
-  [scanid, setScanid] = React.useState();
+  [contactId, setContactId] = React.useState();
+  [scanId, setScanId] = React.useState();
   [tables, setTables] = React.useState([]);
+  [tableNum, setTableNum] = React.useState();
   const [sessionKey, setSessionKey] = React.useState("not-fetched");
   const cookies = new Cookies();
 
@@ -163,13 +191,18 @@ function App() {
       let store_id = pathparts[0];
 
       window.Vars.store_id = store_id;
-      getStore(store_id); // Fetch store name and table names from server
+      console.log("Fetch store name and table names from server");
+      // Fetch store name and table names from server
+      getStore(store_id).then((res) => {
+        window.Vars.setStorename(res["store"]);
+        window.Vars.storename = res["store"];
+        setTables(res['tables']);
 
-      // load in cookie if present
-      setSessionKey(cookies.get('sessionKey'));
-
-      // Check if still logged in
-      checkIfLoggedIn(cookies.get('sessionKey'));
+        // load in cookie if present
+        setSessionKey(cookies.get('sessionKey'));
+        // Check if still logged in
+        checkIfLoggedIn(cookies.get('sessionKey'));
+      }).catch(e => {console.log("Error: " + e)});
     }
   }, []);
 

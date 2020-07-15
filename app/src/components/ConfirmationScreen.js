@@ -67,7 +67,7 @@ function changePersonVal(index, event) {
     setPerson(newPerson);
 }
 
-function scanPerson(person) {
+function scanPerson(person, tableNum) {
     // Check if already activated
     if (person[3]) {
         return;
@@ -93,6 +93,7 @@ function scanPerson(person) {
 
     let data = {
         storeid: window.Vars.store_id,
+        table: tableNum,
         id: id,
     }
 
@@ -115,7 +116,7 @@ function scanPerson(person) {
     });
 }
 
-function GroupList () {
+function GroupList (props) {
     let res = [];
 
     for (let person of persons) {
@@ -127,7 +128,7 @@ function GroupList () {
             imgSource = checkPersonIcon;
         }
 
-        res.push(<div className={style} key={person[0]} onClick={() => scanPerson(person)}>
+        res.push(<div className={style} key={person[0]} onClick={() => scanPerson(person, props.tableNum)}>
             <img src={imgSource} alt="Add" />
             <p>{person[1]} {person[2]}</p>
         </div>);
@@ -154,7 +155,7 @@ function loadGroup() {
     });
 }
 
-function addPerson(person) {
+function addPerson(person, table) {
     // Check if filled out
     if (person[0] === "" || person[1] === "") {
         alert("Es müssen alle Felder ausgefüllt sein!");
@@ -171,6 +172,7 @@ function addPerson(person) {
     let data = {
         storeid: window.Vars.store_id,
         scan_id: scanIDs[0],
+        table: table,
         fname: person[0],
         lname: person[1],
     }
@@ -206,7 +208,7 @@ function AddPersonWrapper(props) {
         <>
         <div className="groupList">
             <h2>Ist noch jemand mit dir da?</h2>
-            <GroupList/>
+            <GroupList tableNum={props.tableNum}/>
         </div>
 
         <div className="AdditionalPerson">
@@ -214,7 +216,7 @@ function AddPersonWrapper(props) {
         </div>
 
         <div className={submitBtnClassNames}>
-            <input className="EntrySubmitBtn" type='button' value="Weitere Person hinzufügen" onClick={() => {addPerson(person)}}/>
+            <input className="EntrySubmitBtn" type='button' value="Weitere Person hinzufügen" onClick={() => {addPerson(person, props.tableNum)}}/>
         </div>
     </>
     );
@@ -229,8 +231,9 @@ function ConfirmationScreen (props) {
     React.useEffect(() => {
         loadGroup();
 
-        if (props.scanid !== undefined) {
-            setScanIDs([props.scanid]);
+        if (props.scanId !== undefined) {
+            console.log("ScanID: " + props.scanId);
+            setScanIDs([props.scanId]);
         }
     }, []);
 
@@ -255,7 +258,7 @@ function ConfirmationScreen (props) {
             </div>
             <h1 style={{textAlign: "center"}}>{message}</h1>
 
-            { (props.scanid !== undefined) && <AddPersonWrapper /> }
+            { (props.scanId !== undefined) && <AddPersonWrapper tableNum={props.tableNum}/> }
         </div>
     );
 }

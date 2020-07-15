@@ -7,7 +7,7 @@ function TableSelector(props) {
 
     let i = 0;
     for (let table of props.tables) {
-        tableNames.push(<li className={(i === props.tables.length - 1) ? "dropdownTableLastLi" : ""} onClick={() => props.setTableNum(table.idtable)}>{table.name}</li>);
+        tableNames.push(<li key={table.idtable} className={(i === props.tables.length - 1) ? "dropdownTableLastLi" : ""} onClick={() => props.setTableNum(table.idtable)}>{table.name}</li>);
         i++;
     }
 
