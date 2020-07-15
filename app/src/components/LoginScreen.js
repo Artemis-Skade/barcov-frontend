@@ -2,10 +2,15 @@ import React from 'react';
 import sjcl from 'sjcl';
 import Cookies from 'universal-cookie';
 
+import TableSelector from './TableSelector';
+
 import '../App.css';
+
 
 let loginData, setLoginData;
 let errMsg, setErrMsg;
+let tableNum, setTableNum;
+let tableNumSelOpen, setTableNumSelOpen;
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
@@ -24,6 +29,7 @@ function login(email, password) {
             storeid: window.Vars.store_id,
             email: loginData.email,
             pw_hash: myHash,
+            table: tableNum,
         };
 
         fetch('https://' + window.Vars.domain + ':5000/login', {
@@ -84,17 +90,38 @@ function handleLoginSubmit() {
     })
 }
 
-function LoginScreen () {
+function LoginScreen (props) {
     [loginData, setLoginData] = React.useState({
         email: "",
         password: "",
     });
-
     [errMsg, setErrMsg] = React.useState("");
+    [tableNum, setTableNum] = React.useState("not-defined");
+    [tableNumSelOpen, setTableNumSelOpen] = React.useState(false);
+
+    React.useEffect(() => {
+        // Read table number
+        let pathname = window.location.pathname.slice(1);
+        let pathparts = pathname.split("/");
+
+        console.log(pathparts);
+        console.log(props.tables);
+        if (pathparts.length >= 2 && pathparts[1].length > 0) {
+            console.log("Set tableNum to: " + pathparts[1]);
+            setTableNum(pathparts[1]);
+        }
+
+        if (props.tables === null) {
+            setTableNum("None");
+            console.log("No table number needed");
+        }
+    }, [props.tables]);
 
     return(
         <div className="EntryForm">
             <h1>Anmelden</h1>
+
+            {(props.tables && tableNum === "not-defined") && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum}/>}
 
             <form>
                 <div className="EntryField">

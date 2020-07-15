@@ -52,7 +52,7 @@ function Screen() {
   if (screen === "confirmation") return (<ConfirmationScreen type="entry" scanid={scanid}/>);
   if (screen === "confirmationwithregistration") return (<><ConfirmationScreen type="entry"/><RegisterScreen formData={formData}/></>);
   if (screen === "registrationsuccess") return (<ConfirmationScreen type="register"/>);
-  if (screen === "login") return (<LoginScreen />);
+  if (screen === "login") return (<LoginScreen tables={tables}/>);
   if (screen === "emailconfirmation") return (<EMailConfirmation id={confirmation_id}/>);
   if (screen === "companyregistration") return (<CompanyRegisterScreen />);
   if (screen === "registrationcompanysuccess") return (<ConfirmationScreen type="companyregister"/>);

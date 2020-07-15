@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TableSelector from './TableSelector';
+
 import '../App.css';
 
 let formData, setFormData;
@@ -198,12 +200,16 @@ function handleEntrySubmit(setFormData_) {
         },
         body: JSON.stringify(entry)
     }).then(res => res.json()).then(res => {
-        // Send other persons if applicable
-        if (addPersons.length > 0) {
-            enterAdditionalPersons(finalAddPersons, entry, res["id"]);
+        if (res["success"]) {
+            // Send other persons if applicable
+            if (addPersons.length > 0) {
+                enterAdditionalPersons(finalAddPersons, entry, res["id"]);
+            }
+            console.log(res);
+            window.Vars.setScreen("confirmationwithregistration");
+        } else {
+            setErrormsg(res["message"]);
         }
-        console.log(res);
-        window.Vars.setScreen("confirmationwithregistration");
     }).catch(err => {
         console.log(err);
         setErrormsg("Fehler beim Eintragen. Bitte überprüfe deine Internetverbindung oder versuche es später noch einmal.");
@@ -219,28 +225,6 @@ function handleFieldChange(name, event) {
 
 function handleCheckClick(event) {
     setAcceptedPrivacyPolicy(!acceptedPrivacyPolicy);
-}
-
-function TableSelector(props) {
-    let tableNames = [];
-
-    let i = 0;
-    for (let table of props.tables) {
-        tableNames.push(<li className={(i === props.tables.length - 1) ? "dropdownTableLastLi" : ""} onClick={() => setTableNum(table.idtable)}>{table.name}</li>);
-        i++;
-    }
-
-    return (<div className="tableSelector">
-        <div className="tableBtn" onClick={() => setTableNumSelOpen(!tableNumSelOpen)}>
-            <p>Tischnummer auswählen</p>
-        </div>
-
-        {tableNumSelOpen && <div className="tableDropdownList">
-            <ul>
-                {tableNames}
-            </ul>
-        </div>}
-    </div>);
 }
 
 function EntryForm (props) {
@@ -289,7 +273,7 @@ function EntryForm (props) {
             <h2>Registriere dich bei</h2>
             <h1>{props.storename}</h1>
             <form>
-                {(props.tables && tableNum === "not-defined") && <TableSelector tables={props.tables}/>}
+                {(props.tables && tableNum === "not-defined") && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum}/>}
 
                 <EntryField name="fname" displayname="Vorname"/>
                 <EntryField name="lname" displayname="Nachname"/>

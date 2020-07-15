@@ -1,0 +1,39 @@
+.tableBtn {
+    height: 30px;
+    background-color: #042859;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    /* vertical-align: middle; */
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    padding-top: 10px;
+  }
+  
+  .tableBtn p {
+    margin: 0px;
+    margin-top: 4px;
+  }
+  
+  .tableDropdownList {
+    box-shadow: 0px 0px 20px #00000033;
+    border-radius: 10px;
+    margin-top: 5px;
+  }
+  
+  .tableDropdownList ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .tableDropdownList ul li {
+    list-style: none;
+    margin: 0;
+    padding: 15px;
+    border-bottom: 1px solid lightgrey;
+  }
+  
+  .dropdownTableLastLi {
+    border-bottom: none !important;
+  }

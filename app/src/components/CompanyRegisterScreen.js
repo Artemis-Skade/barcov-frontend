@@ -465,10 +465,10 @@ function Page3(disabled, prices) {
 
                 <div className="price">
                     <h2>Kostenzusammenstellung</h2>
-                    <p>Einrichtungsgrundgebühr: <strong className="priceitem">14,90 €</strong><br />
-                    Aufpreis für Ausdrucke: <strong className="priceitem">{(prices[0] - 19.9).toFixed(2).replace(".", ",")} €</strong><br />
-                    Monatliche Kosten: <strong className="priceitem">19,90 €</strong></p>
-                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{(prices[0] * 1.19).toFixed(2)} € (inkl. 19 % MwSt)</strong></p>
+                    <p>Einrichtungsgrundgebühr: <strong className="priceitem">18,00 €</strong><br />
+                    Aufpreis für Ausdrucke: <strong className="priceitem">{(prices[0] - 18).toFixed(2).replace(".", ",")} €</strong><br />
+                    Monatliche Kosten: <strong className="priceitem">20,00 €</strong></p>
+                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{(prices[0] * 1.16).toFixed(2)} € (inkl. 16 % MwSt)</strong></p>
                     <br />
                     <br />
                     <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong>
@@ -477,12 +477,13 @@ function Page3(disabled, prices) {
                 </div>
 
                 <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
-                    <input type="checkbox" id="useSEPA" className="Checkbox_" value={useSEPA} checked={useSEPA} onClick={() => toggleCheckbox("useSEPA")}/> <p className="CheckboxText_">SEPA-Lastschriftverfahren zum automatischen Einzug des Rechnungsbetrags verwenden.</p>
+                    <input type="checkbox" id="useSEPA" className="Checkbox_" value={useSEPA} checked={useSEPA} onClick={() => toggleCheckbox("useSEPA")}/> <p className="CheckboxText_">SEPA-Lastschriftverfahren zum automatischen Einzug des Rechnungsbetrags verwenden (empfohlen).</p>
                 </div>
 
                 {useSEPA && <div className="SEPAfields">
                     <EntryField name="sepa_iban" displayname="IBAN"/>
                     <EntryField name="sepa_bic" displayname="BIC"/>
+                    <p>Ich stimme zu, dass ich Vollmacht über das angegebene Konto besitze und die aufgeführten Beträge von diesem eingezogen werden dürfen.</p>
                     <br />
                 </div>}
 
@@ -527,7 +528,7 @@ function CompanyRegisterScreen (props) {
     [submitted, setSubmitted] = React.useState(false);
     [agbConfirmed, setAgbConfirmed] = React.useState(false);
     [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
-    [prices, setPrices] = React.useState([19.9, 9.9]);
+    [prices, setPrices] = React.useState([18, 20]);
     [count, setCount] = React.useState(5);
     [selPackage, setSelPackage] = React.useState(0);
     [selAcquisition, setSelAcquisition] = React.useState("not-selected");
