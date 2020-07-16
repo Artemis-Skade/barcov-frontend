@@ -21,6 +21,7 @@ import DiningcardScreen from './components/DiningcardScreen';
 import AGBScreen from './components/AGBScreen';
 import DashboardScreen from './components/DashboardScreen';
 import TableSelectScreen from './components/TableSelectScreen';
+import EMailConfirmationCompany from './components/EMailConfirmationCompany';
 
 let screen, setScreen;
 let storename, setStorename;
@@ -56,6 +57,7 @@ function Screen() {
   if (screen === "registrationsuccess") return (<ConfirmationScreen type="register"/>);
   if (screen === "login") return (<LoginScreen tables={tables} setScanId={setScanId} tableNum={tableNum} setTableNum={setTableNum}/>);
   if (screen === "emailconfirmation") return (<EMailConfirmation id={confirmation_id}/>);
+  if (screen === "emailconfirmationcompany") return (<EMailConfirmationCompany id={confirmation_id}/>);
   if (screen === "companyregistration") return (<CompanyRegisterScreen />);
   if (screen === "registrationcompanysuccess") return (<ConfirmationScreen type="companyregister"/>);
   if (screen === "impressumscreen") return (<ImpressumScreen />);
@@ -163,6 +165,10 @@ function App() {
     if (pathname.slice(0, 12) === "confirmation") {
       setScreen("emailconfirmation");
       confirmation_id = pathname.slice(13);
+      console.log("Confirmation ID: " + confirmation_id);
+    } else if (pathname.slice(0, 28) === "company_account_confirmation") {
+      setScreen("emailconfirmationcompany");
+      confirmation_id = pathname.slice(29);
       console.log("Confirmation ID: " + confirmation_id);
     } else if (pathname.slice(0, 7) === "company") {
       setScreen("companyregistration");
