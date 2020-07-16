@@ -9,7 +9,6 @@ import '../App.css';
 
 let loginData, setLoginData;
 let errMsg, setErrMsg;
-let tableNum, setTableNum;
 let tableNumSelOpen, setTableNumSelOpen;
 
 function handleFieldChange(name, event) {
@@ -19,7 +18,7 @@ function handleFieldChange(name, event) {
     setLoginData(newLoginData);
 }
 
-function login(email, password) {
+function login(email, password, tableNum) {
     return new Promise((resolve, reject) => {
         // Generate hash
         const myBitArray = sjcl.hash.sha256.hash(password + ":" + email);
@@ -45,18 +44,18 @@ function login(email, password) {
                 // Read in session key
                 //cookies.set('sessionKey', res["session_key"]);
                 //window.Vars.setScreen("confirmation");
-                resolve([true, res["session_key"]]);
+                resolve([true, res["session_key"], res["id"]]);
             } else {
                 //alert("Falsche E-Mail oder Passwort!");
                 //setErrMsg(res["message"]);
-                resolve([false, res["message"]]);
+                resolve([false, res["message"], res["id"]]);
             }
             
         }).catch(err => console.log(err));
     })
 }
 
-function handleLoginSubmit() {
+function handleLoginSubmit(setScanId, tableNum) {
     const cookies = new Cookies();
     console.log("Submitted Login");
 
@@ -70,13 +69,13 @@ function handleLoginSubmit() {
         return;
     }
 
-    login(loginData.email.toLowerCase(), loginData.password).then((ret) => {
+    login(loginData.email.toLowerCase(), loginData.password, tableNum).then((ret) => {
         if (!ret[0]) {
             if (ret[1].charAt(0) === "B") {
                 setErrMsg(ret[1]);
             } else {
                 // Try again with upper case EMail as hash
-                login(loginData.email.charAt(0).toUpperCase() + loginData.email.slice(1), loginData.password).then((ret_) => {
+                login(loginData.email.charAt(0).toUpperCase() + loginData.email.slice(1), loginData.password, tableNum).then((ret_) => {
                     if (!ret_[0]) {
                         // Wrong login!!
                         setErrMsg(ret_[1]);
@@ -84,6 +83,7 @@ function handleLoginSubmit() {
                         // Successful
                         cookies.set('sessionKey', ret_[1], {path: "/", secure: true});
                         window.Vars.setScreen("confirmation");
+                        setScanId(ret_[2]);
                     }
                 });
             }
@@ -91,6 +91,7 @@ function handleLoginSubmit() {
             // Successful
             cookies.set('sessionKey', ret[1], {path: "/", secure: true});
             window.Vars.setScreen("confirmation");
+            setScanId(ret[2]);
         }
     })
 }
@@ -101,7 +102,6 @@ function LoginScreen (props) {
         password: "",
     });
     [errMsg, setErrMsg] = React.useState("");
-    [tableNum, setTableNum] = React.useState("not-defined");
     [tableNumSelOpen, setTableNumSelOpen] = React.useState(false);
     let [URLtablePresent, setURLtablePresent] = React.useState(false);
 
@@ -114,12 +114,12 @@ function LoginScreen (props) {
         console.log(props.tables);
         if (pathparts.length >= 2 && pathparts[1].length > 0) {
             console.log("Set tableNum to: " + pathparts[1]);
-            setTableNum(pathparts[1]);
+            props.setTableNum(pathparts[1]);
             setURLtablePresent(true);
         }
 
         if (props.tables === null) {
-            setTableNum("None");
+            props.setTableNum("None");
             console.log("No table number needed");
         }
     }, [props.tables]);
@@ -128,7 +128,7 @@ function LoginScreen (props) {
         <div className="EntryForm">
             <h1>Anmelden</h1>
 
-            {!URLtablePresent && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum}/>}
+            {!URLtablePresent && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={props.setTableNum}/>}
 
             <form>
                 <div className="EntryField">
@@ -151,7 +151,7 @@ function LoginScreen (props) {
                 <p className="Errormsg">{errMsg}</p>
 
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='button' value="Anmelden" onClick={() => {handleLoginSubmit();}}/>
+                    <input className="EntrySubmitBtn" type='button' value="Anmelden" onClick={() => {handleLoginSubmit(props.setScanId, props.tableNum);}}/>
                 </div>
 
                 <p>Noch nicht registriert? Erstellen sie sich <a href="/gaeste">hier</a> ein Benutzerkonto!</p>

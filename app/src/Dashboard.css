@@ -302,3 +302,54 @@
     width: 50px;
     margin-right: 15px;
 }
+
+@media (max-width: 800px) {
+    .Wrapper {
+        width: calc(100% - 20px) !important;
+        padding: 10px;
+    }
+
+    .Card {
+        width: auto;
+        height: auto;
+    }
+
+    .company {
+        height: fit-content;
+        overflow: hidden;
+        padding-bottom: 20px;
+    }
+
+    .company > p {
+        font-size: 15px;
+        margin-top: 38px;
+    }
+
+    .settingsIcon {
+        margin-top: 0px;
+    }
+
+    .inputField {
+        width: calc(100% - 20px);
+    }
+
+    .links {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-top: 320px;
+    }
+
+    .button {
+        position: relative;
+        right: 0;
+        bottom: 0;
+        margin-top:30px;
+    }
+
+    .PwPopUp {
+        width: calc(100% - 60px);
+        /* padding: 0px; */
+        left: 0px;
+    }
+}

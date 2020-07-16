@@ -42,7 +42,7 @@ function TableSelectScreen (props) {
         if (!props.tables) {
             // Go to confirmation screen straight away
             console.log("Going to confirmation screen");
-                createScanWithContactId(props.contactid, props.tableNum, (scanid) => {
+                createScanWithContactId(props.contactid, "None", (scanid) => {
                     if (scanid === "None") {
                         alert("Error");
                     } else {
