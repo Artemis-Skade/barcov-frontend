@@ -38,19 +38,33 @@ function TableSelectScreen (props) {
 
     React.useEffect(() => {
         console.log("Loading table select screen...");
-
-        if (props.tableNum !== "None") {
-            // Go to confirmation screen
-            console.log("Table number selected! Registering contact with contact id");
-            createScanWithContactId(props.contactid, props.tableNum, (scanid) => {
-                if (scanid === "None") {
-                    alert("Error");
-                } else {
-                    // Assign scanId for next screen
-                    props.setScanId(scanid);
-                    window.Vars.setScreen("confirmation");
-                }
-            });
+        
+        if (!props.tables) {
+            // Go to confirmation screen straight away
+            console.log("Going to confirmation screen");
+                createScanWithContactId(props.contactid, props.tableNum, (scanid) => {
+                    if (scanid === "None") {
+                        alert("Error");
+                    } else {
+                        // Assign scanId for next screen
+                        props.setScanId(scanid);
+                        window.Vars.setScreen("confirmation");
+                    }
+                });
+        } else {
+            if (props.tableNum !== "None") {
+                // Go to confirmation screen
+                console.log("Table number selected! Registering contact with contact id");
+                createScanWithContactId(props.contactid, props.tableNum, (scanid) => {
+                    if (scanid === "None") {
+                        alert("Error");
+                    } else {
+                        // Assign scanId for next screen
+                        props.setScanId(scanid);
+                        window.Vars.setScreen("confirmation");
+                    }
+                });
+            }
         }
     }, [props.tableNum]);
 

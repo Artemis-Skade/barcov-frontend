@@ -477,12 +477,12 @@ function Page1() {
     );
 }
 
-function Page3(disabled) {
+function Page3(props) {
     console.log("Reloading page");
 
     let style = "EntrySubmitBtn EntrySubmitBtnCompany";
 
-    if (disabled) {
+    if (props.submitted) {
         style += " EntrySubmitBtnDeactivated";
     }
 
@@ -574,6 +574,8 @@ function Page3(disabled) {
                     <input type="checkbox" id="privacy" className="Checkbox_" value={privacyConfirmed} checked={privacyConfirmed} onClick={() => toggleCheckbox("privacy")}/> <p className="CheckboxText_">Ich habe die <a href="/privacy"><strong>Datenschutzerklärung</strong></a> gelesen und stimme zu.</p>
                 </div>
 
+                <br />
+
                 <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
                     <input type="checkbox" id="agb" className="Checkbox_" value={agbConfirmed} checked={agbConfirmed} onClick={() => toggleCheckbox("agb")}/> <p className="CheckboxText_">Ich habe die <a href="/agb"><strong>Allgemeinen Geschäftsbedingungen</strong></a> gelesen und stimme zu.</p>
                 </div>
@@ -587,6 +589,16 @@ function Page3(disabled) {
 
                 <a className="backbtn" onClick={() => setPagenr(1)}>Zurück</a>
             </form>
+        </>
+    );
+}
+
+function Page(props) {
+    return(
+        <>
+            {props.pagenr === 0 && <Page1 />}
+            {props.pagenr === 1 && <Page2 />}
+            {props.pagenr === 2 && <Page3 submitted={props.submitted} />}
         </>
     );
 }
@@ -623,12 +635,12 @@ function CompanyRegisterScreen (props) {
 
     refPoint = React.useRef(null);
 
+    React.useEffect(() => window.scrollTo(0, 0), [pagenr]);
+
     return(
         <div className="CompanyWrapper">
             <h1 className="h1Head">Unternehmensregistrierung</h1>
-            {pagenr === 0 && Page1()}
-            {pagenr === 1 && Page2()}
-            {pagenr === 2 && Page3(submitted)}
+            <Page pagenr={pagenr} submitted={submitted} />
         </div>
     );
 }

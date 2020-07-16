@@ -241,6 +241,7 @@ function EntryForm (props) {
     [addPersons, setAddPersons] = React.useState([]);
     [tableNum, setTableNum] = React.useState("not-defined");
     [tableNumSelOpen, setTableNumSelOpen] = React.useState(false);
+    let [URLtablePresent, setURLtablePresent] = React.useState(false);
 
     React.useEffect(() => {
         // Read table number
@@ -252,6 +253,7 @@ function EntryForm (props) {
         if (pathparts.length >= 2 && pathparts[1].length > 0) {
             console.log("Set tableNum to: " + pathparts[1]);
             setTableNum(pathparts[1]);
+            setURLtablePresent(true);
         }
 
         if (props.tables === null) {
@@ -270,10 +272,10 @@ function EntryForm (props) {
     
     return(
         <div className="EntryForm">
-            <h2>Registriere dich bei</h2>
+            <h2>Kontaktdaten erfassen bei</h2>
             <h1>{props.storename}</h1>
             <form>
-                {(props.tables && tableNum === "not-defined") && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum}/>}
+                {!URLtablePresent && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum} tableNum={tableNum}/>}
 
                 <EntryField name="fname" displayname="Vorname"/>
                 <EntryField name="lname" displayname="Nachname"/>

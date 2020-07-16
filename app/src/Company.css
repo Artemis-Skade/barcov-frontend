@@ -318,6 +318,7 @@
     color: #0971fe;
     margin-top: -30px;
     margin-bottom: 50px;
+    cursor: pointer;
 }
 
 @media (max-width: 800px) {

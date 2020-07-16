@@ -65,6 +65,11 @@ function handleLoginSubmit() {
         return;
     }
 
+    if (tableNum === "not-defined") {
+        setErrMsg("Wähle zuerst einen Tisch aus!");
+        return;
+    }
+
     login(loginData.email.toLowerCase(), loginData.password).then((ret) => {
         if (!ret[0]) {
             if (ret[1].charAt(0) === "B") {
@@ -98,6 +103,7 @@ function LoginScreen (props) {
     [errMsg, setErrMsg] = React.useState("");
     [tableNum, setTableNum] = React.useState("not-defined");
     [tableNumSelOpen, setTableNumSelOpen] = React.useState(false);
+    let [URLtablePresent, setURLtablePresent] = React.useState(false);
 
     React.useEffect(() => {
         // Read table number
@@ -109,6 +115,7 @@ function LoginScreen (props) {
         if (pathparts.length >= 2 && pathparts[1].length > 0) {
             console.log("Set tableNum to: " + pathparts[1]);
             setTableNum(pathparts[1]);
+            setURLtablePresent(true);
         }
 
         if (props.tables === null) {
@@ -121,7 +128,7 @@ function LoginScreen (props) {
         <div className="EntryForm">
             <h1>Anmelden</h1>
 
-            {(props.tables && tableNum === "not-defined") && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum}/>}
+            {!URLtablePresent && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum}/>}
 
             <form>
                 <div className="EntryField">
