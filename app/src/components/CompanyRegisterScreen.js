@@ -19,43 +19,39 @@ let setPrivacyConfirmed, privacyConfirmed;
 let setAgbConfirmed, agbConfirmed;
 let selPackage, setSelPackage;
 let submitted, setSubmitted;
-let prices, setPrices;
 let count, setCount;
 let refPoint;
 let selAcquisition, setSelAcquisition;
 let useSEPA, setUseSEPA;
+
+function acquisitionText(num) {
+    switch (num) {
+        case 0:
+            return "In einem Lokal gesehen";
+        case 1:
+            return "Durch einen anderen Gastronom";
+        case 2:
+            return "Durch einen Freund";
+        case 3:
+            return "Medienauftritt (Fernsehen, Radio oder Blog)";
+        case 4:
+            return "Social Media (Instagram, Facebook)";
+        case 5:
+            return "Suche bei Google";
+        case 6:
+            return registerData.otherAcquisition;
+    }
+}
 
 function handleFieldChange(name, event) {
     //alert("Field " + name + " changed " + " to:" + event.target.value);
     let newRegisterData = registerData;
     newRegisterData[name] = event.target.value;
     setRegisterData(newRegisterData);
-
-    if (name === "count") {
-        // Update price
-        console.log("Updated price");
-        let tmp = prices;
-        let count_ = parseInt(event.target.value);
-        setCount(count_);
-        if (count_ >= 5) {
-            tmp[0] = 19.9 + (count_ - 5) * 1.5;
-        }
-        setPrices(tmp);
-    }
 }
 
 function handleRegisterSubmit(formData) {
     const cookies = new Cookies();
-    // Handle wrong inputs
-    if (registerData.password1 !== registerData.password2) {
-        alert("Passwörter stimmen nicht überein!");
-        return;
-    }
-
-    if (!privacyConfirmed || !agbConfirmed) {
-        alert("Bestätigen Sie zuerst die AGBs und Datenschutzerklärung");
-        return;
-    }
 
     if (submitted) {
         // Already submitted
@@ -113,7 +109,7 @@ function handleRegisterSubmit(formData) {
             registerData.rstreet = registerData.street;
         }
 
-        let data = {
+        let old_data = {
             name: registerData.cname,
             zip: registerData.zip,
             town: registerData.town,
@@ -136,11 +132,57 @@ function handleRegisterSubmit(formData) {
             A4_count: A4_count,
             A5_count: A5_count,
         };
-    
-        //Object.assign(data, formData);
-        console.log(data);
-    
-        fetch('https://' + window.Vars.domain + ':5000/company_register', {
+
+        let tables = [];
+
+        if (selPackage === 2) {
+            for (let i = 0; i < count; i++) {
+                tables.push({name: String(i + 1)});
+            }
+        }
+
+        let tables_count = count;
+
+        if (selPackage === 0) {
+            tables_count = 0;
+        }
+
+        let company = {
+            name: registerData.cname,
+            zip: registerData.zip,
+            town: registerData.town,
+            street: registerData.street,
+            state: "RLP",
+            logo: base64data,
+            image_type: typeName,
+            rname: registerData.rcname,
+            rtown: registerData.rtown,
+            rstreet: registerData.rstreet,
+            rzip: registerData.rzip,
+            sepa: {
+                account_holder: registerData.fname + " " + registerData.lname,
+                iban: registerData.sepa_iban,
+                bic: registerData.sepa_bic,
+            },
+            tables: tables,
+            print_tables: false,
+            id: company_id,
+            A5_count: 5 + Number(tables_count),
+        }
+
+        let data = {
+            fname: registerData.fname,
+            lname: registerData.lname,
+            mobile: registerData.mobile,
+            email: registerData.email,
+            discount: discount_code,
+            trial: test_code,
+            pw_hash: myHash,
+            companies: [company],
+            acquisition: acquisitionText(selAcquisition)
+        };
+        
+        fetch('https://' + window.Vars.domain + ':5000/new_company_register', {
             method: 'POST',
             headers: {
                 "Content-Type": "text/plain; charset=utf-8"
@@ -179,6 +221,11 @@ function EntryField (props){
     );
 }
 
+function fieldIsEmpty(fieldname) {
+    let value = registerData[fieldname];
+    return (value === "" || value === null || value === undefined);
+}
+
 function handlePageSubmit() {
     setErrmsg("");
 
@@ -192,6 +239,7 @@ function handlePageSubmit() {
     }
 
     if (pagenr === 1) {
+        console.log("Count: " + count);
         if ((registerData.cname === "" || registerData.rcname === "" || registerData.zip === "" || registerData.town === "" || registerData.street === "") || (otherAddress && (registerData.rzip === "" || registerData.rtown === "" || registerData.rstreet === ""))) {
             // Not completed
             setErrmsg("Es müssen alle Felder ausgefüllt sein!");
@@ -202,12 +250,41 @@ function handlePageSubmit() {
             setErrmsg("Es wurde noch kein Logo hochgeladen!");
             return;
         }
+        if (selPackage !== 0 && (count === null || count === undefined || count === "" || count < 0)) {
+            setErrmsg("Ungültige Flyeranzahl!");
+            return;
+        }
     }
 
     if (pagenr === 2) {
         if (registerData.email === "" || registerData.password1 === "" || registerData.password2 === "") {
             // Not completed
             setErrmsg("Es müssen alle Felder ausgefüllt sein!");
+            return;
+        }
+
+        if (registerData.password1 !== registerData.password2) {
+            setErrmsg("Passwörter stimmen nicht überein!");
+            return;
+        }
+
+        if (!privacyConfirmed || !agbConfirmed) {
+            setErrmsg("Bitte akzeptieren Sie die AGBs und Datenschutzbestimmungen!");
+            return;
+        }
+
+        if (selAcquisition === "not-selected") {
+            setErrmsg("Wählen Sie bitte aus, wie sie auf uns gekommen sind!");
+            return;
+        }
+
+        if (selAcquisition === 6 && fieldIsEmpty("otherAcquisition")) {
+            setErrmsg("Füllen Sie bitte aus, wie sie auf uns gekommen sind!");
+            return;
+        }
+
+        if(useSEPA && (fieldIsEmpty("sepa_iban") || fieldIsEmpty("sepa_bic"))) {
+            setErrmsg("Bitte füllen Sie die IBAN und BIC aus!");
             return;
         }
     }
@@ -353,8 +430,8 @@ function Page2() {
                     <input
                         type="number"
                         name="tableCount2"
-                        value="5"
-                        onChange={e => handleFieldChange("tableCount2", e)}
+                        value={count}
+                        onChange={e => setCount(e.target.value)}
                     />
 
                     <span>5 Flyer sind kostenlos inklusive.</span>
@@ -393,7 +470,7 @@ function Page1() {
     );
 }
 
-function Page3(disabled, prices) {
+function Page3(disabled) {
     console.log("Reloading page");
 
     let style = "EntrySubmitBtn EntrySubmitBtnCompany";
@@ -431,10 +508,6 @@ function Page3(disabled, prices) {
                     />
                 </div>
 
-                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3 CheckboxWrapper4">
-                    <input type="checkbox" id="privacy" className="Checkbox_" value={privacyConfirmed} checked={privacyConfirmed} onClick={() => toggleCheckbox("privacy")}/> <p className="CheckboxText_">Ich habe die <a href="/privacy"><strong>Datenschutzerklärung</strong></a> gelesen und stimme zu.</p>
-                </div>
-
                 <div className="acquisitionQuery">
                     <h3>Wie sind Sie auf uns aufmerksam geworden?</h3> 
 
@@ -466,9 +539,9 @@ function Page3(disabled, prices) {
                 <div className="price">
                     <h2>Kostenzusammenstellung</h2>
                     <p>Einrichtungsgrundgebühr: <strong className="priceitem">18,00 €</strong><br />
-                    Aufpreis für Ausdrucke: <strong className="priceitem">{(prices[0] - 18).toFixed(2).replace(".", ",")} €</strong><br />
+                    Aufpreis für Ausdrucke: <strong className="priceitem">{(count*1.5).toFixed(2).replace(".", ",")} €</strong><br />
                     Monatliche Kosten: <strong className="priceitem">20,00 €</strong></p>
-                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{(prices[0] * 1.16).toFixed(2)} € (inkl. 16 % MwSt)</strong></p>
+                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{((18 + count*1.5) * 1.16).toFixed(2).replace(".", ",")} € (inkl. 16 % MwSt)</strong></p>
                     <br />
                     <br />
                     <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong>
@@ -482,12 +555,17 @@ function Page3(disabled, prices) {
 
                 {useSEPA && <div className="SEPAfields">
                     <EntryField name="sepa_iban" displayname="IBAN"/>
+                    <br />
                     <EntryField name="sepa_bic" displayname="BIC"/>
                     <p>Ich stimme zu, dass ich Vollmacht über das angegebene Konto besitze und die aufgeführten Beträge von diesem eingezogen werden dürfen.</p>
                     <br />
                 </div>}
 
                 <br />
+
+                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
+                    <input type="checkbox" id="privacy" className="Checkbox_" value={privacyConfirmed} checked={privacyConfirmed} onClick={() => toggleCheckbox("privacy")}/> <p className="CheckboxText_">Ich habe die <a href="/privacy"><strong>Datenschutzerklärung</strong></a> gelesen und stimme zu.</p>
+                </div>
 
                 <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
                     <input type="checkbox" id="agb" className="Checkbox_" value={agbConfirmed} checked={agbConfirmed} onClick={() => toggleCheckbox("agb")}/> <p className="CheckboxText_">Ich habe die <a href="/agb"><strong>Allgemeinen Geschäftsbedingungen</strong></a> gelesen und stimme zu.</p>
@@ -528,7 +606,6 @@ function CompanyRegisterScreen (props) {
     [submitted, setSubmitted] = React.useState(false);
     [agbConfirmed, setAgbConfirmed] = React.useState(false);
     [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
-    [prices, setPrices] = React.useState([18, 20]);
     [count, setCount] = React.useState(5);
     [selPackage, setSelPackage] = React.useState(0);
     [selAcquisition, setSelAcquisition] = React.useState("not-selected");
@@ -538,10 +615,10 @@ function CompanyRegisterScreen (props) {
 
     return(
         <div className="CompanyWrapper">
-            <h1>Unternehmensregistrierung</h1>
+            <h1 className="h1Head">Unternehmensregistrierung</h1>
             {pagenr === 0 && Page1()}
             {pagenr === 1 && Page2()}
-            {pagenr === 2 && Page3(submitted, prices)}
+            {pagenr === 2 && Page3(submitted)}
         </div>
     );
 }
