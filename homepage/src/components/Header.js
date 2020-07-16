@@ -17,7 +17,7 @@ function Header () {
             <a href="/"><img src={logo} className="Logo" alt="logo" /></a>
             <img src={burger} className="MenuBurger" alt="burger" onClick={() => {setMenuActivated(!menuActivated)}}/>
             
-            <div className="companyLogin" onClick={() => window.location.assign("/data")}>
+            <div className="companyLogin" onClick={() => window.location.assign("/dashboard")}>
                     <p>Firmenlogin</p>
             </div>
 
@@ -26,7 +26,7 @@ function Header () {
                 <a href="/unternehmen">Für Unternehmen</a>
                 <a href="/gaeste">Für Gäste</a>
                 <a href="/team">Team</a>
-                <a href="/data" className="companyLoginBtnMenu"><span style={{fontWeight: 600, color: "#1f5db9"}}>Firmenlogin</span></a>
+                <a href="/dashboard" className="companyLoginBtnMenu"><span style={{fontWeight: 600, color: "#1f5db9"}}>Firmenlogin</span></a>
             </div>
         </div>
     );

@@ -548,7 +548,7 @@ function Page3(props) {
                     <p>Einrichtungsgrundgebühr: <strong className="priceitem">18,00 €</strong><br />
                     Aufpreis für Ausdrucke: <strong className="priceitem">{(count*1.5).toFixed(2).replace(".", ",")} €</strong><br />
                     Monatliche Kosten: <strong className="priceitem">20,00 €</strong></p>
-                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{((18 + count*1.5) * 1.16).toFixed(2).replace(".", ",")} € (inkl. 16 % MwSt)</strong></p>
+                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{((18 + 20 + count*1.5) * 1.16).toFixed(2).replace(".", ",")} € (inkl. 16 % MwSt)</strong></p>
                     <br />
                     <br />
                     <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong>

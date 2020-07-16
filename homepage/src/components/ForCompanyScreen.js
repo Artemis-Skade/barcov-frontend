@@ -11,31 +11,23 @@ function ForCompanyScreen () {
         <div className="Wrapper">
             <h1 className="companyH1">Einrichtung für Ihren Betrieb – ganz einfach:</h1>
 
-            <p className="ShortExplanation">Wie läuft der Registrierungsprozess für ein Unternehmen ab? Das wird im folgenden Werbespot kurz erklärt.</p>
-
-            <video className="Tutorialvideo" id="samp" width="640" height="480" controls autoPlay>
-                <source src={tutorial} type="video/mp4">
-                </source>
-            </video>
-            <h2 className="companyH2">Erklärvideo – Erstellt von <strong>e.pic. Film</strong></h2>
-
-            <div className="Section">
+            <div className="Section CompanySection">
                 <div className="SectionRight">
                     <img src={starterpaket}/>
                     <h2>BarCov Starterpaket</h2>
                     <p>Enthält:</p>
                     <ul>
-                        <li>5 Auslegeflyer mit QR-Code mit inbegriffen</li>
-                        <li>Online-Zugriff auf Daten mit Download-Funktion</li>
-                        <li>Online-Speisekarte und Social Media</li>
+                        <li>5 laminierte Auslegeflyer mit QR-Code</li>
+                        <li>Online-Zugriff auf Gastdaten mit Download-Funktion</li>
+                        <li>Online-Speisekarte und Verlinkung von Social Media</li>
                         <li>24/7 Kundenservice</li>
                     </ul>
 
                     <br />
 
                     <h2>Preise</h2>
-                    <p className="price">Einmalige Gebühr: <strong>14,90 €</strong> (zzgl. 16 % MwSt.)</p>
-                    <p className="price">Monatliche Gebühr: <strong>19,90 €</strong> (zzgl. 16 % MwSt.)</p>
+                    <p className="price">Einmalige Gebühr: <strong>18,00 €</strong> (zzgl. 16 % MwSt.)</p>
+                    <p className="price">Monatliche Gebühr: <strong>20,00 €</strong> (zzgl. 16 % MwSt.)</p>
                     <br />
                     <img src={checkmark} className="checkmark"/><p className="checkmark_p">Jederzeit fristlos kündbar</p><br />
                     <img src={checkmark} className="checkmark"/><p className="checkmark_p">Zwei Wochen Geld-zurück-Garantie</p>
@@ -48,8 +40,6 @@ function ForCompanyScreen () {
                 </div>
 
                 <div className="SectionLeft">
-                    <h1>Das ist BarCov</h1>
-
                     <p>BarCov erfasst durch das Scannen des QR-Codes beim Kommen und Gehen die Kontaktdaten Ihrer Kunden und übermittelt diese verschlüsselt an unseren Server. </p>
 
                     <p>Dabei kann sich der Kunde frei zwischen einer einmaligen Anmeldung oder einer Registrierung entscheiden. Wird ein Konto erstellt, ist der Benutzer auch beim Scannen eines Codes in anderen Betrieben, die unseren Service beanspruchen, sofort angemeldet.</p>
@@ -57,8 +47,17 @@ function ForCompanyScreen () {
                     <p>Die Daten Ihrer Kunden sind geschützt und können nicht von Dritten eingesehen werden oder verloren gehen. In Sekundenschnelle sind so die Coronaauflagen erfüllt, ganz ohne Stift und Papier. </p>
 
                     <p>Nach Betriebsende sind alle Gastdaten vom Unternehmensleiter online einsehbar. Auf Wunsch kann außerdem eine Zusammenfassung des Tages heruntergeladen werden.</p>
+                
+                    <p className="ShortExplanation"><strong>Wie läuft der Registrierungsprozess für ein Unternehmen ab? Sehen Sie selbst:</strong></p>
+
+                    <video className="Tutorialvideo" id="samp" width="640" height="480" controls>
+                        <source src={tutorial} type="video/mp4">
+                        </source>
+                    </video>
+                    <p>Erklärvideo erstellt von <strong>e.pic. Film</strong></p>
                 </div>
             </div>
+
 
             <div className="companyFAQ">
                 <h1>FAQ für Gastronome</h1>

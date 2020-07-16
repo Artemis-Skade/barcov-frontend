@@ -2,7 +2,8 @@ import React from 'react';
 import iphone from '../assets/img/iphone.png';
 import playbtn from '../assets/img/playBtn.png';
 import phoneicon from '../assets/img/phoneIcon.png';
-import samplepage from '../assets/img/samplepage.png';
+import samplepage from '../assets/img/samplepage.jpg';
+import phonepreview from '../assets/img/phonepreview.png';
 
 import '../App.css';
 
@@ -31,20 +32,25 @@ function StartScreen () {
             <div className="Section2">
                 <div className="Explanation">
                     <h1>Das ist BarCov</h1>
-                    <p>BarCov erfasst durch das Scannen des QR-Codes beim Kommen und Gehen die Kontaktdaten Ihrer Kunden und übermittelt diese verschlüsselt an unseren Server. </p>
-                    <p>Nach Betriebsende sind alle Gastdaten vom Unternehmensleiter online einsehbar. Auf Wunsch kann außerdem eine Zusammenfassung des Tages heruntergeladen werden.</p>
+                    <p><strong>Sie sind Gastronom, Friseur oder Betreiber von Sportstätten?</strong></p>
+                    <p>BarCov erfasst durch das Scannen eines QR-Codes beim Kommen und Gehen ganz einfach die Kontaktdaten Ihrer Kunden. </p>
+                    <a href="/unternehmen"><img src={playbtn} className="PlayBtn" alt="playbtn" /> &nbsp;&nbsp; Mehr erfahren</a>
                 </div>
+
+                <img src={phonepreview} className="phonepreview" alt="phonepreview" />
             </div>
 
-            <h1>Versuchen Sie es selbst!</h1>
-            <div className="TestImgBox">
-                <img src={samplepage} className="TestImg" alt="samplepage" />
-            </div>
-            <a href="oG2XgdBc">
-                <div className="tryBtn">
-                    <img src={phoneicon} className="PlayBtn" alt="playbtn" /> <p>Ausprobieren</p>
+            <div className="Section3">
+                <h1>Versuchen Sie es selbst!</h1>
+                <div className="TestImgBox">
+                    <img src={samplepage} className="TestImg" alt="samplepage" />
                 </div>
-            </a>
+                <a href="oG2XgdBc">
+                    <div className="tryBtn">
+                        <img src={phoneicon} className="PlayBtn" alt="playbtn" /> <p>Ausprobieren</p>
+                    </div>
+                </a>
+            </div>
         </div>
     );
 }

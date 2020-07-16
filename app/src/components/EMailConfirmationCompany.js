@@ -52,7 +52,7 @@ function sendConfirmation(id) {
 }
 
 function EMailConfirmationCompany (props) {
-    let message = "Dein Firmenkonto wurde erfolgreich aktiviert!";
+    let message = "Ihr Firmenkonto wurde erfolgreich aktiviert! Sie werden in Kürze weitergeleitet...";
 
     sendConfirmation(props.id);
 
