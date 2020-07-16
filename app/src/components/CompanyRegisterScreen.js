@@ -142,9 +142,18 @@ function handleRegisterSubmit(formData) {
         }
 
         let tables_count = count;
+        let sepa = {
+            account_holder: registerData.fname + " " + registerData.lname,
+            iban: registerData.sepa_iban,
+            bic: registerData.sepa_bic,
+        };
 
         if (selPackage === 0) {
             tables_count = 0;
+        }
+
+        if (!useSEPA) {
+            sepa = "None";
         }
 
         let company = {
@@ -159,11 +168,7 @@ function handleRegisterSubmit(formData) {
             rtown: registerData.rtown,
             rstreet: registerData.rstreet,
             rzip: registerData.rzip,
-            sepa: {
-                account_holder: registerData.fname + " " + registerData.lname,
-                iban: registerData.sepa_iban,
-                bic: registerData.sepa_bic,
-            },
+            sepa: sepa,
             tables: tables,
             print_tables: false,
             id: company_id,
@@ -251,7 +256,7 @@ function handlePageSubmit() {
             return;
         }
         if (selPackage !== 0 && (count === null || count === undefined || count === "" || count < 0)) {
-            setErrmsg("Ungültige Flyeranzahl!");
+            setErrmsg("Bitte legen Sie fest, wie viele Tische Sie haben!");
             return;
         }
     }
@@ -434,7 +439,7 @@ function Page2() {
                         onChange={e => setCount(e.target.value)}
                     />
 
-                    <span>5 Flyer sind kostenlos inklusive.</span>
+                    <span>Wir legen ihnen 5 weitere Flyer als Reserve hinzu.</span>
                 </div>
             } 
 
@@ -446,6 +451,8 @@ function Page2() {
             <div className="EntrySubmit SubmitCompany">
                 <input className="EntrySubmitBtn EntrySubmitBtnCompany" type='button' value="Weiter" onClick={handlePageSubmit}/>
             </div>
+
+            <a className="backbtn" onClick={() => setPagenr(0)}>Zurück</a>
         </form>
         </>
     );
@@ -570,12 +577,15 @@ function Page3(disabled) {
                 <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
                     <input type="checkbox" id="agb" className="Checkbox_" value={agbConfirmed} checked={agbConfirmed} onClick={() => toggleCheckbox("agb")}/> <p className="CheckboxText_">Ich habe die <a href="/agb"><strong>Allgemeinen Geschäftsbedingungen</strong></a> gelesen und stimme zu.</p>
                 </div>
+                <br />
 
                 <p className="ErrorMsg">{errmsg}</p>
 
                 <div className="EntrySubmit">
                     <input className={style} type='button' value="Kaufen" onClick={handlePageSubmit}/>
                 </div>
+
+                <a className="backbtn" onClick={() => setPagenr(1)}>Zurück</a>
             </form>
         </>
     );
@@ -606,7 +616,7 @@ function CompanyRegisterScreen (props) {
     [submitted, setSubmitted] = React.useState(false);
     [agbConfirmed, setAgbConfirmed] = React.useState(false);
     [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
-    [count, setCount] = React.useState(5);
+    [count, setCount] = React.useState("");
     [selPackage, setSelPackage] = React.useState(0);
     [selAcquisition, setSelAcquisition] = React.useState("not-selected");
     [useSEPA, setUseSEPA] = React.useState(false);
