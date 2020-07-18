@@ -9,11 +9,31 @@ function ImpressumScreen () {
 
             <h2>Angaben gem&auml;&szlig; &sect; 5 TMG:</h2>
 
-            <p><strong>Jonathan Fritz, Polcher Str. 48 56727 Mayen</strong></p>
+            <p><strong>
+                XOrigin UG (haftungsbeschränkt)<br />
+                Auf dem Weingarten 16a<br />
+                56727 Mayen<br />
+                <br />
+                Handelsregister: HRB 26850<br />
+                <br />
+                Registergericht: Amtsgericht Koblenz<br />
+                <br />
+                Vertreten durch: Herr Max von Wolff<br />
+            </strong></p>
+
+            <br />
+            
+            <h2>Umsatzsteuer-ID</h2>
+            <p>Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:</p>
+            <p><strong>DE325231548</strong></p>
+
+            <br />
 
             <h2>Kontakt:</h2>
 
-            <p>Telefon: <strong>0174 3977138</strong> E-Mail: <strong>support@barcov.id</strong> </p>
+            <p>Telefon: <strong>0177 4423014</strong> E-Mail: <strong>support@barcov.id</strong> </p>
+
+            <br />
 
             <h2>Haftungsausschluss (Disclaimer)</h2>
 

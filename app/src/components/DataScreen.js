@@ -83,58 +83,12 @@ function handleDateChange(newDate) {
     console.log("Set to Date: " + newDate);
 }
 
-function handleCheckClick() {
-    const cookies = new Cookies();
-
-    setSendMails(!sendMails);
-    console.log("Submitting mail preferences...");
-
-    let data = {
-        session_key: cookies.get('sessionKeyCompany'),
-        sendMails: !sendMails
-    };
-
-    console.log(data);
-
-    fetch('https://' + window.Vars.domain + ':5000/set_mail_settings', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "text/plain"
-        },
-        body: JSON.stringify(data)
-    }).then(res => res.json()).then(res => {
-    }).catch(err => console.log(err));
-}
-
-function updateMailPreferences() {
-    const cookies = new Cookies();
-
-    console.log("Getting mail preferences...");
-
-    let data = {
-        session_key: cookies.get('sessionKeyCompany'),
-    };
-
-    console.log(data);
-
-    fetch('https://' + window.Vars.domain + ':5000/get_mail_settings', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "text/plain"
-        },
-        body: JSON.stringify(data)
-    }).then(res => res.json()).then(res => {
-        setSendMails(res["value"] === "true");
-    }).catch(err => console.log(err));
-}
-
 function Settings() {
     let style = () => {if (showSettings)  {return {display: "block"}} else { return {display: "block", marginTop: -300} }};
     // <a href="/">Passwort ändern</a>
 
     return (
     <div className="SettingsMenu" style={style()}>
-        {false && <div className="CheckBoxWrapper"><input type="checkbox" id="sendmails" className="Checkbox" value={sendMails} checked={sendMails} onClick={handleCheckClick}/> <p className="CheckboxText">Mails erhalten</p></div>}
         <a href="/" onClick={logout}>Ausloggen</a>
     </div>);
 }
@@ -275,9 +229,6 @@ function DataScreen () {
                     setCompanies(data.companies);
                     updateCompanyID();
                     fetchData(new Date(Date.now() + 7200 * 1000));
-
-                    // Set initial sendMails state
-                    updateMailPreferences();
                 } else {
                     // Go to login screen
                     window.Vars.setScreen("logincompany");

@@ -8,6 +8,7 @@ function Footer (props) {
         <div className="Footer">
             <a>© BarCovid</a>
             <a href="/impressum">Impressum</a>
+            <a href="/agb">AGBs</a>
             <a href="/privacypolicy">Datenschutzerklärung</a>
         </div>
     );
