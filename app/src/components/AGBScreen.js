@@ -25,11 +25,11 @@ function AGBScreen () {
             <div >
             <br />
             XOrigin UG (haftungsbeschränkt)<br />
-            Max von Wolff<br />
+            vertreten durch Herrn Max von Wolff<br />
             Auf dem Weingarten 16a<br />
             D-56727 Mayen<br />
-            Registernummer <br />
-            Registergericht <br />
+            Handelsregisternr.: HRB 26850 <br />
+            Amtsgericht Koblenz <br />
             <br />
             </div>
             zustande.<br /></b>
@@ -67,7 +67,7 @@ function AGBScreen () {
             <br />
             <br />
             (5) Speicherung des Vertragstextes bei Bestellungen über unseren Internetshop : Wir senden Ihnen die Bestelldaten und unsere AGB per
-            E-Mail zu. Die AGB können Sie jederzeit auch unter https://barcov.id/agbs  einsehen.
+            E-Mail zu. Die AGB können Sie jederzeit auch unter https://barcov.id/agb  einsehen.
 
             Ihre Bestelldaten sind aus Sicherheitsgründen nicht mehr über das Internet zugänglich.
             <br />

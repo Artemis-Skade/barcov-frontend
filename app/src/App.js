@@ -193,7 +193,6 @@ function App() {
       console.log("Dashboard");
     } else {
       let pathparts = pathname.split("/");
-
       let store_id = pathparts[0];
 
       window.Vars.store_id = store_id;

@@ -171,7 +171,7 @@
 }
 
 .EntrySubmitBtnCompany {
-  background-color: #1d6daa;
+  background-color: #0672fe;
 }
 
 .EMailConfirmation {
@@ -213,11 +213,11 @@
   color: #ffffff;
   font-size: 17px;
   font-weight: 600;
-  background-color: #1a6ba7;
+  background-color: #0672fe;
 }
 
 .AddPersonBtn2 input {
-  color: #00599c !important;
+  color: #0672fe !important;
   font-size: 17px;
   font-weight: 600;
   text-decoration: underline;
@@ -279,7 +279,7 @@
 }
 
 .GroupPerson {
-  background-color: #196ca8;
+  background-color: #0672fe;
   width: 100%;
   height: 70px;
   border-radius: 10px;

@@ -4,6 +4,7 @@ import settingsIcon from '../assets/img/settings.png';
 import Pencilimg from '../assets/img/pencil.png';
 
 import DatePicker from "react-datepicker";
+import TableSelector from './TableSelector';
  
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -28,7 +29,7 @@ function fetchData(fetchDate) {
 
     let data = {
         id: activeCompanyID,
-        date: parseInt(fetchDate.getTime() / 1000), //Math.floor(Date.now() / 1000 + 7200),
+        date: parseInt(fetchDate.getTime() / 1000),
         session_key: cookies.get('sessionKeyCompany'),
     };
 
@@ -118,6 +119,7 @@ function SelectHeader() {
                 <img className="CalendarImg" src={Pencilimg} alt="Calendar" />
             </div>
             <a onClick={downloadFile}><div className="DownloadBtn">Herunterladen</div></a>
+            <TableSelector />
             <a onClick={() => setShowSettings(!showSettings)}><img className="settingsBtn" src={settingsIcon} /></a>
             <Settings />
             <div className="CompanyBtns">{companyBtns}</div>
