@@ -14,6 +14,11 @@ function handleFieldChange(name, event) {
     setRegisterData(newRegisterData);
 }
 
+function nextScreen() {
+    // Go to next screen
+    window.Vars.setScreen("finishscreen");
+}
+
 function handleRegisterSubmit(formData) {
     const cookies = new Cookies();
     // Handle wrong inputs
@@ -56,7 +61,7 @@ function handleRegisterSubmit(formData) {
         // Check if registration was successful
         if (res["success"]) {
             window.Vars.registerMsg = res["message"];
-            window.Vars.setScreen("registrationsuccess");
+            window.Vars.setScreen("finishscreen");
         } else {
             setErrorMsg(res["message"]);
         }
@@ -109,8 +114,10 @@ function RegisterScreen (props) {
                 <p className="ErrorMsg">{errorMsg}</p>
 
                 <div className="EntrySubmit">
-                    <input className="EntrySubmitBtn" type='button' value="Registrieren" onClick={() => {handleRegisterSubmit(props.formData);}}/>
+                    <input className="EntrySubmitBtn" type='button' value="Jetzt Registrieren" onClick={() => {handleRegisterSubmit(props.formData);}}/>
                 </div>
+
+                <a className="gowithoutregistration" onClick={() => {nextScreen();}}>Eintragen ohne Registrierung</a>
             </form>
         </div>
     );

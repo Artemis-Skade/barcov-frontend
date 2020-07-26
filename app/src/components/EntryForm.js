@@ -206,7 +206,7 @@ function handleEntrySubmit(setFormData_) {
                 enterAdditionalPersons(finalAddPersons, entry, res["id"]);
             }
             console.log(res);
-            window.Vars.setScreen("confirmationwithregistration");
+            window.Vars.setScreen("registrationscreen");
         } else {
             setErrormsg(res["message"]);
         }
@@ -241,7 +241,7 @@ function EntryForm (props) {
     [addPersons, setAddPersons] = React.useState([]);
     [tableNum, setTableNum] = React.useState("not-defined");
     [tableNumSelOpen, setTableNumSelOpen] = React.useState(false);
-    let [URLtablePresent, setURLtablePresent] = React.useState(false);
+    let [URLtableNotPresent, setURLtableNotPresent] = React.useState("not-defined");
 
     React.useEffect(() => {
         // Read table number
@@ -253,7 +253,9 @@ function EntryForm (props) {
         if (pathparts.length >= 2 && pathparts[1].length > 0) {
             console.log("Set tableNum to: " + pathparts[1]);
             setTableNum(pathparts[1]);
-            setURLtablePresent(true);
+            setURLtableNotPresent(false);
+        } else {
+            setURLtableNotPresent(true);
         }
 
         if (props.tables === null) {
@@ -269,13 +271,13 @@ function EntryForm (props) {
         submitClassNames += " EntrySubmitDisabled";
         submitBtnClassNames += " EntrySubmitBtnDisabled";
     }
-    
+
     return(
         <div className="EntryForm">
             <h2>Kontaktdaten erfassen bei</h2>
             <h1>{props.storename}</h1>
             <form>
-                {!URLtablePresent && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum} tableNum={tableNum}/>}
+                {URLtableNotPresent && <TableSelector tables={props.tables} opened={tableNumSelOpen} setOpened={setTableNumSelOpen} setTableNum={setTableNum} tableNum={tableNum}/>}
 
                 <EntryField name="fname" displayname="Vorname"/>
                 <EntryField name="lname" displayname="Nachname"/>
@@ -296,7 +298,7 @@ function EntryForm (props) {
 
                 <p className="Errormsg">{errormsg}</p>
                 <div className={submitClassNames}>
-                    <input className={submitBtnClassNames} type='button' value="Abschicken" onClick={() => {handleEntrySubmit(props.setFormData);}}/>
+                    <input className={submitBtnClassNames} type='button' value="Weiter" onClick={() => {handleEntrySubmit(props.setFormData);}}/>
                 </div>
             </form>
         </div>

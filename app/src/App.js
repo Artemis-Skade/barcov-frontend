@@ -22,6 +22,7 @@ import AGBScreen from './components/AGBScreen';
 import DashboardScreen from './components/DashboardScreen';
 import TableSelectScreen from './components/TableSelectScreen';
 import EMailConfirmationCompany from './components/EMailConfirmationCompany';
+import FinishScreen from './components/FinishScreen';
 
 let screen, setScreen;
 let storename, setStorename;
@@ -54,6 +55,7 @@ function getStore(store_id) {
 function Screen() {
   if (screen === "confirmation") return (<ConfirmationScreen type="entry" scanId={scanId} tableNum={tableNum}/>);
   if (screen === "confirmationwithregistration") return (<><ConfirmationScreen type="entry"/><RegisterScreen formData={formData}/></>);
+  if (screen === "registrationscreen") return (<RegisterScreen formData={formData}/>);
   if (screen === "registrationsuccess") return (<ConfirmationScreen type="register"/>);
   if (screen === "login") return (<LoginScreen tables={tables} setScanId={setScanId} tableNum={tableNum} setTableNum={setTableNum}/>);
   if (screen === "emailconfirmation") return (<EMailConfirmation id={confirmation_id}/>);
@@ -69,6 +71,7 @@ function Screen() {
   if (screen === "speisekarte") return (<DiningcardScreen />);
   if (screen === "dashboard") return (<DashboardScreen />);
   if (screen === "tableselect") return (<TableSelectScreen tables={tables} contactid={contactId} setScanId={setScanId} tableNum={tableNum} setTableNum={setTableNum}/>);
+  if (screen === "finishscreen") return (<FinishScreen />);
 
   // Fallback
   return (<><LoginPrompt /><EntryForm storename={storename} setFormData={setFormData} tables={tables}/></>);
