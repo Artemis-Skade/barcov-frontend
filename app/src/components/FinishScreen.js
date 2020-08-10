@@ -65,26 +65,32 @@ function FinishScreen (props) {
 
             {companyInfo !== "not-fetched" && 
                 <>
-                    <OptionBox enabled={true} name="Tagesangebot" action={() => openPopUp()}/>
-                    <OptionBox enabled={true} name="Speisekarte" action={() => window.location = "menu/" + storeid}/>
+                    {companyInfo.offers && <OptionBox enabled={true} name="Tagesangebot" action={() => openPopUp()}/>}
+                    {companyInfo.custom_menu && <OptionBox enabled={true} name="Speisekarte" action={() => window.location = "menu/" + storeid}/>}
+                    {(!companyInfo.custom_menu && companyInfo.menu_link) && <OptionBox enabled={true} name="Speisekarte" action={() => window.location = companyInfo.menu_link}/>}
 
                     <br />
                     <br />
                     <h2>Folgt uns auch auf Social Media!</h2>
                     <br />
                     <div className="SocialMediaWrapper">
+                        {companyInfo.social_media.instagram !== undefined && 
                         <div className="SocialMediaOption" onClick={() => window.location = "https://instagram.com/" + companyInfo.social_media.instagram}>
                             <img src={instagram_icon} className="socialIcon" alt="img"/>
                             <p>@ {companyInfo.social_media.instagram}</p>
-                        </div>
+                        </div>}
+                        
+                        {companyInfo.social_media.facebook !== undefined && 
                         <div className="SocialMediaOption" onClick={() => window.location = companyInfo.social_media.facebook}>
                             <img src={facebook_icon} className="socialIcon" alt="img"/>
-                            <p>@ {window.Vars.storename}</p>
-                        </div>
+                            <p>{window.Vars.storename}</p>
+                        </div>}
+
+                        {companyInfo.website !== undefined && 
                         <div className="SocialMediaOption" onClick={() => window.location = companyInfo.website}>
                             <img src={website_icon} className="socialIcon" alt="img"/>
                             <p>Website von {window.Vars.storename}</p>
-                        </div>
+                        </div>}
                     </div>
                 </>
             }
