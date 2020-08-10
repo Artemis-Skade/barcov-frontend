@@ -18,7 +18,7 @@ function ForCompanyScreen () {
                     <p>Enthält:</p>
                     <ul>
                         <li>5 laminierte Auslegeflyer mit QR-Code</li>
-                        <li>Online-Zugriff auf Gastdaten mit Download-Funktion</li>
+                        <li>Online-Zugriff auf Gastdaten auf Anfrage</li>
                         <li>Online-Speisekarte und Verlinkung von Social Media</li>
                         <li>24/7 Kundenservice</li>
                     </ul>
@@ -26,12 +26,12 @@ function ForCompanyScreen () {
                     <br />
 
                     <h2>Preise</h2>
-                    <p className="price">Einmalige Gebühr: <strong>18,00 €</strong> (zzgl. 16 % MwSt.)</p>
-                    <p className="price">Monatliche Gebühr: <strong>20,00 €</strong> (zzgl. 16 % MwSt.)</p>
+                    <p className="price"><strong>Einen Monat kostenlose Testphase.</strong></p>
+                    <p className="price">Danach monatlich <strong>19,00 €</strong> (zzgl. 16 % MwSt.)</p>
                     <br />
+                    <img src={checkmark} className="checkmark"/><p className="checkmark_p">Kostenpflichtig erst nach Ihrer Zustimmung</p><br />
                     <img src={checkmark} className="checkmark"/><p className="checkmark_p">Jederzeit fristlos kündbar</p><br />
-                    <img src={checkmark} className="checkmark"/><p className="checkmark_p">Zwei Wochen Geld-zurück-Garantie</p>
-                    
+
                     <a href="/company" style={{textDecoration: "none"}}>
                         <div className="companyRegisterBtn">
                             <p>Jetzt Betrieb einrichten</p>
