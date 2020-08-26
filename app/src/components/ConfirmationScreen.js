@@ -202,8 +202,6 @@ function addPerson(person, table) {
 }
 
 function AddPersonWrapper(props) {
-    let submitBtnClassNames = "AddPersonBtn";
-
     return (
         <>
         <div className="groupList">
@@ -215,9 +213,11 @@ function AddPersonWrapper(props) {
             <AddPerson vorname={person[0]} nachname={person[1]}/>
         </div>
 
-        <div className={submitBtnClassNames}>
+        {false && <div className={"AddPersonBtn"}>
             <input className="EntrySubmitBtn" type='button' value="Weitere Person hinzufügen" onClick={() => {addPerson(person, props.tableNum)}}/>
-        </div>
+        </div>}
+
+        <p className="addPersonBtnInline" onClick={() => {addPerson(person, props.tableNum)}}>Weitere Person hinzufügen</p>
     </>
     );
 }
@@ -259,6 +259,10 @@ function ConfirmationScreen (props) {
             <h1 style={{textAlign: "center"}}>{message}</h1>
 
             { (props.scanId !== undefined) && <AddPersonWrapper tableNum={props.tableNum}/> }
+            
+            <div className={"AddPersonBtn"}>
+                <input className="EntrySubmitBtn" type='button' value="Fertig" onClick={() => window.Vars.setScreen("finishscreen")}/>
+            </div>
         </div>
     );
 }

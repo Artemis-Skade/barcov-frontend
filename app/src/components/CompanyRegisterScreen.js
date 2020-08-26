@@ -393,9 +393,11 @@ function Page2() {
             <EntryField type="inline1" name="zip" displayname="PLZ"/>
             <EntryField type="inline2" name="town" displayname="Ort"/>
 
-            <div className="CheckboxWrapper CheckboxWrapper2">
+            {false && <div className="CheckboxWrapper CheckboxWrapper2">
                 <input type="checkbox" id="otheraddress" className="Checkbox_" value={otherAddress} checked={otherAddress} onClick={() => toggleCheckbox("raddress")}/> <p className="CheckboxText_">Abweichende Rechnungsadresse</p>
-            </div>
+            </div>}
+            <br />
+            <br />
 
             {otherAddress && <div className="rechnungsAdresse">
                 <EntryField name="rstreet" displayname="Straße und Hausnr."/>
@@ -411,19 +413,19 @@ function Page2() {
 
             <div className="SelectionBoxes">
                 <div className={selPackage === 0 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(0)}>
-                    <h2>Variante 1</h2>
+                    <div className="SelectionBoxHeader"><h2>Variante 1</h2><div className="InlineBadge"><span>Kostenlos</span></div></div>
                     <h1>5 Flyer (Starterpaket)</h1>
                     <img src={option1} alt="selectionBox" />
                 </div>
 
                 <div className={selPackage === 1 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(1)}>
-                    <h2>Variante 2</h2>
+                    <div className="SelectionBoxHeader"><h2>Variante 2</h2><div className="InlineBadge"><span>1,50 € / Tisch</span></div></div>
                     <h1>Gleiche Flyer für alleTische</h1>
                     <img src={option2} alt="selectionBox" />
                 </div>
 
                 <div className={selPackage === 2 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(2)}>
-                    <h2>Variante 3</h2>
+                    <div className="SelectionBoxHeader"><h2>Variante 3</h2><div className="InlineBadge"><span>1,50 € / Tisch</span></div></div>
                     <h1>Unterschiedliche Flyerfür alle Tische</h1>
                     <img src={option3} alt="selectionBox" />
                 </div>
@@ -486,6 +488,11 @@ function Page3(props) {
         style += " EntrySubmitBtnDeactivated";
     }
 
+    // Reset count if selected variant is 0
+    if (selPackage === 0) {
+        setCount(0);
+    }
+
     return (
         <>
         <h2>Schritt 3: Benutzerkonto</h2>
@@ -544,21 +551,21 @@ function Page3(props) {
                 </div>
 
                 <div className="price">
-                    <h2>Kostenzusammenstellung</h2>
-                    <p>Einrichtungsgrundgebühr: <strong className="priceitem">18,00 €</strong><br />
-                    Aufpreis für Ausdrucke: <strong className="priceitem">{(count*1.5).toFixed(2).replace(".", ",")} €</strong><br />
-                    Monatliche Kosten: <strong className="priceitem">20,00 €</strong></p>
-                    <p>Erster Rechnungsbetrag: <strong className="priceitem">{((18 + 20 + count*1.5) * 1.16).toFixed(2).replace(".", ",")} € (inkl. 16 % MwSt)</strong></p>
+                    <h2>Zusammenstellung</h2>
+                    <p><strong>Sie werden BarCov kostenlos und unverbindlich einen Monat lang testen.</strong><br /></p>
+                    <p>Nach dem Probemonat melden wir uns bei Ihnen und Sie entscheiden, ob Sie BarCov weiterhin nutzen möchten.</p>
+                    {count > 0 && <><p>Aufpreis für Ausdrucke: <strong className="priceitem">{(count*1.5).toFixed(2).replace(".", ",")} €</strong></p>
+                    <p>Rechnungsbetrag: <strong className="priceitem">{((count*1.5) * 1.16).toFixed(2).replace(".", ",")} € (inkl. 16 % MwSt)</strong></p>
                     <br />
                     <br />
-                    <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong>
+                    <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong></>}
                     <br />
                     <br />
                 </div>
 
-                <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
+                {count > 0 && <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
                     <input type="checkbox" id="useSEPA" className="Checkbox_" value={useSEPA} checked={useSEPA} onClick={() => toggleCheckbox("useSEPA")}/> <p className="CheckboxText_">SEPA-Lastschriftverfahren zum automatischen Einzug des Rechnungsbetrags verwenden (empfohlen).</p>
-                </div>
+                </div>}
 
                 {useSEPA && <div className="SEPAfields">
                     <EntryField name="sepa_iban" displayname="IBAN"/>
@@ -584,7 +591,8 @@ function Page3(props) {
                 <p className="ErrorMsg">{errmsg}</p>
 
                 <div className="EntrySubmit">
-                    <input className={style} type='button' value="Kaufen" onClick={handlePageSubmit}/>
+                    {count > 0 && <input className={style} type='button' value="Kaufen" onClick={handlePageSubmit}/>}
+                    {!(count > 0) && <input className={style} type='button' value="Abschließen" onClick={handlePageSubmit}/>}
                 </div>
 
                 <a className="backbtn" onClick={() => setPagenr(1)}>Zurück</a>

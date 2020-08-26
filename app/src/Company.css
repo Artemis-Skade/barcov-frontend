@@ -210,6 +210,8 @@
     margin-top: 0px;
     font-weight: 300;
     margin-bottom: 5px;
+    float: left;
+    width: fit-content;
 }
 
 .SelectionBox h1 {
@@ -319,6 +321,24 @@
     margin-top: -30px;
     margin-bottom: 50px;
     cursor: pointer;
+}
+
+.InlineBadge {
+    background-color: white;
+    color: black;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 10px;
+    width: fit-content;
+    float: left;
+    margin-left: 20px;
+    margin-top: -4px;
+    box-shadow: 2px 2px 4px #00000033;
+}
+
+.SelectionBoxHeader {
+    width: 100%;
+    height: 45px;
 }
 
 @media (max-width: 800px) {
