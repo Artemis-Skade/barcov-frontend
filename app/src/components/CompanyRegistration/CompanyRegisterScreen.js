@@ -195,18 +195,32 @@ function handlePageSubmit() {
     if (pagenr === 1) {
         console.log("Count: " + count);
 
-        let localitiyError = false;
+        let localityError = false;
         registerData.companies.forEach(item => {
-            if ((item.cname === "" || item.rcname === "" || item.zip === "" || item.town === "" || item.street === "")) {
-                localitiyError = true;
+            if ((item.cname === "" || item.rcname === "" || item.zip === "" || item.town === "" || item.street === "") || (item.otherAddress && (item.rzip === "" || item.rtown === "" || item.rstreet === "")) || (item.isMember && item.memberId === "")) {
+                localityError = true;
             }
         })
 
-        if (localitiyError) {
+
+
+        if (localityError) {
             // Not completed
             setErrmsg("Es müssen alle Felder ausgefüllt sein!");
             return;
         }
+
+        registerData.companies.forEach((item) => {
+            if (item.package === "none") {
+                localityError = true;
+            }
+        })
+
+        if (localityError) {
+            setErrmsg("Bitte wählen Sie ein Paket aus")
+            return
+        }
+
 
         if (selPackage !== 0 && (count === null || count === undefined || count === "" || count < 0)) {
             setErrmsg("Bitte legen Sie fest, wie viele Tische Sie haben!");
