@@ -1,13 +1,15 @@
 import React from 'react';
 import sjcl from 'sjcl';
 import Cookies from 'universal-cookie';
-import flyerpreview from "../assets/img/flyertemplate.png";
-import option1 from '../assets/img/option1.png';
-import option2 from '../assets/img/option2.png';
-import option3 from '../assets/img/option3.png';
+import flyerpreview from "../../assets/img/flyertemplate.png";
+import option1 from '../../assets/img/option1.png';
+import option2 from '../../assets/img/option2.png';
+import option3 from '../../assets/img/option3.png';
 
-import '../App.css';
-import '../Company.css';
+import '../../App.css';
+import '../../Company.css';
+import EntryField from "./EntryField";
+import LocalitySection from "./LocalitySection";
 
 let registerData, setRegisterData;
 let pagenr, setPagenr;
@@ -186,7 +188,7 @@ function handleRegisterSubmit(formData) {
             companies: [company],
             acquisition: acquisitionText(selAcquisition)
         };
-        
+
         fetch('https://' + window.Vars.domain + ':5000/new_company_register', {
             method: 'POST',
             headers: {
@@ -197,7 +199,7 @@ function handleRegisterSubmit(formData) {
             console.log("Registering company:");
             console.log(res);
             setSubmitted(false);
-            
+
             // Check if registration was successful
             if (res["success"]) {
                 window.Vars.setScreen("registrationcompanysuccess");
@@ -208,23 +210,6 @@ function handleRegisterSubmit(formData) {
     });
 }
 
-function EntryField (props){
-    let className = "EntryField";
-    let type = "text";
-    if (props.type === "inline1") { className += " InlineField1"; type="number" }
-    if (props.type === "inline2") className += " InlineField2";
-
-    return (
-        <div className={className}>
-            <p>{props.displayname}</p>
-            <input
-                type={type}
-                name={props.name}
-                onChange={e => handleFieldChange(props.name, e)}
-            />
-        </div>
-    );
-}
 
 function fieldIsEmpty(fieldname) {
     let value = registerData[fieldname];
@@ -245,12 +230,20 @@ function handlePageSubmit() {
 
     if (pagenr === 1) {
         console.log("Count: " + count);
-        if ((registerData.cname === "" || registerData.rcname === "" || registerData.zip === "" || registerData.town === "" || registerData.street === "") || (otherAddress && (registerData.rzip === "" || registerData.rtown === "" || registerData.rstreet === ""))) {
+
+        let localitiyError = false;
+        registerData.localities.forEach(item => {
+            if ((item.cname === "" || item.rcname === "" || item.zip === "" || item.town === "" || item.street === "")) {
+                localitiyError = true;
+            }
+        })
+
+        if (localitiyError) {
             // Not completed
             setErrmsg("Es müssen alle Felder ausgefüllt sein!");
             return;
         }
-        if (image.raw === ""){
+        if (image.raw === "" && process.env.NODE_ENV !== 'development'){
             // No logo
             setErrmsg("Es wurde noch kein Logo hochgeladen!");
             return;
@@ -383,31 +376,59 @@ function toggleCheckbox(name) {
 }
 
 function Page2() {
+
+    const removeLocality = () => {
+        let localities = [
+            ...registerData.localities
+        ]
+        localities.pop()
+        setRegisterData({
+            ...registerData,
+            localities: localities
+        })
+    }
+
+    const addLocality = () => {
+        setRegisterData({
+            ...registerData,
+            localities: [
+                ...registerData.localities,
+                {
+                    cname: "",
+                    rcname: "",
+                    zip: "",
+                    town: "",
+                    street: "",
+                }
+            ]
+        })
+    }
+
+    const handleLocalityChange = (name, event, index) => {
+        let data = {
+            ...registerData,
+            localities: [
+                ...registerData.localities
+            ]
+        }
+        data.localities[index][name] = event.target.value;
+        setRegisterData(data)
+    }
+
     return (
         <>
         <h2>Schritt 2: Unternehmensdaten</h2>
         <form>
-            <EntryField name="cname" displayname="Kurzname des Betriebs"/>
-            <EntryField name="rcname" displayname="Rechtlicher Name des Betriebs"/>
-            <EntryField name="street" displayname="Straße und Hausnr."/>
-            <EntryField type="inline1" name="zip" displayname="PLZ"/>
-            <EntryField type="inline2" name="town" displayname="Ort"/>
 
-            {false && <div className="CheckboxWrapper CheckboxWrapper2">
-                <input type="checkbox" id="otheraddress" className="Checkbox_" value={otherAddress} checked={otherAddress} onClick={() => toggleCheckbox("raddress")}/> <p className="CheckboxText_">Abweichende Rechnungsadresse</p>
-            </div>}
-            <br />
-            <br />
-
-            {otherAddress && <div className="rechnungsAdresse">
-                <EntryField name="rstreet" displayname="Straße und Hausnr."/>
-                <EntryField type="inline1" name="rzip" displayname="PLZ"/>
-                <EntryField type="inline2" name="rtown" displayname="Ort"/>
-            </div>}
-
-            <br />
-            <br />
-            <br />
+            {
+                registerData.localities.map((item, index) => <LocalitySection index={index} otherAddress={otherAddress}
+                                                                              toggleCheckbox={toggleCheckbox}
+                                                                              key={index}
+                                                                              isLast={index === registerData.localities.length - 1}
+                                                                              removeLocality={removeLocality}
+                                                                              addLocality={addLocality}
+                                                                              handleFieldChange={handleLocalityChange}/>)
+            }
 
             <h2>Konfiguration</h2>
 
@@ -431,7 +452,7 @@ function Page2() {
                 </div>
             </div>
 
-            {selPackage !== 0 && 
+            {selPackage !== 0 &&
                 <div className="tableCountField">
                     <p>Anzahl der Tische</p>
                     <input
@@ -443,7 +464,7 @@ function Page2() {
 
                     <span>Wir legen ihnen 5 weitere Flyer als Reserve hinzu.</span>
                 </div>
-            } 
+            }
 
 
             <FileUpload />
@@ -465,9 +486,9 @@ function Page1() {
         <>
         <h2>Schritt 1: Angaben zum Ansprechpartner</h2>
         <form>
-            <EntryField name="fname" displayname="Vorname"/>
-            <EntryField name="lname" displayname="Nachname"/>
-            <EntryField name="mobile" displayname="Telefonnummer"/>
+            <EntryField handleFieldChange={handleFieldChange} name="fname" displayname="Vorname"/>
+            <EntryField handleFieldChange={handleFieldChange} name="lname" displayname="Nachname"/>
+            <EntryField handleFieldChange={handleFieldChange} name="mobile" displayname="Telefonnummer"/>
 
             <p className="ErrorMsg">{errmsg}</p>
 
@@ -523,7 +544,7 @@ function Page3(props) {
                 </div>
 
                 <div className="acquisitionQuery">
-                    <h3>Wie sind Sie auf uns aufmerksam geworden?</h3> 
+                    <h3>Wie sind Sie auf uns aufmerksam geworden?</h3>
 
                     <div className="dropdownList">
                         <ul>
@@ -537,7 +558,7 @@ function Page3(props) {
                         </ul>
                     </div>
 
-                    {selAcquisition === 6 && 
+                    {selAcquisition === 6 &&
                         <div className="tableCountField">
                         <p>Wie dann?</p>
                         <input
@@ -545,7 +566,7 @@ function Page3(props) {
                             name="otherAcquisition"
                             onChange={e => handleFieldChange("otherAcquisition", e)}
                         />
-    
+
                     </div>
                     }
                 </div>
@@ -568,9 +589,9 @@ function Page3(props) {
                 </div>}
 
                 {useSEPA && <div className="SEPAfields">
-                    <EntryField name="sepa_iban" displayname="IBAN"/>
+                    <EntryField handleFieldChange={handleFieldChange} name="sepa_iban" displayname="IBAN"/>
                     <br />
-                    <EntryField name="sepa_bic" displayname="BIC"/>
+                    <EntryField handleFieldChange={handleFieldChange} name="sepa_bic" displayname="BIC"/>
                     <p>Ich stimme zu, dass ich Vollmacht über das angegebene Konto besitze und die aufgeführten Beträge von diesem eingezogen werden dürfen.</p>
                     <br />
                 </div>}
@@ -613,6 +634,15 @@ function Page(props) {
 
 function CompanyRegisterScreen (props) {
     [registerData, setRegisterData] = React.useState({
+        localities: [
+            {
+                cname: "",
+                rcname: "",
+                zip: "",
+                town: "",
+                street: "",
+            }
+        ],
         cname: "",
         rcname: "",
         zip: "",
@@ -647,6 +677,10 @@ function CompanyRegisterScreen (props) {
 
     return(
         <div className="CompanyWrapper">
+            {
+                process.env.NODE_ENV === 'development' &&
+                <p>{JSON.stringify(registerData,null,2)}</p>
+            }
             <h1 className="h1Head">Unternehmensregistrierung</h1>
             <Page pagenr={pagenr} submitted={submitted} />
         </div>
