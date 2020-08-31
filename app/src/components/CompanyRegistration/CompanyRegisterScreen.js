@@ -1,7 +1,6 @@
 import React from 'react';
 import sjcl from 'sjcl';
 import Cookies from 'universal-cookie';
-import flyerpreview from "../../assets/img/flyertemplate.png";
 import option1 from '../../assets/img/option1.png';
 import option2 from '../../assets/img/option2.png';
 import option3 from '../../assets/img/option3.png';
@@ -130,15 +129,24 @@ function handleRegisterSubmit(formData) {
 
 
         return {
-            ...item,
-            rname: item.rcname,
+            name: item.cname,
+            zip: item.zip,
+            town: item.town,
+            street: item.street,
             state: "RLP",
-            sepa: sepa,
+            rname: item.rcname === "" ? "None" : item.rcname,
+            rtown: item.rtown === "" ? "None" : item.rtown,
+            rstreet: item.rstreet === "" ? "None" : item.rstreet,
+            rzip: item.rzip === "" ? "None" : item.rzip,
             tables: tables,
+            sepa: "None",
+            isMember: item.isMember,
+            memberId: item.memberId === "" ? "None" : item.memberId,
+            package: item.package,
             print_tables: false,
             id: company_id,
             A5_count: 5 + Number(item.table_count),
-        }
+        };
     })
 
 
@@ -147,12 +155,12 @@ function handleRegisterSubmit(formData) {
         lname: registerData.lname,
         mobile: registerData.mobile,
         email: registerData.email,
-        discount: discount_code,
-        trial: test_code,
         pw_hash: myHash,
         companies: companies,
         acquisition: acquisitionText(selAcquisition)
     };
+
+
 
     fetch('https://' + window.Vars.domain + ':5000/dehoga_company_register\n', {
         method: 'POST',
@@ -319,7 +327,7 @@ function FileUpload() {
             />
             <p>Logo hochladen</p>
             <div className="UploadPreview" ref={refPoint} style={stylePreview()}>
-                <img src={flyerpreview}/>
+                {/*<img src={flyerpreview}/>*/}
                 <img src={image.preview} className="Logoimgcenter"/>
                 <img src={image.preview} className="Logoimgcorner"/>
             </div>

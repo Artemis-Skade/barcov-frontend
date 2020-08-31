@@ -19,7 +19,7 @@ import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 import LoadingScreen from './components/LoadingScreen';
 import DiningcardScreen from './components/DiningcardScreen';
 import AGBScreen from './components/AGBScreen';
-import DashboardScreen from './components/DashboardScreen';
+import DashboardScreen from './components/DashBoard/DashboardScreen';
 import TableSelectScreen from './components/TableSelectScreen';
 import EMailConfirmationCompany from './components/EMailConfirmationCompany';
 import FinishScreen from './components/FinishScreen';

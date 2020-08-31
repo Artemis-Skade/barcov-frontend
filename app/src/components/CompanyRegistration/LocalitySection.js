@@ -66,7 +66,7 @@ const LocalitySection = (props) => {
                     onClick={() => setValue("package","starter")}>
                     <div className="SelectionBoxHeader"><h1>Starter-Paket</h1>
                         {
-                            locality.isMember ? <div className="InlineBadge"><s className="member-discount">10 € / Monat</s> <span>Kostenlos</span></div>
+                            locality.isMember ? <div className="InlineBadge"><span>Kostenlos</span></div>
                                 : <div className="InlineBadge"><span>10 € / Monat</span></div>
                         }
                     </div>
@@ -81,7 +81,7 @@ const LocalitySection = (props) => {
                     onClick={() => setValue("package","komfort")}>
                     <div className="SelectionBoxHeader"><h1>Komfort-Paket</h1>
                         {
-                            locality.isMember ? <div className="InlineBadge"><s className="member-discount">20 € / Monat</s> <span>10 € / Monat</span></div>
+                            locality.isMember ? <div className="InlineBadge"><span>10 € / Monat</span></div>
                                 : <div className="InlineBadge"><span>20 € / Monat</span></div>
                         }
                     </div>
@@ -89,8 +89,6 @@ const LocalitySection = (props) => {
                         <li>alle Features des Basispakets</li>
                         <li><strong>Speisekarte und Tagesangebote</strong></li>
                         <li><strong>Verlinkung von Social Media</strong></li>
-                        <li><strong>MA-Recruiting</strong></li>
-                        <li><strong>Archivierungsfunktion für Coronalisten</strong></li>
                     </ul>
                 </div>
 
