@@ -1,21 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import EntryField from "./EntryField";
 
-const MemberButton = ({handleFieldChange}) => {
-    const [isMember, setMember] = useState(false)
+const MemberButton = ({handleFieldChange, locality}) => {
     return (
-        <div style={{paddingTop: "20px"}}>
+        <div className={"pt-20"}>
             <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
                 <input type="checkbox" id="privacy"
                        className="Checkbox_"
-                       onChange={() => setMember(!isMember)}
-                       value={isMember}/><p
+                       checked={locality.isMember}
+                       onChange={() => handleFieldChange('isMember', {target: {value: !locality.isMember}})}/><p
                 style={{marginTop: "24px"}}
-                className="CheckboxText_">Mitglied des DEHOGA Rheinland-Pflanz</p></div>
+                className="CheckboxText_">Mitglied des DEHOGA Rheinland-Pfalz</p></div>
 
             {
-                isMember && <EntryField handleFieldChange={handleFieldChange} name="memberId"
-                                        displayname="DEHOGA Rheinland-Pfalz Mitgliedsnummer"/>
+                locality.isMember &&
+                <EntryField value={locality.memberId} handleFieldChange={handleFieldChange} name="memberId"
+                            displayname="DEHOGA Rheinland-Pfalz Mitgliedsnummer"/>
             }
         </div>
     );

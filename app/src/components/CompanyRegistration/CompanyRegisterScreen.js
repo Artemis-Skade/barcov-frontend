@@ -10,6 +10,7 @@ import '../../App.css';
 import '../../Company.css';
 import EntryField from "./EntryField";
 import LocalitySection from "./LocalitySection";
+import {Locality} from "../../model/Locality";
 
 let registerData, setRegisterData;
 let pagenr, setPagenr;
@@ -46,8 +47,8 @@ function acquisitionText(num) {
 }
 
 function handleFieldChange(name, event) {
-    //alert("Field " + name + " changed " + " to:" + event.target.value);
-    let newRegisterData = registerData;
+    // alert("Field " + name + " changed " + " to:" + event.target.value);
+    let newRegisterData = {...registerData};
     newRegisterData[name] = event.target.value;
     setRegisterData(newRegisterData);
 }
@@ -92,122 +93,85 @@ function handleRegisterSubmit(formData) {
     console.log("Discount Code: " + discount_code);
     console.log("Test Code: " + test_code);
 
-    getBase64(image.raw, (base64data) => {
-        let typeName = "png";
 
-        if (image.raw.type === "image/jpeg" || image.raw.type === "image/jpg") {
-            typeName = "jpg";
-        }
+    let A4_count = count;
+    let A5_count = 0;
 
-        // Make base64 string conform
-        base64data = base64data.split(',')[1];
+    if (registerData.rzip === "" || registerData.rzip === "None") {
+        registerData.rzip = registerData.zip;
+        registerData.rtown = registerData.town;
+        registerData.rstreet = registerData.street;
+    }
 
-        let A4_count = count;
-        let A5_count = 0;
 
-        if (registerData.rzip === "" || registerData.rzip === "None") {
-            registerData.rzip = registerData.zip;
-            registerData.rtown = registerData.town;
-            registerData.rstreet = registerData.street;
-        }
+    let tables_count = count;
+    let sepa = {
+        account_holder: registerData.fname + " " + registerData.lname,
+        iban: registerData.sepa_iban,
+        bic: registerData.sepa_bic,
+    };
 
-        let old_data = {
-            name: registerData.cname,
-            zip: registerData.zip,
-            town: registerData.town,
-            street: registerData.street,
-            state: "RLP",
-            fname: registerData.fname,
-            lname: registerData.lname,
-            mobile: registerData.mobile,
-            email: registerData.email,
-            passwort: myHash,
-            id: company_id,
-            logo: base64data,
-            image_type: typeName,
-            discount: discount_code,
-            trial: test_code,
-            rname: registerData.rcname,
-            rzip: registerData.rzip,
-            rtown: registerData.rtown,
-            rstreet: registerData.rstreet,
-            A4_count: A4_count,
-            A5_count: A5_count,
-        };
+    if (selPackage === 0) {
+        tables_count = 0;
+    }
 
+    if (!useSEPA) {
+        sepa = "None";
+    }
+
+    const companies = registerData.companies.map(item => {
         let tables = [];
 
-        if (selPackage === 2) {
+        if (item.flyer_package === 2) {
             for (let i = 0; i < count; i++) {
                 tables.push({name: String(i + 1)});
             }
         }
 
-        let tables_count = count;
-        let sepa = {
-            account_holder: registerData.fname + " " + registerData.lname,
-            iban: registerData.sepa_iban,
-            bic: registerData.sepa_bic,
-        };
 
-        if (selPackage === 0) {
-            tables_count = 0;
-        }
-
-        if (!useSEPA) {
-            sepa = "None";
-        }
-
-        let company = {
-            name: registerData.cname,
-            zip: registerData.zip,
-            town: registerData.town,
-            street: registerData.street,
+        return {
+            ...item,
+            rname: item.rcname,
             state: "RLP",
-            logo: base64data,
-            image_type: typeName,
-            rname: registerData.rcname,
-            rtown: registerData.rtown,
-            rstreet: registerData.rstreet,
-            rzip: registerData.rzip,
             sepa: sepa,
             tables: tables,
             print_tables: false,
             id: company_id,
-            A5_count: 5 + Number(tables_count),
+            A5_count: 5 + Number(item.table_count),
         }
+    })
 
-        let data = {
-            fname: registerData.fname,
-            lname: registerData.lname,
-            mobile: registerData.mobile,
-            email: registerData.email,
-            discount: discount_code,
-            trial: test_code,
-            pw_hash: myHash,
-            companies: [company],
-            acquisition: acquisitionText(selAcquisition)
-        };
 
-        fetch('https://' + window.Vars.domain + ':5000/new_company_register', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "text/plain; charset=utf-8"
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json()).then(res => {
-            console.log("Registering company:");
-            console.log(res);
-            setSubmitted(false);
+    let data = {
+        fname: registerData.fname,
+        lname: registerData.lname,
+        mobile: registerData.mobile,
+        email: registerData.email,
+        discount: discount_code,
+        trial: test_code,
+        pw_hash: myHash,
+        companies: companies,
+        acquisition: acquisitionText(selAcquisition)
+    };
 
-            // Check if registration was successful
-            if (res["success"]) {
-                window.Vars.setScreen("registrationcompanysuccess");
-            } else {
-                alert(res["message"]);
-            }
-        }).catch(err => console.log(err));
-    });
+    fetch('https://' + window.Vars.domain + ':5000/dehoga_company_register\n', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "text/plain; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).then(res => {
+        console.log("Registering company:");
+        console.log(res);
+        setSubmitted(false);
+
+        // Check if registration was successful
+        if (res["success"]) {
+            window.Vars.setScreen("registrationcompanysuccess");
+        } else {
+            alert(res["message"]);
+        }
+    }).catch(err => console.log(err));
 }
 
 
@@ -232,7 +196,7 @@ function handlePageSubmit() {
         console.log("Count: " + count);
 
         let localitiyError = false;
-        registerData.localities.forEach(item => {
+        registerData.companies.forEach(item => {
             if ((item.cname === "" || item.rcname === "" || item.zip === "" || item.town === "" || item.street === "")) {
                 localitiyError = true;
             }
@@ -243,11 +207,7 @@ function handlePageSubmit() {
             setErrmsg("Es müssen alle Felder ausgefüllt sein!");
             return;
         }
-        if (image.raw === "" && process.env.NODE_ENV !== 'development'){
-            // No logo
-            setErrmsg("Es wurde noch kein Logo hochgeladen!");
-            return;
-        }
+
         if (selPackage !== 0 && (count === null || count === undefined || count === "" || count < 0)) {
             setErrmsg("Bitte legen Sie fest, wie viele Tische Sie haben!");
             return;
@@ -378,40 +338,34 @@ function toggleCheckbox(name) {
 function Page2() {
 
     const removeLocality = () => {
-        let localities = [
-            ...registerData.localities
+        let companies = [
+            ...registerData.companies
         ]
-        localities.pop()
+        companies.pop()
         setRegisterData({
             ...registerData,
-            localities: localities
+            companies: companies
         })
     }
 
     const addLocality = () => {
         setRegisterData({
             ...registerData,
-            localities: [
-                ...registerData.localities,
-                {
-                    cname: "",
-                    rcname: "",
-                    zip: "",
-                    town: "",
-                    street: "",
-                }
+            companies: [
+                ...registerData.companies,
+                new Locality()
             ]
         })
     }
 
-    const handleLocalityChange = (name, event, index) => {
+    const handleLocalityChange = (name, value, index) => {
         let data = {
             ...registerData,
-            localities: [
-                ...registerData.localities
+            companies: [
+                ...registerData.companies
             ]
         }
-        data.localities[index][name] = event.target.value;
+        data.companies[index][name] = value;
         setRegisterData(data)
     }
 
@@ -421,53 +375,16 @@ function Page2() {
         <form>
 
             {
-                registerData.localities.map((item, index) => <LocalitySection index={index} otherAddress={otherAddress}
+                registerData.companies.map((item, index) => <LocalitySection index={index} otherAddress={otherAddress}
                                                                               toggleCheckbox={toggleCheckbox}
+                                                                              registerData={registerData}
                                                                               key={index}
-                                                                              isLast={index === registerData.localities.length - 1}
+                                                                              isLast={index === registerData.companies.length - 1}
                                                                               removeLocality={removeLocality}
                                                                               addLocality={addLocality}
                                                                               handleFieldChange={handleLocalityChange}/>)
             }
 
-            <h2>Konfiguration</h2>
-
-            <div className="SelectionBoxes">
-                <div className={selPackage === 0 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(0)}>
-                    <div className="SelectionBoxHeader"><h2>Variante 1</h2><div className="InlineBadge"><span>Kostenlos</span></div></div>
-                    <h1>5 Flyer (Starterpaket)</h1>
-                    <img src={option1} alt="selectionBox" />
-                </div>
-
-                <div className={selPackage === 1 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(1)}>
-                    <div className="SelectionBoxHeader"><h2>Variante 2</h2><div className="InlineBadge"><span>1,50 € / Tisch</span></div></div>
-                    <h1>Gleiche Flyer für alleTische</h1>
-                    <img src={option2} alt="selectionBox" />
-                </div>
-
-                <div className={selPackage === 2 ? "SelectionBox BoxSelected" : "SelectionBox"} onClick={() => setSelPackage(2)}>
-                    <div className="SelectionBoxHeader"><h2>Variante 3</h2><div className="InlineBadge"><span>1,50 € / Tisch</span></div></div>
-                    <h1>Unterschiedliche Flyerfür alle Tische</h1>
-                    <img src={option3} alt="selectionBox" />
-                </div>
-            </div>
-
-            {selPackage !== 0 &&
-                <div className="tableCountField">
-                    <p>Anzahl der Tische</p>
-                    <input
-                        type="number"
-                        name="tableCount2"
-                        value={count}
-                        onChange={e => setCount(e.target.value)}
-                    />
-
-                    <span>Wir legen ihnen 5 weitere Flyer als Reserve hinzu.</span>
-                </div>
-            }
-
-
-            <FileUpload />
 
             <p className="ErrorMsgOffset ErrorMsg">{errmsg}</p>
 
@@ -486,9 +403,9 @@ function Page1() {
         <>
         <h2>Schritt 1: Angaben zum Ansprechpartner</h2>
         <form>
-            <EntryField handleFieldChange={handleFieldChange} name="fname" displayname="Vorname"/>
-            <EntryField handleFieldChange={handleFieldChange} name="lname" displayname="Nachname"/>
-            <EntryField handleFieldChange={handleFieldChange} name="mobile" displayname="Telefonnummer"/>
+            <EntryField handleFieldChange={handleFieldChange} name="fname" value={registerData.fname} displayname="Vorname"/>
+            <EntryField handleFieldChange={handleFieldChange} name="lname" value={registerData.lname} displayname="Nachname"/>
+            <EntryField handleFieldChange={handleFieldChange} name="mobile" value={registerData.mobile} displayname="Telefonnummer"/>
 
             <p className="ErrorMsg">{errmsg}</p>
 
@@ -589,9 +506,9 @@ function Page3(props) {
                 </div>}
 
                 {useSEPA && <div className="SEPAfields">
-                    <EntryField handleFieldChange={handleFieldChange} name="sepa_iban" displayname="IBAN"/>
+                    <EntryField value={registerData.sepa_iban} handleFieldChange={handleFieldChange} name="sepa_iban" displayname="IBAN"/>
                     <br />
-                    <EntryField handleFieldChange={handleFieldChange} name="sepa_bic" displayname="BIC"/>
+                    <EntryField value={registerData.sepa_bic} handleFieldChange={handleFieldChange} name="sepa_bic" displayname="BIC"/>
                     <p>Ich stimme zu, dass ich Vollmacht über das angegebene Konto besitze und die aufgeführten Beträge von diesem eingezogen werden dürfen.</p>
                     <br />
                 </div>}
@@ -634,14 +551,8 @@ function Page(props) {
 
 function CompanyRegisterScreen (props) {
     [registerData, setRegisterData] = React.useState({
-        localities: [
-            {
-                cname: "",
-                rcname: "",
-                zip: "",
-                town: "",
-                street: "",
-            }
+        companies: [
+            new Locality()
         ],
         cname: "",
         rcname: "",

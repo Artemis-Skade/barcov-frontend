@@ -172,6 +172,40 @@
   cursor: pointer;
 }
 
+.tableCountField {
+  margin-bottom: 50px;
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.package-selection {
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.package-selection-box:first-child {
+  margin-right: 8px;
+}
+
+
+.package-selection-box > .SelectionBoxHeader {
+  flex-direction: row;
+  display: flex;
+}
+
+
+
+.package-selection-box {
+  display: flex;
+  height: auto !important;
+  flex-direction: column;
+  width: calc(50% - 40px);
+}
+
+
+
 .EntrySubmitBtnCompany {
   background-color: #0672fe;
 }
