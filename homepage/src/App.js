@@ -9,7 +9,7 @@ import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 import StartScreen from './components/StartScreen.js';
 import ForGuestScreen from './components/ForGuestScreen.js';
-import ForCompanyScreen from './components/ForCompanyScreen.js';
+import ForCompanyScreen from './components/ForCompany/ForCompanyScreen.js';
 import TeamScreen from './components/TeamScreen.js';
 
 // States

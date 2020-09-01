@@ -129,14 +129,12 @@
   background-color: #0672fe;
   border-radius: 10px;
   padding: 20px;
-  margin: 0 auto;
-  margin-top: 100px;
+  margin-bottom: 10px;
   color: white;
   text-decoration: none;
   font-size: 30px;
   text-align: center;
   box-shadow: 0px 0px 20px #00000047;
-  margin-top: 50px;
 }
 
 .companyRegisterBtn p {
@@ -379,7 +377,7 @@
 
 .companyLoginBtnMenu {
   display: none;
-} 
+}
 
 .Section {
   width: 100%;
@@ -403,6 +401,35 @@
   box-shadow: 0px 0px 20px #00000057;
   width: 50%;
 }
+
+hr {
+  border-width: 0px;
+  border-top-width: 1px;
+  width: 100%;
+}
+
+.package-info{
+  float: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.package-cards {
+  display: flex;
+  flex: 1;
+  padding-top: 40px;
+  padding-left: 50px;
+}
+
+
+.package-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 40px;
+
+}
+
 
 .SectionRight img {
   width: 100%;
@@ -595,7 +622,7 @@
 
   .companyLoginBtnMenu {
     display: block;
-  } 
+  }
 
   .Section {
     height: fit-content;
@@ -616,6 +643,19 @@
     border-radius: 0px;
     margin-top: 0px;
   }
+
+
+  .package-card {
+    margin-bottom: 40px;
+  }
+  .package-cards {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding-top: 40px;
+    padding-left: 0px;
+  }
+
 
   .Section2 {
     padding: 25px;
