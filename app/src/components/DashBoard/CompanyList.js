@@ -15,12 +15,12 @@ const CompanyList = ({onEditProperty, companies}) => {
                             {/*<img src={"https://" + window.Vars.domain + ":5000/dashboard_icon?id=" + company.id}*/}
                             {/*     className="companyLogo"/>*/}
                             <p>{company.name}</p>
-                            <a href={"/data/" + company.id}>
-                                <div className="dataBtn">
-                                    <img src={listIcon} className="listIcon"/>
-                                    <p>Gästeliste</p>
-                                </div>
-                            </a>
+                            {/*<a href={"/data/" + company.id}>*/}
+                            {/*    <div className="dataBtn">*/}
+                            {/*        <img src={listIcon} className="listIcon"/>*/}
+                            {/*        <p>Gästeliste</p>*/}
+                            {/*    </div>*/}
+                            {/*</a>*/}
                             <img src={settingsIcon} className="settingsIcon" onClick={() => {
                                 onEditProperty(company)
                             }}/>
@@ -28,7 +28,7 @@ const CompanyList = ({onEditProperty, companies}) => {
                     )
                 })
             }
-            <div className="addbutton" onClick={() => alert("Diese Funktion kommt bald!")}><img
+            <div className="addbutton" onClick={() => alert("Diese Funktion kommt bald! Sie können sich bis dahin gerne bei support@barcov.id melden.")}><img
                 src={addIconBlack}></img>Betrieb hinzufügen
             </div>
         </div>

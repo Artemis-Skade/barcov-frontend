@@ -64,7 +64,7 @@ function Screen() {
   if (screen === "registrationcompanysuccess") return (<ConfirmationScreen type="companyregister"/>);
   if (screen === "impressumscreen") return (<ImpressumScreen />);
   if (screen === "agbscreen") return (<AGBScreen />);
-  if (screen === "datascreen") return (<DataScreen />);
+  // if (screen === "datascreen") return (<DataScreen />);
   if (screen === "logincompany") return (<LoginCompany />);
   if (screen === "privacypolicyscreen") return (<PrivacyPolicyScreen />);
   if (screen === "loading") return (<LoadingScreen />);
