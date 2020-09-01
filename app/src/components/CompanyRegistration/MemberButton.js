@@ -10,7 +10,7 @@ const MemberButton = ({handleFieldChange, locality}) => {
                        checked={locality.isMember}
                        onChange={() => handleFieldChange('isMember', {target: {value: !locality.isMember}})}/><p
                 style={{marginTop: "24px"}}
-                className="CheckboxText_">Mitglied des DEHOGA Rheinland-Pfalz</p></div>
+                className="CheckboxText_">Mitglied des DEHOGA Rheinland-Pfalz. Ich versichere hiermit, dass ich Mitglied des DEHOGA Rheinland-Pfalz bin.</p></div>
 
             {
                 locality.isMember &&

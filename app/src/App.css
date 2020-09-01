@@ -196,6 +196,9 @@
 }
 
 
+.order-summary > tr > th {
+  text-align: right;
+}
 
 .package-selection-box {
   display: flex;

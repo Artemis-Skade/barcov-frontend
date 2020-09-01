@@ -16,9 +16,10 @@ let pagenr, setPagenr;
 let errmsg, setErrmsg;
 let image, setImage;
 let otherAddress, setOtherAddress;
-let tableNumbers, setTableNumbers;
+let invoiceConfirmed, setInvoiceConfirmed;
 let setPrivacyConfirmed, privacyConfirmed;
 let setAgbConfirmed, agbConfirmed;
+let rdata, setRdata;
 let selPackage, setSelPackage;
 let submitted, setSubmitted;
 let count, setCount;
@@ -248,6 +249,11 @@ function handlePageSubmit() {
             return;
         }
 
+        if (!invoiceConfirmed) {
+            setErrmsg("Bitte stimmen Sie zu, dass der Rechnungsversand digital abläuft und die Daten des Bestellers an Dritte weitergegeben werden dürfen.");
+            return;
+        }
+
         if (!privacyConfirmed || !agbConfirmed) {
             setErrmsg("Bitte akzeptieren Sie die AGBs und Datenschutzbestimmungen!");
             return;
@@ -453,6 +459,20 @@ function Page3(props) {
         setCount(0);
     }
 
+    let monthlyCost = 0;
+    let flyerCost = 0;
+    registerData.companies.forEach(item => {
+        if (item.flyer_package !== 0) {
+            flyerCost = item.table_count * 1.5
+        }
+        if (item.isMember) {
+            monthlyCost += (item.package === "starter" ? 0 : 10);
+        } else {
+            monthlyCost += (item.package === "starter" ? 10 : 20);
+        }
+    });
+
+
     return (
         <>
         <h2>Schritt 3: Benutzerkonto</h2>
@@ -512,15 +532,36 @@ function Page3(props) {
 
                 <div className="price">
                     <h2>Zusammenstellung</h2>
-                    <p><strong>Sie werden BarCov kostenlos und unverbindlich einen Monat lang testen.</strong><br /></p>
-                    <p>Nach dem Probemonat melden wir uns bei Ihnen und Sie entscheiden, ob Sie BarCov weiterhin nutzen möchten.</p>
-                    {count > 0 && <><p>Aufpreis für Ausdrucke: <strong className="priceitem">{(count*1.5).toFixed(2).replace(".", ",")} €</strong></p>
-                    <p>Rechnungsbetrag: <strong className="priceitem">{((count*1.5) * 1.16).toFixed(2).replace(".", ",")} € (inkl. 16 % MwSt)</strong></p>
+                    <table className="order-summary" style={{width: "100%"}}>
+                        <tr>
+                            <td>Einmalige Gebühr</td>
+                            <th>25,00 €</th>
+                        </tr>
+                        <tr>
+                            <td>Monatlicher Beitrag (mit 6-monatiger Laufzeit)</td>
+                            <th>6 x {monthlyCost} € = {parseFloat( monthlyCost * 6 ).toFixed(2).replace(".",",")} €</th>
+                        </tr>
+                        <tr>
+                            <td>Aufpreis für Ausdrucke</td>
+                            <th>{flyerCost.toFixed(2).replace(".",",")} €</th>
+                        </tr>
+                        <tr>
+                            <hr />
+                        </tr>
+                        <tr>
+                            <td><strong>Gesamtbetrag</strong></td>
+                            <th>{ (25 + monthlyCost * 6 + flyerCost).toFixed(2).replace(".",",") } € (zzgl. 16 % MwSt.)</th>
+                        </tr>
+                    </table>
+                    <p>Start der Abrechnung 1. Oktober 2020</p>
+
+                    <br />
+                    <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong>
                     <br />
                     <br />
-                    <strong>Es wird Ihnen nach Bestätigung des Kaufs eine Rechnung per E-Mail zugesandt.</strong></>}
-                    <br />
-                    <br />
+
+
+
                 </div>
 
                 {count > 0 && <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
@@ -537,6 +578,12 @@ function Page3(props) {
 
                 <br />
 
+
+                <div className="CheckBoxWrapper CheckboxWrapper2 CheckboxWrapper3">
+                    <input type="checkbox" id="invoiceConfirmed" className="Checkbox_" checked={invoiceConfirmed} onClick={() => setInvoiceConfirmed(!invoiceConfirmed)}/> <p className="CheckboxText_">Ich stimme zu, dass der Rechnungsversand digital abläuft und die Daten des Bestellers an Dritte weitergegeben werden dürfen.</p>
+                </div>
+                <br />
+
                 <div className="CheckboxWrapper CheckboxWrapper2 CheckboxWrapper3">
                     <input type="checkbox" id="privacy" className="Checkbox_" value={privacyConfirmed} checked={privacyConfirmed} onClick={() => toggleCheckbox("privacy")}/> <p className="CheckboxText_">Ich habe die <a href="/privacy"><strong>Datenschutzerklärung</strong></a> gelesen und stimme zu.</p>
                 </div>
@@ -547,6 +594,7 @@ function Page3(props) {
                     <input type="checkbox" id="agb" className="Checkbox_" value={agbConfirmed} checked={agbConfirmed} onClick={() => toggleCheckbox("agb")}/> <p className="CheckboxText_">Ich habe die <a href="/agb"><strong>Allgemeinen Geschäftsbedingungen</strong></a> gelesen und stimme zu.</p>
                 </div>
                 <br />
+
 
                 <p className="ErrorMsg">{errmsg}</p>
 
@@ -598,6 +646,7 @@ function CompanyRegisterScreen (props) {
     [otherAddress, setOtherAddress] = React.useState(false);
     [submitted, setSubmitted] = React.useState(false);
     [agbConfirmed, setAgbConfirmed] = React.useState(false);
+    [invoiceConfirmed, setInvoiceConfirmed] = React.useState(false);
     [privacyConfirmed, setPrivacyConfirmed] = React.useState(false);
     [count, setCount] = React.useState("");
     [selPackage, setSelPackage] = React.useState(0);

@@ -37,19 +37,6 @@ const LocalitySection = (props) => {
             <EntryField handleFieldChange={handleChange} value={locality.zip} type="inline1" name="zip" displayname="PLZ"/>
             <EntryField handleFieldChange={handleChange} value={locality.town} type="inline2" name="town" displayname="Ort"/>
 
-            <div className="CheckboxWrapper CheckboxWrapper2">
-                <input type="checkbox" id="otheraddress" className="Checkbox_"
-                       checked={locality.otherAddress} onClick={() => setOtherAddress(!locality.otherAddress)}/> <p
-                className="CheckboxText_">Abweichende Rechnungsadresse</p>
-            </div>
-
-            {locality.otherAddress && <div className="rechnungsAdresse">
-                <EntryField handleFieldChange={handleChange} name="rstreet" value={locality.rstreet} displayname="Straße und Hausnr."/>
-                <EntryField handleFieldChange={handleChange} type="inline1" name="rzip" value={locality.rzip} displayname="PLZ"/>
-                <EntryField handleFieldChange={handleChange} type="inline2" name="rtown" value={locality.rtown} displayname="Ort"/>
-            </div>}
-
-
 
             <MemberButton handleFieldChange={handleChange} locality={locality}/>
 
@@ -64,7 +51,7 @@ const LocalitySection = (props) => {
                 <div
                     className={locality.package === "starter" ? "SelectionBox package-selection-box BoxSelected" : "SelectionBox package-selection-box"}
                     onClick={() => setValue("package","starter")}>
-                    <div className="SelectionBoxHeader"><h1>Starter-Paket</h1>
+                    <div className="SelectionBoxHeader"><h1>Basis-Paket</h1>
                         {
                             locality.isMember ? <div className="InlineBadge"><span>Kostenlos</span></div>
                                 : <div className="InlineBadge"><span>10 € / Monat</span></div>
@@ -73,7 +60,6 @@ const LocalitySection = (props) => {
                     <ul>
                         <li>Kontakterfassung</li>
                         <li>24/7 Support</li>
-                        <li>Wirt kann Gäste eintragen</li>
                     </ul>
                 </div>
                 <div
