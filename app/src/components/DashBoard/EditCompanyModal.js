@@ -67,26 +67,9 @@ const EditCompanyModal = ({opened, onSuccess, company, onClose}) => {
                 <p>Ort</p>
                 <input type="text" value={companyData.town} name="town" onChange={onChange}/>
             </div>
-        </div>
-
-        <div className="dataBlock">
-            <h3>Rechnungsadresse</h3>
-
             <div className="inputField">
                 <p>Rechtlicher Name des Betriebs</p>
                 <input type="text" value={companyData.rname} name="rname" onChange={onChange}/>
-            </div>
-            <div className="inputField">
-                <p>Straße und Hausnnr.</p>
-                <input type="text" value={companyData.rstreet} name="rstreet" onChange={onChange}/>
-            </div>
-            <div className="inputField">
-                <p>PLZ</p>
-                <input type="text" value={companyData.rzip} name="rzip" onChange={onChange}/>
-            </div>
-            <div className="inputField">
-                <p>Ort</p>
-                <input type="text" value={companyData.rtown} name="rtown" onChange={onChange}/>
             </div>
         </div>
 
@@ -103,25 +86,6 @@ const EditCompanyModal = ({opened, onSuccess, company, onClose}) => {
             </div>
         </div>
 
-        {/*<div className="dataBlock">*/}
-        {/*    <h3>Firmenlogo</h3>*/}
-
-        {/*    <div className="FileUpload FileUploadChange">*/}
-        {/*        <div className="BigButton">*/}
-        {/*            <input*/}
-        {/*                type="file"*/}
-        {/*                className="UploadBtn"*/}
-        {/*                accept="image/x-png,image/png,image/jpeg,image/jpg"*/}
-        {/*                onChange={handleChange}*/}
-        {/*                for="files"*/}
-        {/*            />*/}
-        {/*            <p>Logo hochladen</p>*/}
-        {/*        </div>*/}
-
-        {/*        <img src={image.preview} className="logo-preview"/>*/}
-        {/*        <p className="previewText">Flyer-Vorschau</p>*/}
-        {/*    </div>*/}
-        {/*</div>*/}
 
 
         <br/>
