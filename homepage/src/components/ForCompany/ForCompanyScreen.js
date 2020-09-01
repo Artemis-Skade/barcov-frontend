@@ -24,10 +24,6 @@ function ForCompanyScreen() {
                         verloren gehen. In Sekundenschnelle sind so die Coronaauflagen erfüllt, ganz ohne Stift und
                         Papier. </p>
 
-                    <p>Nach Betriebsende sind alle Gastdaten vom Unternehmensleiter online einsehbar. Auf Wunsch kann
-                        außerdem eine Zusammenfassung des Tages heruntergeladen werden.</p>
-
-
                 </div>
 
                 <div className="SectionRight">
@@ -50,6 +46,8 @@ function ForCompanyScreen() {
 
                     <KomfortPackageCard/>
                 </div>
+                <p className="contract-term"><strong>Hinweis:</strong> Die Mindestlaufzeit beträgt 6 Monate.</p>
+
                 <a href="/company" style={{textDecoration: "none", padding: "50px"}}>
                     <div className="companyRegisterBtn">
                         <p>Jetzt Betrieb einrichten</p>
