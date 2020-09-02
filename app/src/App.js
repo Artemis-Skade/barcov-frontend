@@ -10,7 +10,7 @@ import LoginPrompt from './components/LoginPrompt.js';
 import ConfirmationScreen from './components/ConfirmationScreen.js';
 import LoginScreen from './components/LoginScreen.js';
 import RegisterScreen from './components/RegisterScreen.js';
-import CompanyRegisterScreen from './components/CompanyRegisterScreen.js';
+import CompanyRegisterScreen from './components/CompanyRegistration/CompanyRegisterScreen.js';
 import EMailConfirmation from './components/EMailConfirmation';
 import ImpressumScreen from './components/ImpressumScreen';
 import DataScreen from './components/DataScreen';
@@ -19,7 +19,7 @@ import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 import LoadingScreen from './components/LoadingScreen';
 import DiningcardScreen from './components/DiningcardScreen';
 import AGBScreen from './components/AGBScreen';
-import DashboardScreen from './components/DashboardScreen';
+import DashboardScreen from './components/DashBoard/DashboardScreen';
 import TableSelectScreen from './components/TableSelectScreen';
 import EMailConfirmationCompany from './components/EMailConfirmationCompany';
 import FinishScreen from './components/FinishScreen';
@@ -82,7 +82,7 @@ function getTableID() {
   let pathparts = pathname.split("/");
 
   if (pathparts.length >= 2 && pathparts[1].length > 0) { // table ID exists in URL
-    return pathparts[1]; 
+    return pathparts[1];
   } else {
     return "None";
   }
@@ -151,7 +151,7 @@ function App() {
     if (domain === "localhost") {
       domain = "test.barcov.id";
     }
-    
+
     window.Vars = {
       domain: domain,
       store_id: store_id,

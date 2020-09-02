@@ -45,13 +45,13 @@ function handleLoginSubmit() {
         if (res["auth"]) {
             // Read in session key
             cookies.set('sessionKeyCompany', res["session_key"], {path: "/"});
-            window.Vars.setScreen("datascreen");
+            window.Vars.setScreen("dashboard");
             console.log(res["companies"])
             window.Vars.companies = res["companies"];
         } else {
             alert("Falsche E-Mail oder Passwort!");
         }
-        
+
     }).catch(err => console.log(err));
 }
 
